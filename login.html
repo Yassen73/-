@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light"><head>
+<meta name="referrer" content="strict-origin-when-cross-origin"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تسجيل الدخول | منصة ابن رشدي</title>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&family=Aref+Ruqaa:wght@700&family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2ECDF;--bg2:#EAE2D0;--sf:#FAF6EC;--ink:#1B2433;--mut:#5E6677;--ln:#D9CFB8;--pri:#1F3A5F;--onpri:#F6F0E2;--gold:#C98A1F;--sage:#DCE5D3;--sh:0 20px 50px rgba(60,45,10,.14)}
+:root[data-theme=dark]{--bg:#111725;--bg2:#161E30;--sf:#1B2438;--ink:#EEE7D6;--mut:#A3AABB;--ln:#2C3752;--pri:#E3B25A;--onpri:#17202F;--gold:#E3B25A;--sage:#1F2D2B;--sh:0 20px 50px rgba(0,0,0,.4)}
+*{box-sizing:border-box;margin:0}
+body{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 85% 10%,var(--sage),transparent 45%),var(--bg);color:var(--ink);font:400 16px/1.7 'IBM Plex Sans Arabic',Tahoma,sans-serif}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.card{position:relative;width:100%;max-width:460px;background:var(--sf);border:1px solid var(--ln);border-radius:32px;padding:34px 28px 28px;box-shadow:var(--sh);animation:pop .3s}
+@keyframes pop{from{transform:translateY(14px);opacity:0}}
+.x{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;border:1px solid var(--ln);background:var(--bg);display:grid;place-items:center;font-size:24px;line-height:1;cursor:pointer;text-decoration:none;color:var(--ink)}
+.x:hover{background:var(--bg2)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;margin-bottom:18px}
+.logo i{width:42px;height:42px;border-radius:50%;background:var(--pri);color:var(--onpri);display:grid;place-items:center;font:700 26px/1 'Aref Ruqaa',serif;font-style:normal;padding-bottom:6px}
+.lg{font:700 27px/1.05 'Aref Ruqaa',serif;display:flex;flex-direction:column}
+.lg small{font:500 11px 'Reem Kufi',sans-serif;color:var(--gold);letter-spacing:.35em}
+h1{font:700 28px/1.4 'Reem Kufi','Readex Pro',sans-serif}
+p.s{color:var(--mut);margin-bottom:18px}
+.tabs{display:flex;background:var(--bg2);border-radius:99px;padding:4px;margin-bottom:18px}
+.tabs a{flex:1;text-align:center;border-radius:99px;padding:7px 4px;font-weight:600;font-size:14px;text-decoration:none;color:var(--mut)}
+.tabs a.on{background:var(--pri);color:var(--onpri)}
+label{display:block;font-size:14px;margin:12px 0 4px;font-weight:500}
+input,select{width:100%;padding:12px 16px;border-radius:14px;border:1.5px solid var(--ln);background:var(--bg)}
+input.bad{border-color:#C0473A}
+.err{color:#C0473A;font-size:13px;min-height:20px;margin-top:6px}
+.go{width:100%;margin-top:10px;border:0;border-radius:99px;padding:13px;font-weight:600;background:var(--pri);color:var(--onpri);cursor:pointer}
+.ft{text-align:center;margin-top:16px;color:var(--mut);font-size:14px}.ft a{color:var(--ink);font-weight:600}
+.ok{display:none;text-align:center;padding:20px 0}.ok b{display:block;font:700 22px 'Reem Kufi';margin:8px 0}
+</style></head><body>
+<main class="card">
+<a class="x" id="x" href="index.html" aria-label="إغلاق">×</a>
+<a class="logo" href="index.html"><i>ع</i><span class="lg"><small>منصة</small>ابن رشدي</span></a>
+<nav class="tabs"><a href="register.html">حساب جديد</a><a href="login.html" class="on">دخول</a><a href="parent.html">ولي أمر</a></nav>
+<div id="fm"><h1>تسجيل الدخول</h1><p class="s">أهلاً بيك تاني، كمّل من حيث وقفت.</p>
+<form id="f" data-mode="login" novalidate><label for="p">رقم الموبايل</label><input id="p" type="tel" data-v="phone" dir="ltr" inputmode="tel" autocomplete="tel" placeholder="01xxxxxxxxx"><label for="w">كلمة المرور</label><input id="w" type="password" data-v="pass" autocomplete="current-password" placeholder=""><div id="cf" style="margin:10px 0"></div><div class="err" id="er" role="alert"></div><button class="go" type="submit">سجّل دخولك</button></form>
+<div class="ft">لسه معندكش حساب؟ <a href="register.html">أنشئ حساب</a><br>ولي أمر؟ <a href="parent.html">سجّل من هنا</a></div></div>
+<div class="ok" id="ok"><div style="font-size:44px">✓</div><b>تم تسجيل الدخول</b><p class="s">جاري تحويلك للمنصة...</p></div>
+</main>
+<script src="vendor/supabase.js"></script><script src="config.js"></script><script src="auth.js" defer></script></body></html>
