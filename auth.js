@@ -69,7 +69,7 @@ $('#f').onsubmit=async e=>{
  }
  try{sessionStorage.setItem('fc',0)}catch(_){}
  $('#fm').style.display='none';$('#ok').style.display='block';
- if(mode==='login'){const p=$('#ok .s');if(p)p.textContent='بياناتك صح. المنصة لسه تحت التجهيز وهتتفتحلك قريب.';}
- else setTimeout(()=>location.href='index.html',1500);
+ const p=$('#ok .s');if(p)p.textContent='جاري تحويلك للوحتك...';
+ setTimeout(()=>location.href='dashboard.html',1000);
 };
 })();
