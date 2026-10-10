@@ -52,3 +52,11 @@ if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent=t;retur
 tm=setInterval(()=>{el.textContent=t.slice(0,++n);if(n>=t.length)clearInterval(tm)},16)}
 $('#ql').innerHTML=FQ.map((q,i)=>`<button aria-pressed="false" data-i="${i}">${q[0]}</button>`).join('');
 $$('#ql button').forEach(b=>b.onclick=()=>{ask(+b.dataset.i);if(innerWidth<860)$('#ans').scrollIntoView({block:'nearest',behavior:'smooth'})});ask(0);
+
+// ===== حالة الدخول (شكلية بس؛ الأمان الحقيقي في dashboard) =====
+(()=>{let on=false;try{const t=JSON.parse(localStorage.getItem('sb-btviglpxeukwypkantqi-auth-token')||'null');on=!!(t&&(t.access_token||t.currentSession)&&(!t.expires_at||t.expires_at*1000>Date.now()||t.refresh_token))}catch(e){}
+ if(!on)return;
+ document.querySelectorAll('a[href="register.html"]').forEach(a=>{a.href='dashboard.html';a.textContent='لوحتي ←'});
+ document.querySelectorAll('a[href="login.html"],a[href="parent.html"]').forEach(a=>{a.style.display='none'})})();
+// ===== واتساب: حط رقمك بالصيغة الدولية بدون + (مثال 201001234567) =====
+(()=>{const WA='';if(!WA)return;const a=document.getElementById('wa');a.href='https://wa.me/'+WA+'?text='+encodeURIComponent('أهلاً، عندي استفسار عن منصة ابن رشدي');a.style.display='grid'})();

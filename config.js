@@ -2,6 +2,6 @@
 const SB_URL = 'https://btviglpxeukwypkantqi.supabase.co';
 const SB_KEY = 'sb_publishable_BNa7U9vB8kY1myFvEnW9Mg_KZfah44K';
 // بعد ما تعمل Turnstile في Cloudflare حط الـ Site Key هنا (ده كمان عام). سيبه فاضي لحد وقتها.
-const TURNSTILE_SITE_KEY = '0x4AAAAAAFTOp7D5kdBFL-wW';
+const TURNSTILE_SITE_KEY = '';
 // الإيميل الداخلي المشتق من رقم الموبايل (مفيش رسايل بتتبعت عليه). لازم يطابق الـ SQL.
 const PHONE_EMAIL_DOMAIN = 'phone.ibnrushdy.app';

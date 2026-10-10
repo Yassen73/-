@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard.html
+Disallow: /login.html
+Disallow: /register.html
+Disallow: /parent.html
+
+Sitemap: https://ibn-roshdy.vercel.app/sitemap.xml
