@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.className+=" js"</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>سياسة الخصوصية وشروط الاستخدام | منصة ابن رشدي</title>
+<meta name="description" content="سياسة الخصوصية وشروط استخدام منصة ابن رشدي لتعليم اللغة العربية: إيه البيانات اللي بنجمعها، وإزاي بنحميها، وقواعد استخدام المنصة.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://ibn-roshdy.vercel.app/legal.html">
+<meta name="theme-color" content="#1F3A5F">
+<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&family=Aref+Ruqaa:wght@400;700&family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* كل خاصية ليها قيمة احتياطية للأجهزة القديمة اللي مش بتدعم المتغيرات */
+:root{--bg:#F2ECDF;--bg2:#EAE2D0;--sf:#FAF6EC;--ink:#1B2433;--mut:#5E6677;--ln:#D9CFB8;--pri:#1F3A5F;--onpri:#F6F0E2;--gold:#C98A1F;--sage:#DCE5D3;--sh:0 10px 30px rgba(60,45,10,.10)}
+:root[data-theme=dark]{--bg:#111725;--bg2:#161E30;--sf:#1B2438;--ink:#EEE7D6;--mut:#A3AABB;--ln:#2C3752;--pri:#E3B25A;--onpri:#17202F;--gold:#E3B25A;--sage:#1F2D2B;--sh:0 10px 30px rgba(0,0,0,.35)}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:#F2ECDF;background:var(--bg);color:#1B2433;color:var(--ink);font:400 17px/1.9 'IBM Plex Sans Arabic',Tahoma,Arial,sans-serif;overflow-x:hidden}
+h1,h2,h3,.logo{font-family:'Readex Pro','IBM Plex Sans Arabic',Tahoma,Arial,sans-serif;line-height:1.4}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus{outline:3px solid #C98A1F;outline:3px solid var(--gold);outline-offset:3px}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* شريط التقدم */
+#bar{position:fixed;top:0;right:0;height:4px;width:0;background:#C98A1F;background:var(--gold);z-index:100}
+
+/* الهيدر */
+.top{position:fixed;top:12px;right:0;left:0;z-index:80}
+.nav{max-width:900px;margin:0 auto;width:calc(100% - 28px);width:-webkit-calc(100% - 28px);background:#FAF6EC;background:var(--sf);border:1px solid #D9CFB8;border:1px solid var(--ln);border-radius:99px;padding:8px 14px 8px 12px;box-shadow:0 10px 30px rgba(60,45,10,.10);box-shadow:var(--sh);display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}
+.logo{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-weight:700;line-height:1}
+.logo img{width:40px;height:40px;border-radius:50%;margin-left:10px}
+.lg{font:700 25px/1.05 'Aref Ruqaa','Reem Kufi',serif;display:block}
+.lg small{display:block;font:500 11px 'Reem Kufi',sans-serif;color:#C98A1F;color:var(--gold);letter-spacing:.35em;margin-bottom:2px}
+.acts{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
+.ib{width:40px;height:40px;border-radius:50%;border:1px solid #D9CFB8;border:1px solid var(--ln);background:#F2ECDF;background:var(--bg);font-size:18px;margin-right:8px;text-align:center;line-height:38px;padding:0}
+.btn{display:inline-block;border-radius:99px;padding:8px 20px;font-weight:600;font-size:15px;border:1.5px solid #D9CFB8;border:1.5px solid var(--ln);line-height:1.6;margin-right:8px;-webkit-transition:-webkit-transform .2s;transition:transform .2s}
+.btn:hover{-webkit-transform:translateY(-2px);transform:translateY(-2px)}
+.btn.p{background:#1F3A5F;background:var(--pri);color:#F6F0E2;color:var(--onpri);border-color:#1F3A5F;border-color:var(--pri)}
+
+/* الواجهة العليا */
+.hero{position:relative;overflow:hidden;padding:130px 0 56px;background:#EAE2D0;background:var(--bg2);text-align:center}
+.hero:before{content:"";position:absolute;top:0;right:0;bottom:0;left:0;background-image:radial-gradient(circle,rgba(201,138,31,.28) 1.5px,transparent 1.6px);background-size:26px 26px;opacity:.55;-webkit-mask-image:-webkit-linear-gradient(#000,transparent);mask-image:linear-gradient(#000,transparent)}
+.hero .wrap{position:relative;z-index:2}
+.fl{position:absolute;font-family:'Aref Ruqaa',serif;font-weight:700;color:#1F3A5F;color:var(--pri);opacity:.08;line-height:1;z-index:1;-webkit-animation:fy 7s ease-in-out infinite;animation:fy 7s ease-in-out infinite}
+.f1{font-size:130px;top:70px;right:4%}.f2{font-size:90px;top:120px;left:6%;-webkit-animation-delay:-2s;animation-delay:-2s}.f3{font-size:70px;bottom:20px;right:24%;-webkit-animation-delay:-4s;animation-delay:-4s}.f4{font-size:110px;bottom:-10px;left:22%;-webkit-animation-delay:-1s;animation-delay:-1s}
+@-webkit-keyframes fy{50%{-webkit-transform:translateY(-14px)}}
+@keyframes fy{50%{transform:translateY(-14px)}}
+.tag{display:inline-block;background:#DCE5D3;background:var(--sage);border-radius:99px;padding:3px 16px;font-size:14px;margin-bottom:16px}
+.tag b{display:inline-block;width:8px;height:8px;border-radius:50%;background:#4E9A5B;margin-left:8px;-webkit-animation:pl 1.6s infinite;animation:pl 1.6s infinite}
+@-webkit-keyframes pl{50%{opacity:.3}}
+@keyframes pl{50%{opacity:.3}}
+h1{font:700 40px/1.35 'Reem Kufi','Readex Pro',Tahoma,sans-serif;margin-bottom:12px}
+h1 em{font-style:normal;background:-webkit-linear-gradient(transparent 62%,rgba(201,138,31,.4) 0);background:linear-gradient(transparent 62%,rgba(201,138,31,.4) 0)}
+.lead{color:#5E6677;color:var(--mut);max-width:560px;margin:0 auto 26px;font-size:18px}
+
+/* التبويبات */
+.tabs{display:inline-block;background:#F2ECDF;background:var(--bg);border:1px solid #D9CFB8;border:1px solid var(--ln);padding:6px;border-radius:99px;max-width:100%}
+.tabs a{display:inline-block;border-radius:99px;padding:10px 26px;font-weight:600;color:#5E6677;color:var(--mut);-webkit-transition:.25s;transition:.25s}
+.tabs a svg{width:18px;height:18px;vertical-align:-3px;margin-left:8px}
+.tabs a.on{background:#1F3A5F;background:var(--pri);color:#F6F0E2;color:var(--onpri);box-shadow:0 10px 30px rgba(60,45,10,.10);box-shadow:var(--sh)}
+.upd{margin-top:18px;font-size:14px;color:#5E6677;color:var(--mut)}
+
+/* الملخص */
+.sums{margin:-26px -7px 8px;position:relative;z-index:3;display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap}
+.sc{-webkit-box-flex:1;-ms-flex:1 1 200px;flex:1 1 200px;margin:7px;background:#FAF6EC;background:var(--sf);border:1px solid #D9CFB8;border:1px solid var(--ln);border-radius:24px;padding:20px;box-shadow:0 10px 30px rgba(60,45,10,.10);box-shadow:var(--sh)}
+.sc b{display:block;font:600 17px 'Readex Pro',Tahoma,sans-serif}
+.sc small{display:block;color:#5E6677;color:var(--mut);font-size:14px;line-height:1.7;margin-top:2px}
+.ico{display:inline-block;width:50px;height:50px;border-radius:16px;margin-bottom:12px;text-align:center;padding-top:12px;color:#1F3A5F}
+:root[data-theme=dark] .ico{background:#1F2D2B!important;color:#E3B25A}
+.ico svg{width:26px;height:26px}
+
+/* الفهرس */
+main{padding:34px 0 20px}
+.panel{display:block}
+.js .panel{display:none}.js .panel.on{display:block;-webkit-animation:fd .4s;animation:fd .4s}
+@-webkit-keyframes fd{from{opacity:0;-webkit-transform:translateY(10px)}}
+@keyframes fd{from{opacity:0;transform:translateY(10px)}}
+.toc{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -4px 26px}
+.toc a{display:inline-block;margin:4px;padding:5px 14px 5px 16px;border-radius:99px;border:1px solid #D9CFB8;border:1px solid var(--ln);background:#FAF6EC;background:var(--sf);font-size:14.5px;-webkit-transition:.2s;transition:.2s}
+.toc a b{display:inline-block;width:24px;height:24px;line-height:25px;text-align:center;border-radius:50%;background:#1F3A5F;background:var(--pri);color:#F6F0E2;color:var(--onpri);font:700 14px/25px 'Aref Ruqaa',serif;margin-left:8px}
+.toc a:hover{border-color:#C98A1F;border-color:var(--gold)}
+
+/* الأقسام */
+.sec{position:relative;background:#FAF6EC;background:var(--sf);border:1px solid #D9CFB8;border:1px solid var(--ln);border-radius:26px;padding:26px 28px;margin-bottom:16px;overflow:hidden}
+.sec:before{content:"";position:absolute;top:0;bottom:0;right:0;width:4px;background:#C98A1F;background:var(--gold);opacity:.8}
+.sh{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:10px}
+.lt{-webkit-box-flex:0;-ms-flex:none;flex:none;width:46px;height:46px;border-radius:15px;background:#1F3A5F;background:var(--pri);color:#F6F0E2;color:var(--onpri);font:700 26px/1 'Aref Ruqaa',serif;text-align:center;padding-top:9px;margin-left:14px}
+.sec h2{font-size:23px}
+.sec p{color:#5E6677;color:var(--mut);margin-bottom:6px}
+.sec ul{list-style:none;padding:0;margin:10px 0 4px}
+.sec li{position:relative;padding:7px 34px 7px 0;border-bottom:1px dashed #D9CFB8;border-bottom:1px dashed var(--ln);font-size:16.5px}
+.sec li:last-child{border-bottom:0}
+.sec li:before{content:"\2713";position:absolute;right:0;top:10px;width:22px;height:22px;line-height:22px;text-align:center;border-radius:50%;background:#DCE5D3;background:var(--sage);color:#2F6B3A;font-size:12px;font-weight:700}
+:root[data-theme=dark] .sec li:before{color:#E3B25A}
+.note{margin-top:12px;display:-webkit-box;display:-ms-flexbox;display:flex;background:#DCE5D3;background:var(--sage);border-radius:16px;padding:12px 16px;font-size:15px;color:#1B2433;color:var(--ink)}
+:root[data-theme=dark] .note{color:#EEE7D6}
+.note svg{-webkit-box-flex:0;-ms-flex:none;flex:none;width:20px;height:20px;margin:4px 0 0 10px}
+
+.cta{background:#1F3A5F;background:var(--pri);color:#F6F0E2;color:var(--onpri);border-radius:30px;padding:36px 24px;text-align:center;margin:30px 0 10px}
+.cta h3{font-size:24px;margin-bottom:6px}.cta p{opacity:.85;margin-bottom:16px}
+.cta .btn{background:#C98A1F;background:var(--gold);border-color:#C98A1F;border-color:var(--gold);color:#1B2433;margin:0}
+:root[data-theme=dark] .cta .btn{color:#17202F}
+
+footer{background:#14202F;color:#D9D2C0;padding:30px 0 26px;margin-top:40px;text-align:center;font-size:14px}
+:root[data-theme=dark] footer{background:#0B101B}
+footer a{display:inline-block;margin:2px 10px;opacity:.8}footer a:hover{opacity:1}
+footer p{opacity:.65;margin-top:8px}
+
+#up{position:fixed;bottom:20px;left:20px;z-index:90;width:52px;height:52px;border:0;padding:0;border-radius:50%;background:#FAF6EC;background:var(--sf);color:#1B2433;color:var(--ink);box-shadow:0 10px 30px rgba(60,45,10,.10);box-shadow:var(--sh);opacity:0;visibility:hidden;-webkit-transition:.3s;transition:.3s;text-align:center}
+#up.on{opacity:1;visibility:visible}
+#up svg{width:22px;height:22px;stroke-width:2.5;margin-top:15px}
+
+@media(max-width:640px){
+body{font-size:16px}
+h1{font-size:32px}.hero{padding-top:112px}
+.lg{font-size:21px}.btn.hid{display:none}
+.sec{padding:22px 20px}.sec h2{font-size:20px}.lt{width:42px;height:42px;font-size:24px;padding-top:8px}
+.tabs a{padding:10px 16px;font-size:15px}.tabs a svg{display:none}
+.f1{font-size:90px}.f2{font-size:60px}.f3,.f4{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{-webkit-animation:none!important;animation:none!important;scroll-behavior:auto!important}}
+@media print{.top,#bar,#up,.hero:before,.fl,.tabs,.sums,.toc,.cta,footer{display:none!important}.hero{padding:20px 0}.panel{display:block!important}.sec{border:0;padding:8px 0}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<button id="up" type="button" aria-label="للأعلى"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+<header class="top"><nav class="nav">
+<a href="index.html" class="logo"><img src="logo-round.png" alt="شعار منصة ابن رشدي" width="40" height="40"><span class="lg"><small>منصة</small>ابن رشدي</span></a>
+<div class="acts"><button class="ib" id="th" type="button" aria-label="تبديل الوضع">&#9728;</button><a class="btn p" href="index.html">الرئيسية</a></div>
+</nav></header>
+
+<section class="hero" id="top">
+<span class="fl f1" aria-hidden="true">ع</span><span class="fl f2" aria-hidden="true">ر</span><span class="fl f3" aria-hidden="true">ب</span><span class="fl f4" aria-hidden="true">ي</span>
+<div class="wrap">
+<span class="tag"><b></b>آخر تحديث: أكتوبر 2026</span>
+<h1>خصوصيتك <em>وحقوقك</em><br>واضحة قدامك</h1>
+<p class="lead">كل اللي محتاج تعرفه عن بياناتك وقواعد استخدام المنصة، مكتوب ببساطة وفي مكان واحد، ومناسب للقراءة من أي جهاز.</p>
+<div class="tabs" role="tablist">
+<a href="#privacy" id="tb-privacy" class="on" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>سياسة الخصوصية</a><a href="#terms" id="tb-terms" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.5 12h6M9.5 16h6"/></svg>شروط الاستخدام</a>
+</div>
+</div></section>
+
+<main><div class="wrap">
+
+<div class="panel on" id="privacy">
+<div class="sums"><div class="sc"><span class="ico" style="background:#DCE5D3"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><b>بياناتك محمية</b><small>كلمة المرور مشفّرة والاتصال آمن.</small></div><div class="sc"><span class="ico" style="background:#D6E2EC"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></span><b>مش بنبيع بياناتك</b><small>ولا بنشاركها مع جهات إعلانية.</small></div><div class="sc"><span class="ico" style="background:#F1D9CF"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><b>إنت المتحكّم</b><small>تعدّل أو تحذف حسابك وقت ما تحب.</small></div></div>
+<nav class="toc" aria-label="فهرس الصفحة"><a href="#pv-1"><b>أ</b>مقدمة</a><a href="#pv-2"><b>ب</b>البيانات اللي بنجمعها</a><a href="#pv-3"><b>ج</b>بنستخدم بياناتك في إيه؟</a><a href="#pv-4"><b>د</b>اللي بيتخزّن على جهازك</a><a href="#pv-5"><b>هـ</b>خدمات بنستعين بيها</a><a href="#pv-6"><b>و</b>هل بنشارك بياناتك؟</a><a href="#pv-7"><b>ز</b>إزاي بنحمي بياناتك</a><a href="#pv-8"><b>ح</b>حقوقك على بياناتك</a><a href="#pv-9"><b>ط</b>خصوصية الأطفال</a><a href="#pv-10"><b>ي</b>تعديل السياسة</a><a href="#pv-11"><b>ك</b>تواصل معانا</a></nav><article class="sec" id="pv-1"><div class="sh"><span class="lt" aria-hidden="true">أ</span><h2>مقدمة</h2></div><p>بنحترم خصوصيتك وخصوصية أولياء الأمور. الصفحة دي بتشرحلك بالبساطة، إيه البيانات اللي بنجمعها من منصة ابن رشدي، وليه، وإزاي بنحميها. باستخدامك للمنصة أو بإنشاء حساب، إنت بتوافق على اللي مكتوب هنا.</p></article><article class="sec" id="pv-2"><div class="sh"><span class="lt" aria-hidden="true">ب</span><h2>البيانات اللي بنجمعها</h2></div><p>بنجمع الحد الأدنى اللازم لتشغيل حسابك ومتابعة مستواك:</p><ul><li>الاسم بالكامل.</li><li>رقم الموبايل، وبيُستخدم كاسم دخول للحساب.</li><li>المرحلة والصف الدراسي.</li><li>رقم موبايل ولي الأمر (في حساب الطالب)، أو رقم الطالب (في حساب ولي الأمر) عشان نربط المتابعة بينهم.</li><li>كلمة المرور، وبتتخزن بشكل مشفّر ومش بنقدر نشوفها.</li><li>نشاطك التعليمي: الدروس اللي شاهدتها، ونتايج الواجبات والامتحانات، وتقدمك في كل كورس.</li><li>الرسائل اللي بتبعتها لفريق الدعم.</li></ul></article><article class="sec" id="pv-3"><div class="sh"><span class="lt" aria-hidden="true">ج</span><h2>بنستخدم بياناتك في إيه؟</h2></div><p>بنستخدمها في الأغراض دي بس:</p><ul><li>إنشاء حسابك وتسجيل دخولك.</li><li>عرض المحتوى المناسب لصفك وتسجيل تقدمك.</li><li>تصحيح الامتحانات وعرض نتايجك وإحصائياتك.</li><li>تمكين ولي الأمر من متابعة مستوى ابنه.</li><li>الرد على استفساراتك وتحسين الخدمة وحل المشاكل التقنية.</li><li>حماية المنصة من التسجيل الوهمي والاستخدام المسيء.</li></ul></article><article class="sec" id="pv-4"><div class="sh"><span class="lt" aria-hidden="true">د</span><h2>اللي بيتخزّن على جهازك</h2></div><p>بنستخدم مساحة التخزين في متصفحك (مش إعلانات ولا تتبّع) لحاجات بسيطة:</p><ul><li>حفظ جلسة الدخول عشان ما تسجلش كل مرة.</li><li>حفظ اختيارك للوضع الليلي أو النهاري.</li><li>عدّاد بسيط لمحاولات الدخول الغلط، وبيوقف المحاولات مؤقتًا لو اتكررت عشان نحمي حسابك.</li></ul><div class="note"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>ممكن تمسح البيانات دي في أي وقت من إعدادات المتصفح، وبعدها هتحتاج تسجل دخولك من جديد.</span></div></article><article class="sec" id="pv-5"><div class="sh"><span class="lt" aria-hidden="true">هـ</span><h2>خدمات بنستعين بيها</h2></div><p>المنصة بتشتغل بمساعدة خدمات تقنية خارجية، وبعضها بيستقبل جزء من البيانات علشان يؤدي وظيفته:</p><ul><li>خدمة الاستضافة وقاعدة البيانات والحسابات، وبتحفظ بيانات حسابك ونشاطك.</li><li>خدمة التحقق الأمني ضد البوتات عند التسجيل (لما تكون مفعّلة).</li><li>خطوط جوجل لعرض الخطوط العربية بشكل واضح.</li></ul><div class="note"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>الخدمات دي ليها سياسات خصوصية خاصة بيها، واحنا بنختارها على أساس إنها بتحمي البيانات.</span></div></article><article class="sec" id="pv-6"><div class="sh"><span class="lt" aria-hidden="true">و</span><h2>هل بنشارك بياناتك؟</h2></div><p>لأ، مش بنبيع بياناتك ولا بنأجّرها لأي جهة إعلانية أو تجارية. بنشارك الحد الأدنى في الحالات دي بس:</p><ul><li>مع ولي الأمر المرتبط بحسابك، عشان يتابع تقدمك ونتايجك.</li><li>مع مقدمي الخدمات التقنية اللي فوق، بالقدر اللازم لتشغيل المنصة.</li><li>لو القانون أو جهة رسمية طلبت ده بشكل رسمي.</li></ul></article><article class="sec" id="pv-7"><div class="sh"><span class="lt" aria-hidden="true">ز</span><h2>إزاي بنحمي بياناتك</h2></div><p>بنستخدم اتصالًا مشفّرًا (HTTPS)، وكلمات المرور بتتخزن مشفّرة، وبنقيّد الوصول للبيانات على الناس اللي محتاجاها فعلًا. ومع كده مفيش نظام آمن 100%، فنصيحتنا:</p><ul><li>اختار كلمة مرور قوية ومتشاركهاش مع حد.</li><li>اخرج من حسابك لو بتستخدم جهاز مش بتاعك.</li><li>بلّغنا فورًا لو لاحظت أي نشاط غريب على حسابك.</li></ul></article><article class="sec" id="pv-8"><div class="sh"><span class="lt" aria-hidden="true">ح</span><h2>حقوقك على بياناتك</h2></div><p>من حقك في أي وقت:</p><ul><li>تطلب نسخة من بياناتك المسجّلة عندنا.</li><li>تطلب تصحيح أي بيانات غلط.</li><li>تطلب حذف حسابك وبياناتك المرتبطة بيه.</li></ul><div class="note"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>ابعتلنا الطلب من خلال الدعم جوه حسابك أو عن طريق واتساب، وهنرد عليك في أقرب وقت.</span></div></article><article class="sec" id="pv-9"><div class="sh"><span class="lt" aria-hidden="true">ط</span><h2>خصوصية الأطفال</h2></div><p>المنصة موجّهة لطلاب من الصف الرابع الابتدائي للثالث الثانوي، فبعض مستخدمينا أصغر من 18 سنة. بنشجّع أولياء الأمور على متابعة ولادهم، ومن حق ولي الأمر يطلب الاطلاع على بيانات ابنه أو تعديلها أو حذفها.</p></article><article class="sec" id="pv-10"><div class="sh"><span class="lt" aria-hidden="true">ي</span><h2>تعديل السياسة</h2></div><p>ممكن نحدّث السياسة دي من وقت للتاني لما نضيف خدمات جديدة أو القانون يتغيّر. هنغيّر تاريخ آخر تحديث في أول الصفحة، واستمرارك في استخدام المنصة بعد التحديث معناه موافقتك على النسخة الجديدة.</p></article><article class="sec" id="pv-11"><div class="sh"><span class="lt" aria-hidden="true">ك</span><h2>تواصل معانا</h2></div><p>لو عندك أي سؤال عن الخصوصية، كلمنا عن طريق زر واتساب العايم في الموقع، أو من الدعم جوه حسابك. فريقنا بيرد في أقل من 24 ساعة.</p></article>
+</div>
+
+<div class="panel" id="terms">
+<div class="sums"><div class="sc"><span class="ico" style="background:#DCE5D3"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M4 5c3-1 6-1 8 1 2-2 5-2 8-1v14c-3-1-6-1-8 1-2-2-5-2-8-1z"/><path d="M12 6v14"/></svg></span><b>للمذاكرة بس</b><small>المحتوى لاستخدامك الشخصي.</small></div><div class="sc"><span class="ico" style="background:#D6E2EC"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><b>حسابك شخصي</b><small>متشاركوش مع حد.</small></div><div class="sc"><span class="ico" style="background:#F1D9CF"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg></span><b>احترام متبادل</b><small>تعامل راقي مع الكل.</small></div></div>
+<nav class="toc" aria-label="فهرس الصفحة"><a href="#tm-1"><b>أ</b>الموافقة على الشروط</a><a href="#tm-2"><b>ب</b>حسابك</a><a href="#tm-3"><b>ج</b>الاشتراك والدفع</a><a href="#tm-4"><b>د</b>المحتوى وحقوق الملكية</a><a href="#tm-5"><b>هـ</b>قواعد الاستخدام</a><a href="#tm-6"><b>و</b>الامتحانات والنتايج</a><a href="#tm-7"><b>ز</b>إيقاف الحساب</a><a href="#tm-8"><b>ح</b>حدود المسؤولية</a><a href="#tm-9"><b>ط</b>تعديل الشروط</a><a href="#tm-10"><b>ي</b>القانون المطبّق</a><a href="#tm-11"><b>ك</b>تواصل معانا</a></nav><article class="sec" id="tm-1"><div class="sh"><span class="lt" aria-hidden="true">أ</span><h2>الموافقة على الشروط</h2></div><p>لما بتنشئ حساب أو بتستخدم منصة ابن رشدي، إنت بتوافق على الشروط دي. لو الطالب أصغر من 18 سنة، لازم ولي الأمر يكون عارف ومرتاح لاستخدامه للمنصة. لو مش موافق على أي نقطة، من فضلك ماتستخدمش المنصة.</p></article><article class="sec" id="tm-2"><div class="sh"><span class="lt" aria-hidden="true">ب</span><h2>حسابك</h2></div><p>الحساب شخصي ومسؤوليته عليك:</p><ul><li>اكتب بيانات صحيحة وكاملة وقت التسجيل.</li><li>ماتشاركش حسابك أو كلمة مرورك مع أي حد.</li><li>حساب واحد لكل طالب، وماينفعش أكتر من شخص يستخدمه في نفس الوقت.</li><li>أي نشاط من حسابك بنعتبره منك، فبلّغنا فورًا لو حسيت إنه اتسرق.</li></ul></article><article class="sec" id="tm-3"><div class="sh"><span class="lt" aria-hidden="true">ج</span><h2>الاشتراك والدفع</h2></div><p>بعض الكورسات مجانية وبعضها بمقابل. بعد الاشتراك في كورس بتقدر تفتح محتواه حسب المدة والشروط المعلنة وقت الاشتراك.</p><ul><li>الأسعار وطرق الدفع بتتعلن وقت الاشتراك وممكن تتغير في أي وقت، ومش بتأثر على اشتراكك الحالي.</li><li>الاشتراك خاص بالحساب اللي اتفعّل عليه ومينفعش يتنقل لحساب تاني.</li><li>سياسة الاسترجاع (لو متاحة) بتكون مكتوبة بوضوح وقت الاشتراك.</li></ul></article><article class="sec" id="tm-4"><div class="sh"><span class="lt" aria-hidden="true">د</span><h2>المحتوى وحقوق الملكية</h2></div><p>كل الشروحات والفيديوهات والملخصات والامتحانات والتصميمات على المنصة ملك لمنصة ابن رشدي والأستاذ محمود رشدي. اشتراكك بيدّيك حق المشاهدة والمذاكرة لنفسك فقط، وبالتالي ممنوع:</p><ul><li>تسجيل الفيديوهات أو تصوير الشاشة أو تحميل المحتوى بأي وسيلة.</li><li>إعادة نشر المحتوى أو بيعه أو مشاركته على جروبات أو مواقع تانية.</li><li>استخدام المحتوى في أي غرض تجاري.</li></ul><div class="note"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>مخالفة ده ممكن توقف حسابك فورًا من غير استرجاع، وممكن تعرّضك للمساءلة القانونية.</span></div></article><article class="sec" id="tm-5"><div class="sh"><span class="lt" aria-hidden="true">هـ</span><h2>قواعد الاستخدام</h2></div><p>علشان المنصة تفضل مكان نظيف ومفيد للكل، ممنوع:</p><ul><li>أي إساءة أو ألفاظ مش لائقة تجاه المدرس أو فريق الدعم أو الطلاب.</li><li>محاولة اختراق الموقع أو تعطيله أو الدخول على حسابات غيرك.</li><li>استخدام برامج آلية أو بوتات للتسجيل أو الدخول.</li><li>الغش في الامتحانات أو مشاركة إجاباتها.</li></ul></article><article class="sec" id="tm-6"><div class="sh"><span class="lt" aria-hidden="true">و</span><h2>الامتحانات والنتايج</h2></div><p>الواجبات والامتحانات هدفها إنك تقيس مستواك وتتحسن. النتايج والإحصائيات على المنصة بتساعدك في المذاكرة، ومش بتمثل ضمان لدرجاتك في مدرستك أو في الامتحانات الرسمية، لأن النتيجة النهائية بتعتمد على مجهودك ومذاكرتك.</p></article><article class="sec" id="tm-7"><div class="sh"><span class="lt" aria-hidden="true">ز</span><h2>إيقاف الحساب</h2></div><p>من حقنا نوقف أو نقفل أي حساب بيخالف الشروط دي، مع إبلاغك قدر الإمكان. وإنت كمان من حقك تطلب غلق حسابك في أي وقت.</p></article><article class="sec" id="tm-8"><div class="sh"><span class="lt" aria-hidden="true">ح</span><h2>حدود المسؤولية</h2></div><p>بنبذل أقصى جهدنا إن المنصة تشتغل بشكل مستمر ومن غير أخطاء، لكن مش بنضمن إنها تشتغل 24 ساعة من غير انقطاع، فممكن يحصل توقف مؤقت للصيانة أو لمشاكل خارجة عن إرادتنا (زي ضعف الإنترنت أو أعطال الخدمات الخارجية). المحتوى تعليمي ومش بديل عن الدراسة في المدرسة.</p></article><article class="sec" id="tm-9"><div class="sh"><span class="lt" aria-hidden="true">ط</span><h2>تعديل الشروط</h2></div><p>ممكن نعدّل الشروط دي في أي وقت، وهنغيّر تاريخ آخر تحديث في أول الصفحة. استمرارك في استخدام المنصة بعد التعديل معناه موافقتك عليه.</p></article><article class="sec" id="tm-10"><div class="sh"><span class="lt" aria-hidden="true">ي</span><h2>القانون المطبّق</h2></div><p>الشروط دي بتخضع للقوانين المعمول بيها في جمهورية مصر العربية، وأي خلاف بنحاول نحله ودّيًا الأول.</p></article><article class="sec" id="tm-11"><div class="sh"><span class="lt" aria-hidden="true">ك</span><h2>تواصل معانا</h2></div><p>لو عندك أي استفسار عن الشروط، كلمنا من زر واتساب في الموقع أو من الدعم جوه حسابك، وهنرد عليك في أقل من 24 ساعة.</p></article>
+</div>
+
+<div class="cta"><h3>جاهز تبدأ؟</h3><p>اعمل حسابك في دقيقة وابدأ المذاكرة بفهم.</p><a class="btn" href="register.html">أنشئ حسابك مجانًا &larr;</a></div>
+</div></main>
+
+<footer><div class="wrap">
+<a href="index.html">الرئيسية</a><a href="#privacy" data-t="privacy">سياسة الخصوصية</a><a href="#terms" data-t="terms">شروط الاستخدام</a><a href="register.html">إنشاء حساب</a>
+<p>&copy; 2026 جميع الحقوق محفوظة لمنصة ابن رشدي.</p>
+</div></footer>
+
+<script>
+(function(){
+var d=document,root=d.documentElement;
+function $(i){return d.getElementById(i)}
+/* الوضع الليلي: نفس المفتاح المستخدم في باقي الموقع */
+var th=$('th');
+try{var t=localStorage.getItem('th');if(t)root.setAttribute('data-theme',t)}catch(e){}
+function sync(){th.innerHTML=root.getAttribute('data-theme')=='dark'?'&#9790;':'&#9728;'}
+sync();
+th.onclick=function(){var n=root.getAttribute('data-theme')=='dark'?'light':'dark';root.setAttribute('data-theme',n);sync();try{localStorage.setItem('th',n)}catch(e){}};
+/* التبويبات */
+var names=['privacy','terms'];
+function show(n){
+  for(var i=0;i<names.length;i++){
+    var on=names[i]==n,p=$(names[i]),b=$('tb-'+names[i]);
+    p.className='panel'+(on?' on':'');
+    b.className=on?'on':'';
+    b.setAttribute('aria-selected',on?'true':'false');
+  }
+  d.title=(n=='terms'?'شروط الاستخدام':'سياسة الخصوصية')+' | منصة ابن رشدي';
+}
+function route(scroll){
+  var h=(location.hash||'').replace('#',''),n='privacy';
+  if(h=='terms'||h.indexOf('tm-')===0)n='terms';
+  show(n);
+  if(scroll){
+    var el=(h&&h!=n)?$(h):null;
+    setTimeout(function(){
+      if(el){el.scrollIntoView()}
+      else{window.scrollTo(0,$('top').offsetHeight>0&&h==n?document.querySelector('main').offsetTop-90:0)}
+    },30);
+  }
+}
+window.onhashchange=function(){route(true)};
+route(location.hash&&location.hash!=='#privacy'&&location.hash!=='#terms');
+/* شريط التقدم وزر الأعلى */
+var bar=$('bar'),up=$('up'),tick=false;
+function upd(){
+  tick=false;
+  var s=window.pageYOffset||root.scrollTop,h=root.scrollHeight-window.innerHeight;
+  bar.style.width=(h>0?Math.min(100,s/h*100):0)+'%';
+  up.className=s>500?'on':'';
+}
+window.onscroll=function(){if(!tick){tick=true;(window.requestAnimationFrame||function(f){setTimeout(f,16)})(upd)}};
+up.onclick=function(){window.scrollTo(0,0)};
+upd();
+})();
+</script>
+</body>
+</html>
