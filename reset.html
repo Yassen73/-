@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light"><head>
+<meta name="referrer" content="strict-origin-when-cross-origin"><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#1F3A5F"><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/manifest.webmanifest"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>كلمة مرور جديدة | منصة ابن رشدي</title>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&family=Aref+Ruqaa:wght@700&family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2ECDF;--bg2:#EAE2D0;--sf:#FAF6EC;--ink:#1B2433;--mut:#5E6677;--ln:#D9CFB8;--pri:#1F3A5F;--onpri:#F6F0E2;--gold:#C98A1F;--sage:#DCE5D3;--sh:0 20px 50px rgba(60,45,10,.14)}
+:root[data-theme=dark]{--bg:#111725;--bg2:#161E30;--sf:#1B2438;--ink:#EEE7D6;--mut:#A3AABB;--ln:#2C3752;--pri:#E3B25A;--onpri:#17202F;--gold:#E3B25A;--sage:#1F2D2B;--sh:0 20px 50px rgba(0,0,0,.4)}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 85% 10%,var(--sage),transparent 45%),var(--bg);color:var(--ink);font:400 16px/1.7 'IBM Plex Sans Arabic',Tahoma,sans-serif}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.card{position:relative;width:100%;max-width:460px;background:var(--sf);border:1px solid var(--ln);border-radius:32px;padding:34px 28px 28px;box-shadow:var(--sh);animation:pop .3s}
+@keyframes pop{from{transform:translateY(14px);opacity:0}}
+.x{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;border:1px solid var(--ln);background:var(--bg);display:grid;place-items:center;font-size:24px;line-height:1;cursor:pointer;text-decoration:none;color:var(--ink)}
+.x:hover{background:var(--bg2)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;margin-bottom:18px}
+.logo i{width:42px;height:42px;border-radius:50%;background:var(--pri);color:var(--onpri);display:grid;place-items:center;font:700 26px/1 'Aref Ruqaa',serif;font-style:normal;padding-bottom:6px}
+.lg{font:700 27px/1.05 'Aref Ruqaa',serif;display:flex;flex-direction:column}
+.lg small{font:500 11px 'Reem Kufi',sans-serif;color:var(--gold);letter-spacing:.35em}
+h1{font:700 28px/1.4 'Reem Kufi','Readex Pro',sans-serif}
+p.s{color:var(--mut);margin-bottom:18px}
+.tabs{display:flex;background:var(--bg2);border-radius:99px;padding:4px;margin-bottom:18px}
+.tabs a{flex:1;text-align:center;border-radius:99px;padding:7px 4px;font-weight:600;font-size:14px;text-decoration:none;color:var(--mut)}
+.tabs a.on{background:var(--pri);color:var(--onpri)}
+label{display:block;font-size:14px;margin:12px 0 4px;font-weight:500}
+input,select{width:100%;padding:12px 16px;border-radius:14px;border:1.5px solid var(--ln);background:var(--bg)}
+input.bad{border-color:#C0473A}
+.err{color:#C0473A;font-size:13px;min-height:20px;margin-top:6px}
+.go{width:100%;margin-top:10px;border:0;border-radius:99px;padding:13px;font-weight:600;background:var(--pri);color:var(--onpri);cursor:pointer}
+.ft{text-align:center;margin-top:16px;color:var(--mut);font-size:14px}.ft a{color:var(--ink);font-weight:600}
+.ok{display:none;text-align:center;padding:20px 0}.ok b{display:block;font:700 22px 'Reem Kufi';margin:8px 0}
+</style><style>.lw-d{display:none}:root[data-theme=dark] .lw-l{display:none}:root[data-theme=dark] .lw-d{display:block}.logo img.lw-l,.logo img.lw-d{height:var(--lh,56px);width:auto}.logo img.ft{height:120px;width:auto;display:block}.pw{position:relative}.pw input{padding-left:64px}.pw .eye{position:absolute;left:8px;top:50%;transform:translateY(-50%);background:none;border:0;padding:6px 8px;font-size:13px;color:var(--mut);cursor:pointer;border-radius:8px}.hint{color:var(--mut);font-size:12.5px;margin-top:4px}</style></head><body>
+<main class="card">
+<a class="x" id="x" href="login.html" aria-label="رجوع">×</a>
+<a class="logo" href="index.html" aria-label="منصة ابن رشدي"><img class="lw-l" src="logo-wide.png" alt="منصة ابن رشدي"><img class="lw-d" src="logo-wide-dark.png" alt="" aria-hidden="true"></a>
+<div id="fm"><h1>كلمة مرور جديدة</h1><p class="s">اكتب كلمة المرور الجديدة لحسابك.</p>
+<form id="f" novalidate><label for="w">كلمة المرور الجديدة</label><input id="w" type="password" autocomplete="new-password" maxlength="72">
+<label for="w2">تأكيد كلمة المرور</label><input id="w2" type="password" autocomplete="new-password" maxlength="72">
+<div class="hint">8 حروف على الأقل وفيها حروف وأرقام.</div>
+<div class="err" id="er" role="alert"></div>
+<button class="go" type="submit" id="btn">حفظ كلمة المرور</button></form>
+<div class="ft"><a href="forgot.html">اطلب لينك جديد</a></div></div>
+<div class="ok" id="ok"><div style="font-size:44px">✓</div><b>تم تغيير كلمة المرور</b><p class="s">جاري تحويلك لتسجيل الدخول...</p></div>
+</main>
+<script>(function(){document.querySelectorAll('input[type=password]').forEach(function(i){var w=document.createElement('div');w.className='pw';i.parentNode.insertBefore(w,i);w.appendChild(i);var b=document.createElement('button');b.type='button';b.className='eye';b.textContent='إظهار';b.setAttribute('aria-label','إظهار كلمة المرور');b.onclick=function(){var s=i.type==='password';i.type=s?'text':'password';b.textContent=s?'إخفاء':'إظهار';b.setAttribute('aria-label',s?'إخفاء كلمة المرور':'إظهار كلمة المرور')};w.appendChild(b)})})()</script>
+<script src="supabase.js"></script><script src="config.js"></script>
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+try{const t=localStorage.getItem('th');if(t)document.documentElement.dataset.theme=t}catch(e){}
+const th=new URLSearchParams(location.search).get('th');
+try{history.replaceState(null,'',location.pathname)}catch(e){}
+const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+const COMMON=['12345678','123456789','1234567890','11111111','password','password1','qwerty123','abc12345','00000000','01234567','a1234567','aa123456'];
+const er=$('#er'),btn=$('#btn');let busy=false;
+if(!th){er.textContent='اللينك مش صالح. اطلب لينك جديد.';btn.disabled=true}
+$('#f').onsubmit=async e=>{
+ e.preventDefault();if(busy||!th)return;
+ const w=$('#w').value,w2=$('#w2').value;
+ if(w.length<8||w.length>72||!/[A-Za-z\u0600-\u06FF]/.test(w)||!/\d/.test(w)){er.textContent='كلمة المرور 8 حروف على الأقل وفيها حروف وأرقام.';return}
+ if(COMMON.includes(w.toLowerCase())){er.textContent='كلمة المرور سهلة التخمين، اختار غيرها.';return}
+ if(w!==w2){er.textContent='كلمتين المرور مش متطابقتين.';return}
+ busy=true;btn.disabled=true;er.textContent='';
+ try{
+  const v=await sb.auth.verifyOtp({token_hash:th,type:'recovery'});
+  if(v.error||!v.data||!v.data.session){er.textContent='اللينك منتهي أو اتستخدم قبل كده. اطلب لينك جديد.';busy=false;btn.disabled=false;return}
+  const u=await sb.auth.updateUser({password:w});
+  if(u.error){const m=(u.error.message||'').toLowerCase();er.textContent=m.includes('same')?'اختار كلمة مرور مختلفة عن القديمة.':m.includes('password')?'كلمة المرور ضعيفة، اختار كلمة أقوى.':'حصلت مشكلة، جرّب تاني بعد شوية.';busy=false;btn.disabled=false;return}
+  try{await sb.auth.signOut()}catch(_){}
+  $('#fm').style.display='none';$('#ok').style.display='block';
+  setTimeout(()=>location.replace('login.html'),1800);
+ }catch(x){er.textContent='مفيش اتصال، جرّب تاني.';busy=false;btn.disabled=false}
+};
+})();
+</script></body></html>
