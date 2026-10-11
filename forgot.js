@@ -18,7 +18,7 @@ $('#f').onsubmit=async e=>{
  if(TURNSTILE_SITE_KEY&&!cfToken){er.textContent='أكمل التحقق الأمني الأول.';return}
  busy=true;btn.disabled=true;er.textContent='';
  try{
-  const r=await fetch(SB_URL+'/functions/v1/request-reset',{method:'POST',headers:{'Content-Type':'application/json',apikey:SB_KEY},body:JSON.stringify({phone:p,cf:cfToken||undefined})});
+  const r=await fetch(SB_URL+'/functions/v1/request-reset-gmail',{method:'POST',headers:{'Content-Type':'application/json',apikey:SB_KEY},body:JSON.stringify({phone:p,cf:cfToken||undefined})});
   if(r.ok){
    $('#fm').style.display='none';$('#ok').style.display='block';
    if(kind==='parent'){$('#okt').textContent='تم الإرسال إلى إيميل الطالب';$('#oks').textContent='اطلب من الطالب يفتح الإيميل (ويراجع الـ Spam) ويديك اللينك. اللينك صالح لمدة ساعة.'}
