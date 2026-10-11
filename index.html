@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
 <meta charset="utf-8">
+<script>document.documentElement.classList.add("js")</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>منصة ابن رشدي | دروس اللغة العربية: نحو وقراءة ونصوص وبلاغة من الرابع الابتدائي للثالث الثانوي</title>
 <meta name="description" content="منصة ابن رشدي لتعليم اللغة العربية أونلاين: شرح النحو والصرف والقراءة والنصوص والبلاغة والأدب والإملاء، مع واجبات وامتحانات ومتابعة لولي الأمر، من الصف الرابع الابتدائي حتى الثالث الثانوي.">
@@ -15,9 +16,10 @@
 <meta property="og:type" content="website"><meta property="og:locale" content="ar_EG"><meta property="og:site_name" content="منصة ابن رشدي">
 <meta property="og:title" content="منصة ابن رشدي | تعلّم العربي بفهم">
 <meta property="og:description" content="شرح النحو والقراءة والنصوص والبلاغة مع واجبات وامتحانات ومتابعة لولي الأمر. من الرابع الابتدائي للثالث الثانوي.">
-<meta property="og:url" content="https://ibn-roshdy.vercel.app/"><meta property="og:image" content="https://ibn-roshdy.vercel.app/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="شعار منصة ابن رشدي">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="منصة ابن رشدي | تعلّم العربي بفهم"><meta name="twitter:description" content="دروس اللغة العربية من الرابع الابتدائي للثالث الثانوي."><meta name="twitter:image" content="https://ibn-roshdy.vercel.app/og-image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"EducationalOrganization","@id":"https://ibn-roshdy.vercel.app/#org","name":"منصة ابن رشدي","alternateName":"Ibn Rushdy","url":"https://ibn-roshdy.vercel.app/","logo":"https://ibn-roshdy.vercel.app/favicon-512.png","description":"منصة تعليمية لدروس اللغة العربية: نحو، قراءة، نصوص، بلاغة وأدب، للمراحل من الرابع الابتدائي حتى الثالث الثانوي.","areaServed":"EG","knowsAbout":["النحو","الصرف","القراءة","النصوص","البلاغة","الأدب","الإملاء","اللغة العربية"]},{"@type":"WebSite","@id":"https://ibn-roshdy.vercel.app/#site","url":"https://ibn-roshdy.vercel.app/","name":"منصة ابن رشدي","inLanguage":"ar","publisher":{"@id":"https://ibn-roshdy.vercel.app/#org"}}]}</script>
+<meta property="og:url" content="https://ibn-roshdy.vercel.app/"><meta property="og:image" content="https://ibn-roshdy.vercel.app/og-teacher.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="الأستاذ محمود رشدي - منصة ابن رشدي لتعليم اللغة العربية">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="منصة ابن رشدي | تعلّم العربي بفهم"><meta name="twitter:description" content="دروس اللغة العربية من الرابع الابتدائي للثالث الثانوي."><meta name="twitter:image" content="https://ibn-roshdy.vercel.app/og-teacher.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"EducationalOrganization","@id":"https://ibn-roshdy.vercel.app/#org","name":"منصة ابن رشدي","alternateName":"Ibn Rushdy","url":"https://ibn-roshdy.vercel.app/","logo":"https://ibn-roshdy.vercel.app/favicon-512.png","description":"منصة تعليمية لدروس اللغة العربية: نحو، قراءة، نصوص، بلاغة وأدب، للمراحل من الرابع الابتدائي حتى الثالث الثانوي.","areaServed":"EG","sameAs":["https://www.facebook.com/share/14pWxwwsfao/"],"knowsAbout":["النحو","الصرف","القراءة","النصوص","البلاغة","الأدب","الإملاء","اللغة العربية"]},{"@type":"WebSite","@id":"https://ibn-roshdy.vercel.app/#site","url":"https://ibn-roshdy.vercel.app/","name":"منصة ابن رشدي","inLanguage":"ar","publisher":{"@id":"https://ibn-roshdy.vercel.app/#org"}}]}</script>
+<link rel="preload" as="image" href="teacher.webp" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&family=Aref+Ruqaa:wght@400;700&family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -176,6 +178,58 @@ h1{font-family:'Reem Kufi','Readex Pro',sans-serif;font-weight:700}
 .ans p{font-size:18px;line-height:1.9}
 @media(max-width:860px){.qa{grid-template-columns:1fr}.ans{position:static;order:2}}
 .g2{background:none;padding:0;gap:8px;border-radius:0}.g2 button{border:1.5px solid var(--ln);background:var(--sf)}.g2 button[aria-selected=true]{border-color:var(--pri)}#lv{margin-bottom:12px}
+
+/* ===== v2: صورة المدرس + أقسام جديدة ===== */
+.astro .tchr{position:absolute;bottom:0;left:50%;width:66%;height:auto;translate:-50% 0;z-index:2;-webkit-mask-image:linear-gradient(#000 84%,transparent);mask-image:linear-gradient(#000 84%,transparent);animation:tin .9s cubic-bezier(.2,.7,.2,1) both}
+@keyframes tin{from{opacity:0;translate:-50% 28px}}
+.astro .chip{z-index:3}
+.port{background:radial-gradient(circle at 50% 36%,#3F6290,#1F3A5F 64%)}
+.port:before{content:"";position:absolute;width:78%;aspect-ratio:1;top:8%;left:11%;border-radius:50%;border:2px dashed rgba(227,178,90,.55)}
+.port img{position:absolute;bottom:0;left:50%;translate:-50% 0;height:94%;width:auto;z-index:1;-webkit-mask-image:linear-gradient(#000 88%,transparent);mask-image:linear-gradient(#000 88%,transparent)}
+.port small{z-index:2}
+.vid{background:#172A45;color:#F6F0E2;padding:84px 0}
+:root[data-theme=dark] .vid{background:#0B101B}
+.vid h2,.vid .sub{text-align:center}.vid .sub{color:#B9C3D4;margin:0 auto 34px}
+.vf{position:relative;max-width:960px;margin:auto;aspect-ratio:16/10;border-radius:30px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.45);background:#0B101B}
+.vp{position:absolute;inset:0;display:block;width:100%;height:100%;padding:0;border:0;background:none;cursor:pointer}
+.vp img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.vp:hover img{transform:scale(1.03)}
+.vp .pb{position:absolute;top:50%;left:50%;width:88px;height:88px;margin:-44px;border-radius:50%;background:var(--gold);color:#1B2433;display:grid;place-items:center;box-shadow:0 0 0 12px rgba(201,138,31,.3);transition:transform .25s}
+.vp:hover .pb{transform:scale(1.08)}
+.vf iframe,.vf video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+.vid .cta{justify-content:center;margin:30px 0 0}
+.vid .btn.p{background:var(--gold);border-color:var(--gold);color:#1B2433}.vid .btn{border-color:rgba(246,240,226,.35)}
+.rs{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 20px 18px;margin:0 -20px;scrollbar-width:thin}
+.rf{flex:none;width:min(240px,62vw);aspect-ratio:3/4;border-radius:22px;border:1px solid var(--ln);background:var(--sf);overflow:hidden;padding:0;scroll-snap-align:start;display:grid;place-items:center;cursor:zoom-in}
+.rf img{width:100%;height:100%;object-fit:cover;display:block}
+.rf.ph{border:2px dashed var(--ln);background:transparent;color:var(--mut);font-size:14px;align-content:center;text-align:center;cursor:default}
+.rf.ph span{font-size:30px;display:block}
+.tops{margin-top:26px;border:1px solid var(--ln);border-radius:28px;display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--ln);overflow:hidden}
+.top-row{display:flex;align-items:center;gap:14px;padding:16px 22px;background:var(--sf)}
+.top-row i{flex:none;width:46px;height:46px;border-radius:50%;background:var(--pri);color:var(--onpri);display:grid;place-items:center;font:700 24px/1 'Aref Ruqaa',serif;font-style:normal;padding-bottom:5px;overflow:hidden}
+.top-row i img{width:100%;height:100%;object-fit:cover}
+.top-row p{flex:1;min-width:0}.top-row b{display:block;font:600 16px 'Readex Pro'}.top-row span{color:var(--mut);font-size:13.5px}
+.top-row em{font:700 17px 'Readex Pro';font-style:normal;background:var(--sage);border-radius:99px;padding:2px 14px;direction:ltr}
+.top-row.ph{color:var(--mut)}
+#lb img{max-width:92vw;max-height:86vh;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+#wa{display:none;position:fixed;bottom:20px;left:20px;width:56px;height:56px;border-radius:50%;background:#25D366;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:60;transition:transform .2s}
+#wa:hover{transform:scale(1.08)}
+.wa-on #up{bottom:90px}
+#mbar{display:none}
+.fg{grid-template-columns:1.4fr 1fr 1fr}
+footer .soc{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+footer .soc a{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;border:1px solid #2c3a50;opacity:.85;padding:0;transition:.2s}
+footer .soc a:hover{background:var(--gold);border-color:var(--gold);color:#14202F;opacity:1}
+.js .rv{opacity:0;translate:0 14px;transition:opacity .55s ease,translate .55s ease,transform .25s,box-shadow .25s;transition-delay:var(--d,0s)}
+.js .rv.in{opacity:1;translate:0 0}
+@media(max-width:860px){
+.fg{grid-template-columns:1fr}.tops{grid-template-columns:1fr}.vid{padding:60px 0}.vf{border-radius:22px;aspect-ratio:3/2}.vp .pb{width:68px;height:68px;margin:-34px}
+.hg>.astro{order:-1;max-width:300px}.hero{padding-top:118px}
+#mbar{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:85;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--sf) 94%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--ln);transform:translateY(110%);transition:transform .3s}
+#mbar.on{transform:none}#mbar .btn{flex:1;justify-content:center}
+#wa{bottom:84px}#up{bottom:84px}.wa-on #up{bottom:150px}
+footer{padding-bottom:96px}}
+@media(prefers-reduced-motion:reduce){.js .rv{opacity:1;translate:none;transition:none}}
 </style>
 </head>
 <body>
@@ -183,7 +237,7 @@ h1{font-family:'Reem Kufi','Readex Pro',sans-serif;font-weight:700}
 
 <header><nav class="nav">
 <a href="#top" class="logo"><img src="logo-round.png" alt="شعار منصة ابن رشدي" width="40" height="40" style="border-radius:50%;flex:none"><span class="lg"><small>منصة</small>ابن رشدي</span></a>
-<div class="links" id="links"><a href="#features">المميزات</a><a href="#stages">المراحل</a><a href="#about">عن المدرس</a><a href="#how">إزاي تبدأ</a><a href="#faq">الأسئلة</a>
+<div class="links" id="links"><a href="#features">المميزات</a><a href="#stages">المراحل</a><a href="#about">عن المدرس</a><a href="#results">النتايج</a><a href="#how">إزاي تبدأ</a><a href="#faq">الأسئلة</a>
 <div class="mauth"><a class="btn p s" href="register.html">إنشاء حساب</a><a class="btn s" href="login.html">تسجيل الدخول</a><a class="btn s" href="parent.html">ولي أمر</a></div></div>
 <div class="acts"><button class="ib" id="th" aria-label="تبديل الوضع">☀</button><a class="btn s hid" href="parent.html">ولي أمر</a><a class="btn s hid" href="login.html">دخول</a><a class="btn p s" href="register.html">أنشئ حساب</a><button class="ib" id="menu" aria-label="القائمة">☰</button></div>
 </nav></header>
@@ -198,13 +252,14 @@ h1{font-family:'Reem Kufi','Readex Pro',sans-serif;font-weight:700}
 <div class="cta"><a class="btn p" href="register.html">ابدأ التعلم الآن ←</a><a class="btn" href="#features">اكتشف المميزات</a></div>
 <div class="ticks"><span>شرح مبسّط</span><span>تقييم فوري</span><span>متابعة شخصية</span></div>
 </div>
-<div class="astro" aria-hidden="true">
-<svg viewBox="0 0 400 400"><defs><radialGradient id="g"><stop offset="0" stop-color="var(--sage)"/><stop offset="1" stop-color="var(--bg)"/></radialGradient></defs>
+<div class="astro">
+<svg viewBox="0 0 400 400" aria-hidden="true"><defs><radialGradient id="g"><stop offset="0" stop-color="var(--sage)"/><stop offset="1" stop-color="var(--bg)"/></radialGradient></defs>
 <circle cx="200" cy="200" r="190" fill="url(#g)"/>
 <g class="ring" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="200" cy="200" r="170" stroke-dasharray="3 9"/><circle cx="200" cy="200" r="150"/>
 <g id="tk"></g></g>
 <g class="ring2" fill="none" stroke="var(--pri)" stroke-width="2.5"><circle cx="200" cy="200" r="110"/><path d="M200 90 L215 200 L200 310 L185 200Z" fill="var(--pri)" opacity=".15"/><path d="M90 200H310"/><circle cx="200" cy="90" r="9" fill="var(--gold)" stroke="none"/><circle cx="310" cy="200" r="7" fill="var(--pri)" stroke="none"/></g>
 <circle cx="200" cy="200" r="30" fill="var(--pri)"/><text x="200" y="215" text-anchor="middle" font-family="Aref Ruqaa,serif" font-size="42" font-weight="700" fill="var(--onpri)">ع</text></svg>
+<img class="tchr" src="teacher.webp" alt="الأستاذ محمود رشدي، مدرس اللغة العربية" width="490" height="792" fetchpriority="high" decoding="async">
 <div class="chip c1">التقييم<b>⭐ 4.9 / 5</b></div>
 <div class="chip c2">امتحان تفاعلي<b>✓ نتيجتك فورًا</b></div>
 </div></div>
@@ -214,6 +269,13 @@ h1{font-family:'Reem Kufi','Readex Pro',sans-serif;font-weight:700}
 <div class="st"><b data-n="25000" data-s="+">0</b><span>طالب</span></div>
 <div class="st"><b data-n="96" data-s="%">0</b><span>نسبة النجاح</span></div>
 </div></div></section>
+
+
+<section class="vid" id="intro"><div class="wrap">
+<h2>شوف الشرح قبل ما تسجل</h2><p class="sub">دقيقة مع الأستاذ محمود تعرّفك على أسلوبه في الشرح، وتقرر بنفسك.</p>
+<div class="vf"><button class="vp" id="vp" aria-label="تشغيل الفيديو التعريفي"><img src="intro-poster.webp" alt="الأستاذ محمود رشدي، مدرس اللغة العربية" width="1200" height="804" loading="lazy" decoding="async"><span class="pb"><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button></div>
+<div class="cta"><a class="btn p" href="register.html">أنشئ حسابك وابدأ</a></div>
+</div></section>
 
 <section class="alt" id="features"><div class="wrap">
 <h2>كل اللي محتاجه في مكان واحد</h2><p class="sub">صممنا المنصة عشان تذاكر براحتك، من أي مكان، وتعرف مستواك في كل خطوة.</p>
@@ -234,12 +296,18 @@ h1{font-family:'Reem Kufi','Readex Pro',sans-serif;font-weight:700}
 </div></section>
 
 <section class="alt" id="about"><div class="wrap"><div class="ab">
-<div class="port"><svg viewBox="0 0 200 200" fill="none" stroke="#F6F0E2" stroke-width="3"><circle cx="100" cy="70" r="34"/><path d="M30 190c4-45 36-62 70-62s66 17 70 62"/><path d="M82 66h36M100 52v28" stroke="#E3B25A"/></svg><small>صورة المدرس هنا</small></div>
+<div class="port"><img src="teacher.webp" alt="الأستاذ محمود رشدي، مدرس اللغة العربية" width="490" height="792" loading="lazy" decoding="async"><small>الأستاذ محمود رشدي · مدرس اللغة العربية</small></div>
 <div><h2>مع ابن رشدي، العربي أسهل مما تتخيل</h2>
 <p style="color:var(--mut)">مدرس لغة عربية خبير، بخبرة أكثر من 10 سنين في تدريس النحو والبلاغة والأدب. بيجمع في شرحه بين العمق والبساطة، وهدفه إنك تفهم الفكرة صح من أول مرة وتطبقها بنفسك.</p>
 <ul><li>أكثر من 10 سنين خبرة في تدريس اللغة العربية</li><li>شرح مبسّط بأمثلة من الواقع</li><li>مراجعات وامتحانات بعد كل وحدة</li><li>متابعة مستمرة لكل طالب</li></ul>
 <a class="btn p" href="register.html">ابدأ مع ابن رشدي</a></div>
 </div></div></section>
+
+<section id="results"><div class="wrap">
+<h2>نتايج بتتكلم</h2><p class="sub">صور من نتايج طلابنا، وأوائل المنصة اللي ذاكروا معانا.</p>
+<div class="rs" id="rs" aria-label="نتايج الطلاب"></div>
+<div class="tops" id="tops"></div>
+</div></section>
 
 <section class="alt" id="branches"><div class="wrap"><h2>كل فروع اللغة العربية في مكان واحد</h2><p class="sub">نحو، صرف، قراءة، نصوص، بلاغة، أدب، إملاء وتعبير. تذاكرهم كلهم مع بعض بنفس الأسلوب.</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:22px"><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">النحو</h3><p style="color:var(--mut);font-size:14px">إعراب وقواعد بتتفهم بأمثلة من حياتك</p></div><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">الصرف</h3><p style="color:var(--mut);font-size:14px">الميزان الصرفي والاشتقاق بسهولة</p></div><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">القراءة</h3><p style="color:var(--mut);font-size:14px">فهم واستيعاب وتحليل المقروء</p></div><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">النصوص</h3><p style="color:var(--mut);font-size:14px">شرح النصوص الأدبية وأسئلتها</p></div><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">البلاغة</h3><p style="color:var(--mut);font-size:14px">التشبيه والاستعارة والكناية بالتطبيق</p></div><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">الأدب والنقد</h3><p style="color:var(--mut);font-size:14px">العصور الأدبية والشعراء والأدباء</p></div><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">الإملاء</h3><p style="color:var(--mut);font-size:14px">قواعد الكتابة الصحيحة وتدريبات</p></div><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">التعبير</h3><p style="color:var(--mut);font-size:14px">أفكار وأسلوب للكتابة والقصة</p></div></div><div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;justify-content:center"><span style="display:inline-flex;gap:8px;align-items:center;padding:8px 16px;border:1px solid var(--ln);border-radius:99px;background:var(--sf)">🔒 بياناتك محمية</span><span style="display:inline-flex;gap:8px;align-items:center;padding:8px 16px;border:1px solid var(--ln);border-radius:99px;background:var(--sf)">🛡️ حماية من البوتات عند التسجيل</span><span style="display:inline-flex;gap:8px;align-items:center;padding:8px 16px;border:1px solid var(--ln);border-radius:99px;background:var(--sf)">👨‍👩‍👧 متابعة لولي الأمر</span><span style="display:inline-flex;gap:8px;align-items:center;padding:8px 16px;border:1px solid var(--ln);border-radius:99px;background:var(--sf)">💬 دعم جوه حسابك</span></div></div></section>
 
@@ -259,11 +327,13 @@ h1{font-family:'Reem Kufi','Readex Pro',sans-serif;font-weight:700}
 
 <footer><div class="wrap"><div class="fg">
 <div><div class="logo" style="margin-bottom:10px"><img src="logo-round.png" alt="شعار منصة ابن رشدي" width="40" height="40" style="border-radius:50%;flex:none"><span class="lg"><small>منصة</small>ابن رشدي</span></div><p style="opacity:.75">شرح مبسّط ومنهج متكامل لتحقيق أعلى الدرجات.</p></div>
-<div><h4>المنصة</h4><a href="#features">المميزات</a><a href="#stages">المراحل</a><a href="#about">عن المدرس</a><a href="#faq">الأسئلة الشائعة</a><a href="register.html">إنشاء حساب</a><a href="parent.html">ولي أمر</a></div>
-
+<div><h4>المنصة</h4><a href="#features">المميزات</a><a href="#stages">المراحل</a><a href="#about">عن المدرس</a><a href="#results">النتايج</a><a href="#faq">الأسئلة الشائعة</a><a href="register.html">إنشاء حساب</a><a href="parent.html">ولي أمر</a></div>
+<div><h4>تابعنا</h4><div class="soc" id="soc"><a href="https://www.facebook.com/share/14pWxwwsfao/" target="_blank" rel="noopener noreferrer" aria-label="صفحتنا على فيسبوك"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a></div><div id="ct"></div></div>
 </div><div class="cp">© 2026 جميع الحقوق محفوظة لمنصة ابن رشدي.</div></div></footer>
 
-<a id="wa" href="#" target="_blank" rel="noopener noreferrer" aria-label="تواصل معنا على واتساب" style="display:none;position:fixed;bottom:20px;left:20px;width:56px;height:56px;border-radius:50%;background:#25D366;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:60"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.3c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.6-.1 1.1z"/></svg></a>
+<div id="mbar"><a class="btn p" href="register.html">أنشئ حسابك الآن</a><a class="btn" href="login.html">دخول</a></div>
+<div class="ov" id="lb" role="dialog" aria-label="عرض النتيجة"><img id="lbi" alt=""></div>
+<a id="wa" href="#" target="_blank" rel="noopener noreferrer" aria-label="تواصل معنا على واتساب"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.3c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.6-.1 1.1z"/></svg></a>
 <script src="home.js" defer></script>
 </body>
 </html>

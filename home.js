@@ -1,4 +1,19 @@
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+
+// ===== إعدادات الموقع: عدّل هنا بس =====
+const SITE={
+ whatsapp:'',   // رقم واتساب بالصيغة الدولية بدون + (مثال 201001234567)
+ phone:'',      // رقم للتواصل يظهر في الفوتر (مثال 01001234567)
+ youtube:'',    // رابط قناة اليوتيوب
+ telegram:'',   // رابط قناة/جروب التليجرام
+ introVideo:''  // رابط فيديو يوتيوب التعريفي (أو رابط ملف mp4)
+};
+// نتايج الطلاب: صور النتايج (حطها في فولدر results). مثال: {img:'results/1.jpg',cap:'نتيجة أحمد'}
+const RESULTS=[];
+// الأوائل. مثال: {name:'أحمد محمد',grade:'الصف الثالث الثانوي',score:'98%',img:''}
+const TOPPERS=[];
+const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const toast=m=>{const t=$('#toast');if(!t)return;t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2600)};
 // أسنان الأسطرلاب
 (()=>{let h='';for(let i=0;i<72;i++){const a=i*5*Math.PI/180,l=i%6?6:14;h+=`<line x1="${200+150*Math.cos(a)}" y1="${200+150*Math.sin(a)}" x2="${200+(150-l)*Math.cos(a)}" y2="${200+(150-l)*Math.sin(a)}"/>`}$('#tk').innerHTML=h})();
 // الوضع
@@ -58,5 +73,38 @@ $$('#ql button').forEach(b=>b.onclick=()=>{ask(+b.dataset.i);if(innerWidth<860)$
  if(!on)return;
  document.querySelectorAll('a[href="register.html"]').forEach(a=>{a.href='dashboard.html';a.textContent='لوحتي ←'});
  document.querySelectorAll('a[href="login.html"],a[href="parent.html"]').forEach(a=>{a.style.display='none'})})();
-// ===== واتساب: حط رقمك بالصيغة الدولية بدون + (مثال 201001234567) =====
-(()=>{const WA='';if(!WA)return;const a=document.getElementById('wa');a.href='https://wa.me/'+WA+'?text='+encodeURIComponent('أهلاً، عندي استفسار عن منصة ابن رشدي');a.style.display='grid'})();
+// ===== واتساب العايم =====
+(()=>{const WA=(SITE.whatsapp||'').replace(/\D/g,'');if(!WA)return;const a=document.getElementById('wa');a.href='https://wa.me/'+WA+'?text='+encodeURIComponent('أهلاً، عندي استفسار عن منصة ابن رشدي');a.style.display='grid';document.body.classList.add('wa-on')})();
+
+// ===== شريط التسجيل الثابت على الموبايل =====
+(()=>{const mb=$('#mbar');if(!mb)return;const f=()=>mb.classList.toggle('on',scrollY>520);addEventListener('scroll',f,{passive:true});f()})();
+
+// ===== الفيديو التعريفي =====
+(()=>{const b=$('#vp');if(!b)return;
+b.onclick=()=>{const v=(SITE.introVideo||'').trim();if(!v){toast('الفيديو التعريفي هيتضاف قريب');return}
+const m=v.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/)||(/^[\w-]{11}$/.test(v)?[0,v]:null);
+b.parentElement.innerHTML=m?`<iframe src="https://www.youtube-nocookie.com/embed/${m[1]}?autoplay=1&rel=0" title="فيديو تعريفي" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`:`<video src="${esc(v)}" controls autoplay playsinline></video>`}})();
+
+// ===== نتايج الطلاب =====
+(()=>{const rs=$('#rs'),tp=$('#tops');if(!rs||!tp)return;
+const R=RESULTS.length?RESULTS:[null,null,null,null];
+rs.innerHTML=R.map((r,i)=>r?`<button class="rf" data-i="${i}" aria-label="${esc(r.cap||'عرض النتيجة')}"><img src="${esc(r.img)}" alt="${esc(r.cap||'نتيجة طالب')}" loading="lazy"></button>`:`<div class="rf ph"><div><span>🏆</span>صورة نتيجة طالب</div></div>`).join('');
+const T=TOPPERS.length?TOPPERS:[null,null,null,null,null,null];
+tp.innerHTML=T.map(t=>t?`<div class="top-row"><i>${t.img?`<img src="${esc(t.img)}" alt="">`:esc(t.name.trim().charAt(0))}</i><p><b>${esc(t.name)}</b><span>${esc(t.grade||'')}</span></p>${t.score?`<em>${esc(t.score)}</em>`:''}</div>`:`<div class="top-row ph"><i>★</i><p><b>اسم الطالب</b><span>الصف الدراسي</span></p><em>الدرجة</em></div>`).join('');
+const lb=$('#lb'),lbi=$('#lbi');
+rs.addEventListener('click',e=>{const b=e.target.closest('.rf[data-i]');if(!b)return;const r=R[+b.dataset.i];lbi.src=r.img;lbi.alt=r.cap||'';lb.classList.add('on')});
+lb.onclick=()=>lb.classList.remove('on');addEventListener('keydown',e=>{if(e.key=='Escape')lb.classList.remove('on')})})();
+
+// ===== الفوتر: سوشيال وتواصل =====
+(()=>{const s=$('#soc'),c=$('#ct');if(!s)return;
+const add=(href,label,d)=>s.insertAdjacentHTML('beforeend',`<a href="${esc(href)}" target="_blank" rel="noopener noreferrer" aria-label="${label}"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="${d}"/></svg></a>`);
+if(SITE.youtube)add(SITE.youtube,'قناتنا على يوتيوب','M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z');
+if(SITE.telegram)add(SITE.telegram,'تليجرام','M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z');
+const WA=(SITE.whatsapp||'').replace(/\D/g,'');
+if(WA)add('https://wa.me/'+WA,'واتساب','M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.3c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.6-.1 1.1z');
+if(SITE.phone&&c)c.innerHTML=`<a href="tel:${esc(SITE.phone.replace(/\s/g,''))}" dir="ltr" style="text-align:right">${esc(SITE.phone)}</a>`})();
+
+// ===== حركة دخول الأقسام (خفيفة، مرة واحدة) =====
+(()=>{if(matchMedia('(prefers-reduced-motion:reduce)').matches||!('IntersectionObserver' in window))return;
+const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+$$('section:not(.hero) h2,section:not(.hero) .sub,.grid3>.card,.steps>.step,.st,.pn,.qa,.final,.vf,.rs,.tops,.ab>*,#branches .wrap>div>div').forEach(el=>{const i=[...el.parentElement.children].indexOf(el);el.style.setProperty('--d',Math.min(i,5)*.07+'s');el.classList.add('rv');ro.observe(el)})})();
