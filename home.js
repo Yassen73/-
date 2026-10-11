@@ -73,11 +73,10 @@ $$('#ql button').forEach(b=>b.onclick=()=>{ask(+b.dataset.i);if(innerWidth<860)$
  if(!on)return;
  document.querySelectorAll('a[href="register.html"]').forEach(a=>{a.href='dashboard.html';a.textContent='لوحتي ←'});
  document.querySelectorAll('a[href="login.html"],a[href="parent.html"]').forEach(a=>{a.style.display='none'})})();
-// ===== واتساب العايم =====
-(()=>{const WA=(SITE.whatsapp||'').replace(/\D/g,'');if(!WA)return;const a=document.getElementById('wa');a.href='https://wa.me/'+WA+'?text='+encodeURIComponent('أهلاً، عندي استفسار عن منصة ابن رشدي');a.style.display='grid';document.body.classList.add('wa-on')})();
-
-// ===== شريط التسجيل الثابت على الموبايل =====
-(()=>{const mb=$('#mbar');if(!mb)return;const f=()=>mb.classList.toggle('on',scrollY>520);addEventListener('scroll',f,{passive:true});f()})();
+// ===== واتساب العايم (بيظهر دايمًا؛ لو الرقم فاضي بيطلع رسالة) =====
+(()=>{const a=document.getElementById('wa');if(!a)return;const WA=(SITE.whatsapp||'').replace(/\D/g,'');a.style.display='grid';document.body.classList.add('wa-on');
+if(WA)a.href='https://wa.me/'+WA+'?text='+encodeURIComponent('أهلاً، عندي استفسار عن منصة ابن رشدي');
+else a.onclick=e=>{e.preventDefault();toast('رقم الواتساب هيتضاف قريب')}})();
 
 // ===== الفيديو التعريفي =====
 (()=>{const b=$('#vp');if(!b)return;

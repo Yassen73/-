@@ -215,7 +215,6 @@ h1{font-family:'Reem Kufi','Readex Pro',sans-serif;font-weight:700}
 #wa{display:none;position:fixed;bottom:20px;left:20px;width:56px;height:56px;border-radius:50%;background:#25D366;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:60;transition:transform .2s}
 #wa:hover{transform:scale(1.08)}
 .wa-on #up{bottom:90px}
-#mbar{display:none}
 .fg{grid-template-columns:1.4fr 1fr 1fr}
 footer .soc{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
 footer .soc a{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;border:1px solid #2c3a50;opacity:.85;padding:0;transition:.2s}
@@ -225,10 +224,7 @@ footer .soc a:hover{background:var(--gold);border-color:var(--gold);color:#14202
 @media(max-width:860px){
 .fg{grid-template-columns:1fr}.tops{grid-template-columns:1fr}.vid{padding:60px 0}.vf{border-radius:22px;aspect-ratio:3/2}.vp .pb{width:68px;height:68px;margin:-34px}
 .hg>.astro{order:-1;max-width:300px}.hero{padding-top:118px}
-#mbar{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:85;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--sf) 94%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--ln);transform:translateY(110%);transition:transform .3s}
-#mbar.on{transform:none}#mbar .btn{flex:1;justify-content:center}
-#wa{bottom:84px}#up{bottom:84px}.wa-on #up{bottom:150px}
-footer{padding-bottom:96px}}
+}
 @media(prefers-reduced-motion:reduce){.js .rv{opacity:1;translate:none;transition:none}}
 </style>
 </head>
@@ -259,7 +255,7 @@ footer{padding-bottom:96px}}
 <g id="tk"></g></g>
 <g class="ring2" fill="none" stroke="var(--pri)" stroke-width="2.5"><circle cx="200" cy="200" r="110"/><path d="M200 90 L215 200 L200 310 L185 200Z" fill="var(--pri)" opacity=".15"/><path d="M90 200H310"/><circle cx="200" cy="90" r="9" fill="var(--gold)" stroke="none"/><circle cx="310" cy="200" r="7" fill="var(--pri)" stroke="none"/></g>
 <circle cx="200" cy="200" r="30" fill="var(--pri)"/><text x="200" y="215" text-anchor="middle" font-family="Aref Ruqaa,serif" font-size="42" font-weight="700" fill="var(--onpri)">ع</text></svg>
-<img class="tchr" src="teacher.webp" alt="الأستاذ محمود رشدي، مدرس اللغة العربية" width="490" height="792" fetchpriority="high" decoding="async">
+<img class="tchr" src="teacher.webp" alt="الأستاذ محمود رشدي، مدرس اللغة العربية" width="491" height="795" fetchpriority="high" decoding="async">
 <div class="chip c1">التقييم<b>⭐ 4.9 / 5</b></div>
 <div class="chip c2">امتحان تفاعلي<b>✓ نتيجتك فورًا</b></div>
 </div></div>
@@ -296,7 +292,7 @@ footer{padding-bottom:96px}}
 </div></section>
 
 <section class="alt" id="about"><div class="wrap"><div class="ab">
-<div class="port"><img src="teacher.webp" alt="الأستاذ محمود رشدي، مدرس اللغة العربية" width="490" height="792" loading="lazy" decoding="async"><small>الأستاذ محمود رشدي · مدرس اللغة العربية</small></div>
+<div class="port"><img src="teacher.webp" alt="الأستاذ محمود رشدي، مدرس اللغة العربية" width="491" height="795" loading="lazy" decoding="async"><small>الأستاذ محمود رشدي · مدرس اللغة العربية</small></div>
 <div><h2>مع ابن رشدي، العربي أسهل مما تتخيل</h2>
 <p style="color:var(--mut)">مدرس لغة عربية خبير، بخبرة أكثر من 10 سنين في تدريس النحو والبلاغة والأدب. بيجمع في شرحه بين العمق والبساطة، وهدفه إنك تفهم الفكرة صح من أول مرة وتطبقها بنفسك.</p>
 <ul><li>أكثر من 10 سنين خبرة في تدريس اللغة العربية</li><li>شرح مبسّط بأمثلة من الواقع</li><li>مراجعات وامتحانات بعد كل وحدة</li><li>متابعة مستمرة لكل طالب</li></ul>
@@ -331,7 +327,6 @@ footer{padding-bottom:96px}}
 <div><h4>تابعنا</h4><div class="soc" id="soc"><a href="https://www.facebook.com/share/14pWxwwsfao/" target="_blank" rel="noopener noreferrer" aria-label="صفحتنا على فيسبوك"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a></div><div id="ct"></div></div>
 </div><div class="cp">© 2026 جميع الحقوق محفوظة لمنصة ابن رشدي.</div></div></footer>
 
-<div id="mbar"><a class="btn p" href="register.html">أنشئ حسابك الآن</a><a class="btn" href="login.html">دخول</a></div>
 <div class="ov" id="lb" role="dialog" aria-label="عرض النتيجة"><img id="lbi" alt=""></div>
 <a id="wa" href="#" target="_blank" rel="noopener noreferrer" aria-label="تواصل معنا على واتساب"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.3c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.6-.1 1.1z"/></svg></a>
 <script src="home.js" defer></script>
