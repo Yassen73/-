@@ -232,6 +232,75 @@ footer .soc a:hover{background:var(--gold);border-color:var(--gold);color:#14202
 .lgl a{display:inline-flex;align-items:center;margin:5px;padding:8px 18px;border:1px solid #2c3a50;border-radius:99px;font-size:14.5px;opacity:.9;transition:.2s}
 .lgl a:hover{background:var(--gold);border-color:var(--gold);color:#14202F;opacity:1}
 .lgl svg{width:17px;height:17px;margin-left:8px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== v3: قسم المميزات (أيقونات مرسومة + زخارف هادية للفاتح والداكن) ===== */
+.fx{position:relative;overflow:hidden}
+.fxin{position:relative;z-index:1}
+.fxbg{position:absolute;top:0;right:0;bottom:0;left:0;pointer-events:none;z-index:0}
+.fxbg:before{content:"";position:absolute;top:0;right:0;bottom:0;left:0;background-size:72px 72px;-webkit-mask-image:linear-gradient(#000,transparent 70%);mask-image:linear-gradient(#000,transparent 70%)}
+.only-d{display:none}
+:root[data-theme=dark] .only-d{display:block}
+:root[data-theme=dark] .only-l{display:none}
+.fl{position:absolute;font-family:'Aref Ruqaa',serif;font-weight:700;line-height:1;color:var(--pri);opacity:.055;animation:flt 14s ease-in-out infinite}
+:root[data-theme=dark] .fl{color:var(--gold);opacity:.07}
+.l1{font-size:230px;top:-30px;right:2%}
+.l2{font-size:170px;top:34%;left:1%;animation-delay:-5s}
+.l3{font-size:130px;bottom:6%;right:30%;animation-delay:-9s}
+.l4{font-size:190px;bottom:-40px;left:24%;animation-delay:-3s}
+@keyframes flt{50%{transform:translateY(-16px) rotate(2deg)}}
+/* فاتح: نقش هندسي خفيف + شمس هادية */
+:root:not([data-theme=dark]) .fxbg:before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72' fill='none' stroke='%23C98A1F' stroke-width='1'%3E%3Crect x='18' y='18' width='36' height='36'/%3E%3Crect x='18' y='18' width='36' height='36' transform='rotate(45 36 36)'/%3E%3Ccircle cx='36' cy='36' r='5'/%3E%3C/svg%3E");opacity:.16}
+.sun{position:absolute;top:-120px;left:-80px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(201,138,31,.20),transparent 68%)}
+.ringd{position:absolute;bottom:-90px;right:-70px;width:340px;height:340px;fill:none;stroke:var(--gold);stroke-width:1;stroke-dasharray:2 7;opacity:.4;animation:sp 90s linear infinite}
+/* داكن: نجوم بتلمع + هلال + ضباب هادي */
+:root[data-theme=dark] .fxbg:before{background-image:radial-gradient(circle,rgba(227,178,90,.5) 1px,transparent 1.5px);background-size:46px 46px;opacity:.12}
+.neb{position:absolute;top:-140px;right:-100px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(70,100,170,.22),transparent 68%)}
+.moon{position:absolute;top:34px;left:7%;width:64px;height:64px;fill:var(--gold);opacity:.55;filter:drop-shadow(0 0 14px rgba(227,178,90,.45))}
+.fxbg b{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px 2px rgba(227,178,90,.5);animation:tw 4.5s ease-in-out infinite}
+.st1{top:12%;left:20%}.st2{top:26%;left:42%;animation-delay:-1.2s!important}.st3{top:9%;right:30%;animation-delay:-2.4s!important}.st4{top:46%;right:6%;animation-delay:-.6s!important}.st5{bottom:22%;left:8%;animation-delay:-3.1s!important}.st6{bottom:12%;right:42%;animation-delay:-1.9s!important}
+@keyframes tw{0%,100%{opacity:.15;transform:scale(.7)}50%{opacity:.9;transform:scale(1.15)}}
+/* فاصل زخرفي تحت العنوان */
+.orn{display:flex;align-items:center;gap:10px;margin:2px 0 14px}
+.orn i{display:block;height:2px;width:46px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--gold))}
+.orn i:last-child{background:linear-gradient(270deg,transparent,var(--gold))}
+.orn svg{width:22px;height:22px;fill:none;stroke:var(--gold);stroke-width:5;stroke-linejoin:round}
+.fx .grid3{gap:20px}
+/* الكروت */
+.fx .card{position:relative;overflow:hidden;border-radius:28px;padding:30px 28px 28px;background:linear-gradient(165deg,var(--sf),var(--bg));box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 6px 18px rgba(60,45,10,.05)}
+:root[data-theme=dark] .fx .card{background:radial-gradient(circle at 88% 0,rgba(227,178,90,.10),transparent 55%),linear-gradient(165deg,var(--sf),#161E30);box-shadow:0 1px 0 rgba(255,255,255,.04) inset}
+.fx .card:before{content:"";position:absolute;top:0;right:24px;left:24px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s}
+:root[data-theme=dark] .fx .card:before{opacity:.45}
+.fx .card:hover:before{opacity:1}
+.fx .card:hover{border-color:var(--gold)}
+:root[data-theme=dark] .fx .card:hover{box-shadow:0 14px 34px rgba(0,0,0,.4),0 0 0 1px rgba(227,178,90,.25)}
+.fx .card h3{font-size:21px;margin:18px 0 6px;position:relative}
+.fx .card p{position:relative}
+.no{position:absolute;top:22px;left:24px;font:600 14px/1 'Readex Pro',sans-serif;color:var(--mut);border:1px solid var(--ln);border-radius:99px;padding:6px 12px 5px;background:var(--bg)}
+.cn{position:absolute;bottom:-34px;left:-34px;width:110px;height:110px;opacity:.13;transition:opacity .3s,transform .6s}
+.cn svg{width:100%;height:100%;fill:none;stroke:var(--gold);stroke-width:2.2;stroke-linejoin:round}
+:root[data-theme=dark] .cn{opacity:.2}
+.fx .card:hover .cn{opacity:.3;transform:rotate(45deg)}
+/* مربع الأيقونة */
+.fx .ic{position:relative;width:64px;height:64px;border-radius:22px;margin:0;color:var(--pri);box-shadow:inset 0 0 0 1px rgba(255,255,255,.55);transition:transform .35s}
+:root[data-theme=dark] .fx .ic{color:var(--gold);box-shadow:inset 0 0 0 1px rgba(227,178,90,.22),0 0 26px rgba(227,178,90,.12)}
+.fx .ic:after{content:"";position:absolute;top:-6px;right:-6px;bottom:-6px;left:-6px;border-radius:27px;border:1px dashed var(--ln);transition:border-color .3s}
+.fx .card:hover .ic{transform:rotate(-6deg) scale(1.06)}
+.fx .card:hover .ic:after{border-color:var(--gold)}
+.i1,.i6{background:var(--sage)}.i2,.i4{background:var(--rose)}.i3,.i5{background:var(--sky)}
+.ic svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ic .a{fill:currentColor;fill-opacity:.17}
+.ic .s{fill:currentColor;stroke:none}
+.ic .live{fill:#E5533D;stroke:none;animation:pl 1.6s infinite}
+@media(max-width:860px){
+.l1{font-size:150px}.l2{font-size:110px}.l3,.l4{display:none}.moon{width:46px;height:46px;top:20px}
+.fx .card{display:grid;grid-template-columns:auto 1fr;column-gap:18px;align-items:center;padding:22px 20px}
+.fx .card .ic{grid-row:1/3;width:58px;height:58px;border-radius:19px}.fx .ic svg{width:30px;height:30px}
+.fx .card h3{margin:0 0 2px;font-size:19px}
+.fx .card p{font-size:15px}
+.no{top:14px;left:16px;font-size:12px;padding:5px 10px 4px}
+.fx .card h3{padding-left:44px}
+}
+@media(prefers-reduced-motion:reduce){.fl,.ringd,.fxbg b,.ic .live{animation:none!important}}
 </style>
 </head>
 <body>
@@ -279,15 +348,23 @@ footer .soc a:hover{background:var(--gold);border-color:var(--gold);color:#14202
 <div class="cta"><a class="btn p" href="register.html">أنشئ حسابك وابدأ</a></div>
 </div></section>
 
-<section class="alt" id="features"><div class="wrap">
-<h2>كل اللي محتاجه في مكان واحد</h2><p class="sub">صممنا المنصة عشان تذاكر براحتك، من أي مكان، وتعرف مستواك في كل خطوة.</p>
+<section class="alt fx" id="features">
+<div class="fxbg" aria-hidden="true">
+<span class="fl l1">ع</span><span class="fl l2">ر</span><span class="fl l3">ب</span><span class="fl l4">ي</span>
+<div class="only-l"><i class="sun"></i><svg class="ringd" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="76"/></svg></div>
+<div class="only-d"><i class="neb"></i><svg class="moon" viewBox="0 0 64 64"><path d="M44 8a26 26 0 1 0 12 40A22 22 0 0 1 44 8z"/></svg><b class="st1"></b><b class="st2"></b><b class="st3"></b><b class="st4"></b><b class="st5"></b><b class="st6"></b></div>
+</div>
+<div class="wrap fxin">
+<h2>كل اللي محتاجه في مكان واحد</h2>
+<div class="orn" aria-hidden="true"><i></i><svg viewBox="0 0 100 100"><rect x="24" y="24" width="52" height="52"/><rect x="24" y="24" width="52" height="52" transform="rotate(45 50 50)"/><circle cx="50" cy="50" r="13"/></svg><i></i></div>
+<p class="sub">صممنا المنصة عشان تذاكر براحتك، من أي مكان، وتعرف مستواك في كل خطوة.</p>
 <div class="grid3">
-<div class="card"><div class="ic" style="background:var(--sage)">🎓</div><h3>دروس شاملة</h3><p>شرح مفصّل لقواعد النحو والبلاغة والأدب، بفيديوهات واضحة وملخصات تتحمل.</p></div>
-<div class="card"><div class="ic" style="background:var(--rose)">📝</div><h3>واجبات وامتحانات</h3><p>اختبارات تفاعلية بعد كل درس، وتصحيح فوري مع شرح الإجابة الصح.</p></div>
-<div class="card"><div class="ic" style="background:var(--sky)">📊</div><h3>تقدمك قدامك</h3><p>شريط تقدم لكل كورس، وإحصائيات توضحلك نقط قوتك وإيه اللي محتاج مراجعة.</p></div>
-<div class="card"><div class="ic" style="background:var(--rose)">🔴</div><h3>حصص مباشرة</h3><p>اسأل واتناقش مع المدرس لايف، والتسجيل بيفضل متاح تراجعه.</p></div>
-<div class="card"><div class="ic" style="background:var(--sky)">💬</div><h3>متابعة شخصية</h3><p>فريق دعم بيرد عليك في أقل من 24 ساعة، ومتابعة لمستواك باستمرار.</p></div>
-<div class="card"><div class="ic" style="background:var(--sage)">📱</div><h3>على أي جهاز</h3><p>موبايل أو تابلت أو كمبيوتر، وتكمّل من نفس النقطة اللي وقفت عندها.</p></div>
+<div class="card"><span class="no" aria-hidden="true">٠١</span><div class="ic i1"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="a" d="M6 12c6-2 12-1 18 3 6-4 12-5 18-3v24c-6-2-12-1-18 3-6-4-12-5-18-3z"/><path d="M24 15v24"/><path class="s" d="M38 4.5l1.3 3.2 3.2 1.3-3.2 1.3L38 13.5l-1.3-3.2-3.2-1.3 3.2-1.3z"/></svg></div><h3>دروس شاملة</h3><p>شرح مفصّل لقواعد النحو والبلاغة والأدب، بفيديوهات واضحة وملخصات تتحمل.</p><span class="cn" aria-hidden="true"><svg viewBox="0 0 100 100"><rect x="24" y="24" width="52" height="52"/><rect x="24" y="24" width="52" height="52" transform="rotate(45 50 50)"/><circle cx="50" cy="50" r="13"/></svg></span></div>
+<div class="card"><span class="no" aria-hidden="true">٠٢</span><div class="ic i2"><svg viewBox="0 0 48 48" aria-hidden="true"><rect class="a" x="10" y="8" width="28" height="35" rx="6"/><rect x="18" y="4" width="12" height="8" rx="3" fill="var(--sf)"/><path d="M17 26l5 5 9-10"/></svg></div><h3>واجبات وامتحانات</h3><p>اختبارات تفاعلية بعد كل درس، وتصحيح فوري مع شرح الإجابة الصح.</p><span class="cn" aria-hidden="true"><svg viewBox="0 0 100 100"><rect x="24" y="24" width="52" height="52"/><rect x="24" y="24" width="52" height="52" transform="rotate(45 50 50)"/><circle cx="50" cy="50" r="13"/></svg></span></div>
+<div class="card"><span class="no" aria-hidden="true">٠٣</span><div class="ic i3"><svg viewBox="0 0 48 48" aria-hidden="true"><rect class="a" x="8" y="28" width="8" height="13" rx="2.5"/><rect class="a" x="20" y="19" width="8" height="22" rx="2.5"/><rect class="a" x="32" y="9" width="8" height="32" rx="2.5"/><path d="M8 18l9-6 8 4 13-10"/></svg></div><h3>تقدمك قدامك</h3><p>شريط تقدم لكل كورس، وإحصائيات توضحلك نقط قوتك وإيه اللي محتاج مراجعة.</p><span class="cn" aria-hidden="true"><svg viewBox="0 0 100 100"><rect x="24" y="24" width="52" height="52"/><rect x="24" y="24" width="52" height="52" transform="rotate(45 50 50)"/><circle cx="50" cy="50" r="13"/></svg></span></div>
+<div class="card"><span class="no" aria-hidden="true">٠٤</span><div class="ic i4"><svg viewBox="0 0 48 48" aria-hidden="true"><rect class="a" x="5" y="13" width="27" height="23" rx="6"/><path d="M32 22l11-6.5v17L32 26z"/><circle class="live" cx="13.5" cy="21" r="2.6"/></svg></div><h3>حصص مباشرة</h3><p>اسأل واتناقش مع المدرس لايف، والتسجيل بيفضل متاح تراجعه.</p><span class="cn" aria-hidden="true"><svg viewBox="0 0 100 100"><rect x="24" y="24" width="52" height="52"/><rect x="24" y="24" width="52" height="52" transform="rotate(45 50 50)"/><circle cx="50" cy="50" r="13"/></svg></span></div>
+<div class="card"><span class="no" aria-hidden="true">٠٥</span><div class="ic i5"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="a" d="M10 8h28a5 5 0 0 1 5 5v14a5 5 0 0 1-5 5H22l-9 8v-8h-3a5 5 0 0 1-5-5V13a5 5 0 0 1 5-5z"/><circle class="s" cx="16" cy="20" r="2"/><circle class="s" cx="24" cy="20" r="2"/><circle class="s" cx="32" cy="20" r="2"/></svg></div><h3>متابعة شخصية</h3><p>فريق دعم بيرد عليك في أقل من 24 ساعة، ومتابعة لمستواك باستمرار.</p><span class="cn" aria-hidden="true"><svg viewBox="0 0 100 100"><rect x="24" y="24" width="52" height="52"/><rect x="24" y="24" width="52" height="52" transform="rotate(45 50 50)"/><circle cx="50" cy="50" r="13"/></svg></span></div>
+<div class="card"><span class="no" aria-hidden="true">٠٦</span><div class="ic i6"><svg viewBox="0 0 48 48" aria-hidden="true"><rect class="a" x="14" y="9" width="30" height="21" rx="4"/><path d="M10 37h38"/><rect x="5" y="21" width="13" height="21" rx="3.5" fill="var(--sf)"/><path d="M10.5 38h2"/></svg></div><h3>على أي جهاز</h3><p>موبايل أو تابلت أو كمبيوتر، وتكمّل من نفس النقطة اللي وقفت عندها.</p><span class="cn" aria-hidden="true"><svg viewBox="0 0 100 100"><rect x="24" y="24" width="52" height="52"/><rect x="24" y="24" width="52" height="52" transform="rotate(45 50 50)"/><circle cx="50" cy="50" r="13"/></svg></span></div>
 </div></div></section>
 
 <section id="stages"><div class="wrap">
