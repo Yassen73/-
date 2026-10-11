@@ -16,7 +16,7 @@ const phV=v=>isPh(v)||'رقم الموبايل لازم يكون 11 رقم وي�
 const COMMON=['12345678','123456789','1234567890','11111111','password','password1','qwerty123','abc12345','00000000','01234567','a1234567','aa123456'];
 const waOn=()=>!$('#wc').checked;
 const V={
- n:nameV(2,60),fn:nameV(2,40),gn:nameV(2,40),
+ n:nameV(3,60),fn:nameV(2,40),gn:nameV(2,40),
  gv:v=>GOV.includes(v)||'اختار المحافظة.',
  st:v=>!!ST[v]||'اختار المرحلة.',
  sg:v=>{const s=ST[val('st')];return(!!s&&s[1].some(x=>x[0]===v))||'اختار الصف.'},
