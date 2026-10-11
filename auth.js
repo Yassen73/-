@@ -33,16 +33,18 @@ function fail(){try{const n=(+sessionStorage.getItem('fc')||0)+1;sessionStorage.
 function msg(err){
  const m=(err&&err.message||'').toLowerCase();
  if(m.includes('invalid login'))return 'رقم الموبايل أو كلمة المرور غلط.';
- if(m.includes('already registered')||m.includes('already been registered'))return 'الرقم ده مسجّل قبل كده. جرّب تسجّل دخول.';
+ if(m.includes('already registered')||m.includes('already been registered'))return 'لو الرقم ده مسجّل قبل كده جرّب تسجّل دخول، أو راجع بياناتك.';
  if(m.includes('captcha'))return 'فشل التحقق الأمني، جرّب تاني.';
  if(m.includes('rate')||err&&err.status===429)return 'محاولات كتير، استنى شوية وجرّب تاني.';
  if(m.includes('password'))return 'كلمة المرور ضعيفة، اختار كلمة أقوى.';
  return 'حصلت مشكلة، جرّب تاني بعد شوية.';
 }
 
+window.AUTH=Object.freeze({sb,toEmail,locked,fail,resetCf,msg,getCf:()=>cfToken,needCf:()=>!!TURNSTILE_SITE_KEY});
 $('#f').onsubmit=async e=>{
  e.preventDefault();
  const f=e.target,mode=f.dataset.mode,er=$('#er'),btn=f.querySelector('button[type=submit]');
+ if(mode==='register'){if(window.REG)window.REG(e);return}
  for(const i of f.querySelectorAll('[data-v]')){i.classList.remove('bad');const r=R[i.dataset.v](i.value);if(r!==true){i.classList.add('bad');er.textContent=r;i.focus();return}}
  const wait=locked();if(wait){er.textContent='استنى '+wait+' ثانية قبل المحاولة الجاية.';return}
  if(TURNSTILE_SITE_KEY&&!cfToken){er.textContent='أكمل التحقق الأمني الأول.';return}
