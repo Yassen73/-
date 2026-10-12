@@ -321,9 +321,26 @@ footer .soc a:hover{background:var(--gold);border-color:var(--gold);color:#14202
 .hs1{top:24%;left:22%}.hs2{top:52%;left:10%;animation-delay:-1.4s}.hs3{top:20%;right:14%;animation-delay:-2.6s}.hs4{bottom:22%;right:44%;animation-delay:-.8s}.hs5{top:62%;right:6%;animation-delay:-3.3s}
 @media(max-width:860px){.hx1{font-size:170px;top:100px}.hx2{font-size:100px}.hx3,.hx4{display:none}.hmoon{width:40px;height:40px;top:104px}}
 @media(prefers-reduced-motion:reduce){.hl,.hs{animation:none!important}}
+
+.port:before{display:none}.port img{left:0;translate:none;width:100%;height:100%;object-fit:cover;object-position:50% 8%;-webkit-mask-image:none;mask-image:none}
+.gal{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 20px 22px;margin:0 -20px;scrollbar-width:thin}
+.gal figure{flex:none;width:min(270px,68vw);aspect-ratio:3/4;position:relative;border-radius:28px;overflow:hidden;scroll-snap-align:start;border:1px solid var(--ln);box-shadow:var(--sh);transition:rotate .3s}
+.gal figure:nth-child(odd){rotate:-1.2deg}.gal figure:nth-child(even){rotate:1.2deg}.gal figure:hover{rotate:0deg}
+.gal img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block}
+.gal figcaption{position:absolute;right:10px;left:10px;bottom:10px;background:color-mix(in srgb,var(--sf) 90%,transparent);backdrop-filter:blur(8px);border-radius:16px;padding:8px 12px;font:600 14.5px/1.5 'Readex Pro',sans-serif;text-align:center}
+.fin2{position:relative;overflow:hidden;text-align:right;padding:76px 44px;background:#2F4A36;min-height:340px}
+.fin2:before{content:"";position:absolute;inset:0;background:url(img/arch.webp) 50% 20%/cover;transform:scaleX(-1)}
+.fin2:after{content:"";position:absolute;inset:0;background:linear-gradient(to left,rgba(36,54,42,.94) 0,rgba(36,54,42,.7) 42%,transparent 72%)}
+.fin2>*{position:relative;z-index:1;max-width:460px}.fin2 p{margin:0 0 24px;opacity:.9}
+#ld{display:none}.js #ld{position:fixed;inset:0;z-index:999;display:grid;place-content:center;justify-items:center;gap:12px;background:var(--bg);text-align:center;transition:opacity .5s,visibility .5s}#ld.off{opacity:0;visibility:hidden}
+#ld div{width:124px;height:124px;border-radius:50%;padding:6px;background:conic-gradient(var(--gold),transparent 70%,var(--gold));animation:sp 1.4s linear infinite}#ld img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:4px solid var(--bg);animation:sp 1.4s linear infinite reverse}
+#ld b{font:700 26px 'Aref Ruqaa',serif}
+@media(max-width:860px){.fin2{padding:250px 22px 34px;text-align:center}.fin2:before{background-position:25% 0}.fin2:after{background:linear-gradient(to top,rgba(36,54,42,.97) 36%,transparent)}.fin2>*{margin-inline:auto}}
 </style>
 </head>
 <body>
+<div id="ld" aria-hidden="true"><div><img src="img/ld.webp" alt=""></div><b>منصة ابن رشدي</b><span>ثواني ونبدأ الحصة ✍️</span></div>
+<script>addEventListener("load",function(){setTimeout(function(){document.getElementById("ld").classList.add("off")},300)});setTimeout(function(){document.getElementById("ld").classList.add("off")},4000)</script>
 <button id="up" aria-label="للأعلى"><svg viewBox="0 0 56 56" width="56" height="56"><circle cx="28" cy="28" r="25" fill="none" stroke="var(--ln)" stroke-width="3"/><circle id="rg" cx="28" cy="28" r="25" fill="none" stroke="var(--gold)" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="157.1" stroke-dashoffset="157.1"/></svg><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="position:relative"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button><div id="toast"></div>
 
 <header><nav class="nav">
@@ -368,7 +385,7 @@ footer .soc a:hover{background:var(--gold);border-color:var(--gold);color:#14202
 
 <section class="vid" id="intro"><div class="wrap">
 <h2>شوف الشرح قبل ما تسجل</h2><p class="sub">دقيقة مع الأستاذ محمود تعرّفك على أسلوبه في الشرح، وتقرر بنفسك.</p>
-<div class="vf"><button class="vp" id="vp" aria-label="تشغيل الفيديو التعريفي"><img src="intro-poster.webp" alt="الأستاذ محمود رشدي، مدرس اللغة العربية" width="1200" height="804" loading="lazy" decoding="async"><span class="pb"><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button></div>
+<div class="vf"><button class="vp" id="vp" aria-label="تشغيل الفيديو التعريفي"><img src="img/ribbon.webp" alt="الأستاذ محمود رشدي، مدرس اللغة العربية" width="1000" height="558" loading="lazy" decoding="async"><span class="pb"><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button></div>
 <div class="cta"><a class="btn p" href="register.html">أنشئ حسابك وابدأ</a></div>
 </div></section>
 
@@ -399,7 +416,7 @@ footer .soc a:hover{background:var(--gold);border-color:var(--gold);color:#14202
 </div></section>
 
 <section class="alt" id="about"><div class="wrap"><div class="ab">
-<div class="port"><img src="teacher.webp" alt="الأستاذ محمود رشدي، مدرس اللغة العربية" width="491" height="795" loading="lazy" decoding="async"><small>الأستاذ محمود رشدي · مدرس اللغة العربية</small></div>
+<div class="port"><img src="img/h-black.webp" alt="الأستاذ محمود رشدي، مدرس اللغة العربية" width="1000" height="1007" loading="lazy" decoding="async"><small>الأستاذ محمود رشدي · مدرس اللغة العربية</small></div>
 <div><h2>مع ابن رشدي، العربي أسهل مما تتخيل</h2>
 <p style="color:var(--mut)">مدرس لغة عربية خبير، بخبرة أكثر من 10 سنين في تدريس النحو والبلاغة والأدب. بيجمع في شرحه بين العمق والبساطة، وهدفه إنك تفهم الفكرة صح من أول مرة وتطبقها بنفسك.</p>
 <ul><li>أكثر من 10 سنين خبرة في تدريس اللغة العربية</li><li>شرح مبسّط بأمثلة من الواقع</li><li>مراجعات وامتحانات بعد كل وحدة</li><li>متابعة مستمرة لكل طالب</li></ul>
@@ -411,6 +428,8 @@ footer .soc a:hover{background:var(--gold);border-color:var(--gold);color:#14202
 <div class="rs" id="rs" aria-label="نتايج الطلاب"></div>
 <div class="tops" id="tops"></div>
 </div></section>
+
+<section id="moments"><div class="wrap"><h2>لحظات من رحلتنا 😄</h2><p class="sub">تعليم بجد، بس من غير ما نبقى تقال. تعالى شوف جو الحصة.</p><div class="gal"><figure><img src="img/felucca.webp" alt="مراجعة النحو على النيل ⛵" loading="lazy" decoding="async"><figcaption>مراجعة النحو على النيل ⛵</figcaption></figure><figure><img src="img/grad.webp" alt="إحساسك يوم النتيجة 🎓" loading="lazy" decoding="async"><figcaption>إحساسك يوم النتيجة 🎓</figcaption></figure><figure><img src="img/bulb.webp" alt="الفكرة جت! 💡" loading="lazy" decoding="async"><figcaption>الفكرة جت! 💡</figcaption></figure><figure><img src="img/point.webp" alt="الكورسات تحت، دوس 👇" loading="lazy" decoding="async"><figcaption>الكورسات تحت، دوس 👇</figcaption></figure><figure><img src="img/desk.webp" alt="ركّز، الحصة بدأت" loading="lazy" decoding="async"><figcaption>ركّز، الحصة بدأت</figcaption></figure><figure><img src="img/conf.webp" alt="بنشرح بحماس 🎤" loading="lazy" decoding="async"><figcaption>بنشرح بحماس 🎤</figcaption></figure><figure><img src="img/alex.webp" alt="قراءة ونصوص ع الكورنيش 🌊" loading="lazy" decoding="async"><figcaption>قراءة ونصوص ع الكورنيش 🌊</figcaption></figure><figure><img src="img/navy.webp" alt="العربي لغة الجمال ✨" loading="lazy" decoding="async"><figcaption>العربي لغة الجمال ✨</figcaption></figure></div></div></section>
 
 <section class="alt" id="branches"><div class="wrap"><h2>كل فروع اللغة العربية في مكان واحد</h2><p class="sub">نحو، صرف، قراءة، نصوص، بلاغة، أدب، إملاء وتعبير. تذاكرهم كلهم مع بعض بنفس الأسلوب.</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:22px"><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">النحو</h3><p style="color:var(--mut);font-size:14px">إعراب وقواعد بتتفهم بأمثلة من حياتك</p></div><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">الصرف</h3><p style="color:var(--mut);font-size:14px">الميزان الصرفي والاشتقاق بسهولة</p></div><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">القراءة</h3><p style="color:var(--mut);font-size:14px">فهم واستيعاب وتحليل المقروء</p></div><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">النصوص</h3><p style="color:var(--mut);font-size:14px">شرح النصوص الأدبية وأسئلتها</p></div><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">البلاغة</h3><p style="color:var(--mut);font-size:14px">التشبيه والاستعارة والكناية بالتطبيق</p></div><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">الأدب والنقد</h3><p style="color:var(--mut);font-size:14px">العصور الأدبية والشعراء والأدباء</p></div><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">الإملاء</h3><p style="color:var(--mut);font-size:14px">قواعد الكتابة الصحيحة وتدريبات</p></div><div style="background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px"><h3 style="font-size:18px;margin-bottom:4px;color:var(--pri)">التعبير</h3><p style="color:var(--mut);font-size:14px">أفكار وأسلوب للكتابة والقصة</p></div></div><div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;justify-content:center"><span style="display:inline-flex;gap:8px;align-items:center;padding:8px 16px;border:1px solid var(--ln);border-radius:99px;background:var(--sf)">🔒 بياناتك محمية</span><span style="display:inline-flex;gap:8px;align-items:center;padding:8px 16px;border:1px solid var(--ln);border-radius:99px;background:var(--sf)">🛡️ حماية من البوتات عند التسجيل</span><span style="display:inline-flex;gap:8px;align-items:center;padding:8px 16px;border:1px solid var(--ln);border-radius:99px;background:var(--sf)">👨‍👩‍👧 متابعة لولي الأمر</span><span style="display:inline-flex;gap:8px;align-items:center;padding:8px 16px;border:1px solid var(--ln);border-radius:99px;background:var(--sf)">💬 دعم جوه حسابك</span></div></div></section>
 
@@ -425,7 +444,7 @@ footer .soc a:hover{background:var(--gold);border-color:var(--gold);color:#14202
 <div class="ans" id="ans" aria-live="polite"><img src="logo-round.png" alt="شعار منصة ابن رشدي" width="40" height="40" style="border-radius:50%;flex:none"><p id="at"></p></div></div>
 </div></section>
 
-<section style="padding-top:0"><div class="wrap"><div class="final"><h2>ابدأ رحلتك النهاردة</h2><p>انضم لآلاف الطلاب اللي بيذاكروا بفهم، واعمل حسابك في دقيقة.</p><a class="btn p" href="register.html">أنشئ حسابك مجانًا ←</a></div></div></section>
+<section style="padding-top:0"><div class="wrap"><div class="final fin2"><h2>ابدأ رحلتك النهاردة</h2><p>انضم لآلاف الطلاب اللي بيذاكروا بفهم، واعمل حسابك في دقيقة.</p><a class="btn p" href="register.html">أنشئ حسابك مجانًا ←</a></div></div></section>
 </main>
 
 <footer><div class="wrap"><div class="fg">
