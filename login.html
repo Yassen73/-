@@ -2,35 +2,61 @@
 <html lang="ar" dir="rtl" data-theme="light"><head>
 <meta name="referrer" content="strict-origin-when-cross-origin"><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#1F3A5F"><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/manifest.webmanifest"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>تسجيل الدخول | منصة ابن رشدي</title>
+<script>try{var t=localStorage.getItem('th');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&family=Aref+Ruqaa:wght@700&family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#F2ECDF;--bg2:#EAE2D0;--sf:#FAF6EC;--ink:#1B2433;--mut:#5E6677;--ln:#D9CFB8;--pri:#1F3A5F;--onpri:#F6F0E2;--gold:#C98A1F;--sage:#DCE5D3;--sh:0 20px 50px rgba(60,45,10,.14)}
 :root[data-theme=dark]{--bg:#111725;--bg2:#161E30;--sf:#1B2438;--ink:#EEE7D6;--mut:#A3AABB;--ln:#2C3752;--pri:#E3B25A;--onpri:#17202F;--gold:#E3B25A;--sage:#1F2D2B;--sh:0 20px 50px rgba(0,0,0,.4)}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
-body{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 85% 10%,var(--sage),transparent 45%),var(--bg);color:var(--ink);font:400 16px/1.7 'IBM Plex Sans Arabic',Tahoma,sans-serif}
+html{overflow-x:hidden}
+body{min-height:100vh;display:grid;place-items:center;padding:24px 20px;position:relative;overflow-x:hidden;background:radial-gradient(circle at 85% 10%,var(--sage),transparent 45%),radial-gradient(circle at 5% 95%,rgba(201,138,31,.16),transparent 40%),var(--bg);color:var(--ink);font:400 16px/1.7 'IBM Plex Sans Arabic',Tahoma,sans-serif}
 button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-.card{position:relative;width:100%;max-width:460px;background:var(--sf);border:1px solid var(--ln);border-radius:32px;padding:34px 28px 28px;box-shadow:var(--sh);animation:pop .3s}
-@keyframes pop{from{transform:translateY(14px);opacity:0}}
-.x{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;border:1px solid var(--ln);background:var(--bg);display:grid;place-items:center;font-size:24px;line-height:1;cursor:pointer;text-decoration:none;color:var(--ink)}
-.x:hover{background:var(--bg2)}
+@keyframes sp{to{transform:rotate(360deg)}}@keyframes flt{50%{transform:translateY(-16px) rotate(3deg)}}@keyframes pop{from{transform:translateY(14px);opacity:0}}@keyframes pls{50%{transform:scale(1.5);opacity:.35}}
+/* خلفية: حروف عربية عايمة + نقط */
+.bgfx{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bgfx:before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,rgba(201,138,31,.28) 1.4px,transparent 1.6px);background-size:26px 26px;opacity:.45;-webkit-mask-image:linear-gradient(#000,transparent 75%);mask-image:linear-gradient(#000,transparent 75%)}
+.bgfx span{position:absolute;font:700 220px/1 'Aref Ruqaa',serif;color:var(--pri);opacity:.055;animation:flt 14s ease-in-out infinite}
+.bgfx span:nth-child(1){top:-20px;right:3%}.bgfx span:nth-child(2){bottom:-40px;right:30%;font-size:170px;animation-delay:-4s}.bgfx span:nth-child(3){top:38%;left:2%;font-size:150px;animation-delay:-7s}.bgfx span:nth-child(4){top:-30px;left:34%;font-size:130px;animation-delay:-10s}
+.stage{position:relative;z-index:1;width:100%;max-width:1100px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,460px);gap:30px;align-items:center}
+/* لوحة الأبواب (الصورة كاملة) */
+.vis{position:relative;border-radius:34px;overflow:hidden;box-shadow:0 26px 60px rgba(14,60,56,.3);background:#0d3a40;animation:pop .5s}
+.vis img{display:block;width:100%;height:auto}
+.vis .kg{position:absolute;left:58%;top:30%;width:15%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(255,226,140,.55),transparent 65%);animation:pls 2.6s ease-in-out infinite}
+.vis .cap{position:absolute;left:16px;bottom:16px;max-width:60%;padding:16px 20px;border-radius:24px;background:rgba(6,28,34,.62);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);color:#fff}
+.vis .cap b{display:block;font:700 clamp(18px,2.2vw,26px)/1.35 'Reem Kufi','Readex Pro',sans-serif}.vis .cap span{font-size:14px;opacity:.9}
+/* كارت الدخول */
+.card{position:relative;width:100%;max-width:460px;justify-self:center;background:color-mix(in srgb,var(--sf) 94%,transparent);backdrop-filter:blur(10px);border:1px solid var(--ln);border-radius:34px;padding:34px 28px 28px;box-shadow:var(--sh);animation:pop .4s;overflow:hidden}
+.card:before{content:"";position:absolute;top:0;right:28px;left:28px;height:3px;border-radius:0 0 4px 4px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.x{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;border:1px solid var(--ln);background:var(--bg);display:grid;place-items:center;font-size:24px;line-height:1;cursor:pointer;text-decoration:none;color:var(--ink);transition:.2s}
+.x:hover{background:var(--bg2);transform:rotate(90deg)}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;margin-bottom:18px}
 .logo i{width:42px;height:42px;border-radius:50%;background:var(--pri);color:var(--onpri);display:grid;place-items:center;font:700 26px/1 'Aref Ruqaa',serif;font-style:normal;padding-bottom:6px}
 .lg{font:700 27px/1.05 'Aref Ruqaa',serif;display:flex;flex-direction:column}
 .lg small{font:500 11px 'Reem Kufi',sans-serif;color:var(--gold);letter-spacing:.35em}
-h1{font:700 28px/1.4 'Reem Kufi','Readex Pro',sans-serif}
+h1{font:700 30px/1.4 'Reem Kufi','Readex Pro',sans-serif}
 p.s{color:var(--mut);margin-bottom:18px}
-.tabs{display:flex;background:var(--bg2);border-radius:99px;padding:4px;margin-bottom:18px}
-.tabs a{flex:1;text-align:center;border-radius:99px;padding:7px 4px;font-weight:600;font-size:14px;text-decoration:none;color:var(--mut)}
-.tabs a.on{background:var(--pri);color:var(--onpri)}
+.tabs{display:flex;background:var(--bg2);border-radius:99px;padding:4px;margin-bottom:20px}
+.tabs a{flex:1;text-align:center;border-radius:99px;padding:7px 4px;font-weight:600;font-size:14px;text-decoration:none;color:var(--mut);transition:.2s}
+.tabs a.on{background:var(--pri);color:var(--onpri);box-shadow:0 6px 16px rgba(31,58,95,.28)}
 label{display:block;font-size:14px;margin:12px 0 4px;font-weight:500}
-input,select{width:100%;padding:12px 16px;border-radius:14px;border:1.5px solid var(--ln);background:var(--bg)}
+input,select{width:100%;padding:13px 16px;border-radius:16px;border:1.5px solid var(--ln);background:var(--bg);transition:.2s}
+input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,138,31,.16);outline:0}
 input.bad{border-color:#C0473A}
 .err{color:#C0473A;font-size:13px;min-height:20px;margin-top:6px}
-.go{width:100%;margin-top:10px;border:0;border-radius:99px;padding:13px;font-weight:600;background:var(--pri);color:var(--onpri);cursor:pointer}
+.go{width:100%;margin-top:10px;border:0;border-radius:99px;padding:14px;font-weight:700;font-size:17px;background:linear-gradient(135deg,#F0C46E,#C98A1F);color:#1B1405;cursor:pointer;box-shadow:0 10px 24px rgba(201,138,31,.38);transition:.2s}
+.go:hover{transform:translateY(-2px)}.go:disabled{opacity:.6;cursor:wait;transform:none}
 .ft{text-align:center;margin-top:16px;color:var(--mut);font-size:14px}.ft a{color:var(--ink);font-weight:600}
-.ok{display:none;text-align:center;padding:20px 0}.ok b{display:block;font:700 22px 'Reem Kufi';margin:8px 0}
+/* حالة نجاح الدخول: بوصلة بتلف */
+.ok{display:none;text-align:center;padding:14px 0 6px}.ok b{display:block;font:700 24px 'Reem Kufi','Readex Pro',sans-serif;margin:6px 0}
+.cmp{width:min(190px,56vw);aspect-ratio:1;margin:0 auto 6px;filter:drop-shadow(0 16px 28px rgba(201,138,31,.28))}.cmp svg{width:100%;height:100%;display:block}
+.cmp .r1{transform-origin:200px 200px;animation:sp 6s linear infinite}.cmp .r2{transform-origin:200px 200px;animation:sp 3.2s linear infinite reverse}
+@media(max-width:900px){.stage{grid-template-columns:1fr}.vis{display:none}.card{padding:30px 22px 24px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style><style>.lw-d{display:none}:root[data-theme=dark] .lw-l{display:none}:root[data-theme=dark] .lw-d{display:block}.logo img.lw-l,.logo img.lw-d{height:var(--lh,56px);width:auto}.logo img.ft{height:120px;width:auto;display:block}.pw{position:relative}.pw input{padding-left:64px}.pw .eye{position:absolute;left:8px;top:50%;transform:translateY(-50%);background:none;border:0;padding:6px 8px;font-size:13px;color:var(--mut);cursor:pointer;border-radius:8px}.fgp{margin-top:6px;font-size:13px}.fgp a{color:var(--mut);font-weight:600;text-decoration:underline}</style></head><body>
+<div class="bgfx" aria-hidden="true"><span>ع</span><span>ر</span><span>ب</span><span>ي</span></div>
+<div class="stage">
+<aside class="vis" aria-hidden="true"><img src="doors.webp" alt="" width="1100" height="614"><i class="kg"></i><div class="cap"><b>كل كورس بيفتحلك باب جديد</b><span>سجّل دخولك وكمّل رحلتك من حيث وقفت</span></div></aside>
 <main class="card">
 <a class="x" id="x" href="index.html" aria-label="إغلاق">×</a>
 <a class="logo" href="index.html" aria-label="منصة ابن رشدي"><img class="lw-l" src="logo-wide.png" alt="منصة ابن رشدي"><img class="lw-d" src="logo-wide-dark.png" alt="" aria-hidden="true"></a>
@@ -38,6 +64,11 @@ input.bad{border-color:#C0473A}
 <div id="fm"><h1>تسجيل الدخول</h1><p class="s">أهلاً بيك تاني، كمّل من حيث وقفت.</p>
 <form id="f" data-mode="login" novalidate><label for="p">رقم الموبايل</label><input id="p" type="tel" data-v="phone" dir="ltr" inputmode="tel" autocomplete="tel" placeholder="01xxxxxxxxx"><label for="w">كلمة المرور</label><input id="w" type="password" data-v="pass" autocomplete="current-password" placeholder=""><div class="fgp"><a href="forgot.html">نسيت كلمة المرور؟</a></div><div id="cf" style="margin:10px 0"></div><div class="err" id="er" role="alert"></div><button class="go" type="submit">سجّل دخولك</button></form>
 <div class="ft">لسه معندكش حساب؟ <a href="register.html">أنشئ حساب</a><br>ولي أمر؟ <a href="parent.html">سجّل من هنا</a></div></div>
-<div class="ok" id="ok"><div style="font-size:44px">✓</div><b>تم تسجيل الدخول</b><p class="s">جاري تحويلك للمنصة...</p></div>
+<div class="ok" id="ok"><div class="cmp"><svg viewBox="0 0 400 400" aria-hidden="true"><defs><radialGradient id="cg"><stop offset="0" stop-color="var(--sage)"/><stop offset="1" stop-color="var(--bg)"/></radialGradient></defs>
+<circle cx="200" cy="200" r="190" fill="url(#cg)"/>
+<g class="r1" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="200" cy="200" r="170" stroke-dasharray="3 9"/><circle cx="200" cy="200" r="150"/><g><line x1="200" y1="44" x2="200" y2="57" transform="rotate(0 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(10 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(20 200 200)"/><line x1="200" y1="44" x2="200" y2="57" transform="rotate(30 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(40 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(50 200 200)"/><line x1="200" y1="44" x2="200" y2="57" transform="rotate(60 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(70 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(80 200 200)"/><line x1="200" y1="44" x2="200" y2="57" transform="rotate(90 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(100 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(110 200 200)"/><line x1="200" y1="44" x2="200" y2="57" transform="rotate(120 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(130 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(140 200 200)"/><line x1="200" y1="44" x2="200" y2="57" transform="rotate(150 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(160 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(170 200 200)"/><line x1="200" y1="44" x2="200" y2="57" transform="rotate(180 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(190 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(200 200 200)"/><line x1="200" y1="44" x2="200" y2="57" transform="rotate(210 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(220 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(230 200 200)"/><line x1="200" y1="44" x2="200" y2="57" transform="rotate(240 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(250 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(260 200 200)"/><line x1="200" y1="44" x2="200" y2="57" transform="rotate(270 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(280 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(290 200 200)"/><line x1="200" y1="44" x2="200" y2="57" transform="rotate(300 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(310 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(320 200 200)"/><line x1="200" y1="44" x2="200" y2="57" transform="rotate(330 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(340 200 200)"/><line x1="200" y1="44" x2="200" y2="50" transform="rotate(350 200 200)"/></g></g>
+<g class="r2" fill="none" stroke="var(--pri)" stroke-width="2.5"><circle cx="200" cy="200" r="110"/><path d="M200 90 L215 200 L200 310 L185 200Z" fill="var(--pri)" opacity=".15"/><path d="M90 200H310"/><circle cx="200" cy="90" r="9" fill="var(--gold)" stroke="none"/><circle cx="310" cy="200" r="7" fill="var(--pri)" stroke="none"/></g>
+<circle cx="200" cy="200" r="30" fill="var(--pri)"/><text x="200" y="215" text-anchor="middle" font-family="Aref Ruqaa,serif" font-size="42" font-weight="700" fill="var(--onpri)">ع</text></svg></div><b>تم تسجيل الدخول</b><p class="s">جاري تحويلك للمنصة...</p></div>
 </main>
+</div>
 <script src="pw.js?v=2" defer></script><script src="supabase.js"></script><script src="config.js"></script><script src="auth.js" defer></script></body></html>
