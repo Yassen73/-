@@ -97,7 +97,7 @@ let AVI=(()=>{let s=me.avatar;try{if(s==null)s=localStorage.getItem('av_'+me.id)
 const setMc=()=>{$('#mc').innerHTML=avSvg(AVI)+'<span>'+esc(first)+'</span>'};
 
 /* ===== الوضع الليلي ===== */
-const applyTh=()=>{const d=root.dataset.theme==='dark';$('#th').innerHTML=ic(d?'sun':'moon');$('#th2').innerHTML=ic(d?'sun':'moon')+'<span>'+(d?'الوضع الفاتح':'الوضع الداكن')+'</span>';$$('[data-th]').forEach(b=>b.innerHTML=ic(d?'sun':'moon')+' تبديل الوضع');const m=document.querySelector('meta[name=theme-color]');if(m)m.content=d?'#0F1522':'#1F3A5F'};
+const applyTh=()=>{const d=root.dataset.theme==='dark';const t1=$('#th');if(t1)t1.innerHTML=ic(d?'sun':'moon');const t2=$('#th2');if(t2)t2.innerHTML=ic(d?'sun':'moon')+'<span>'+(d?'الوضع الفاتح':'الوضع الداكن')+'</span>';$$('[data-th]').forEach(b=>b.innerHTML=ic(d?'sun':'moon')+' تبديل الوضع');const m=document.querySelector('meta[name=theme-color]');if(m)m.content=d?'#0F1522':'#1F3A5F'};
 const toggleTh=()=>{root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('th',root.dataset.theme)}catch(e){}applyTh()};
 
 /* ===== أدوات: توست ونافذة ===== */
@@ -207,6 +207,6 @@ async function show(k){CUR=k;clearT();$$('.nv[data-n]').forEach(b=>b.classList.t
  $$('[data-ap]').forEach(b=>b.onclick=async()=>{b.disabled=true;await sb.from('parent_links').update({status:'approved'}).eq('parent_id',b.dataset.ap).eq('student_id',me.id);location.reload()});
  const o=$('#o2');if(o)o.onclick=out;$$('[data-go]').forEach(b=>b.onclick=()=>document.querySelector('.nv[data-n="'+b.dataset.go+'"]').click());$$('[data-cp]').forEach(b=>b.onclick=()=>{try{navigator.clipboard.writeText(b.dataset.cp)}catch(e){}b.textContent='اتنسخ ✓'});$$('[data-th]').forEach(b=>b.onclick=toggleTh);applyTh();$$('[data-wal]').forEach(b=>b.onclick=openTopup);$$('[data-av]').forEach(b=>b.onclick=openAv);$$('[data-rc]').forEach(b=>b.onclick=async()=>{const v=b.parentElement.querySelector('input').value.trim();if(!v)return;b.disabled=true;const r=await sb.rpc('redeem_code',{p_code:v});b.disabled=false;const d=r.data;if(r.error||!d)return toast('حصلت مشكلة، جرّب تاني.');if(d.ok){toast('تم التفعيل: '+d.t+' ✅');setTimeout(()=>location.reload(),900)}else toast(d.r==='too_many'?'محاولات كتير، استنى 10 دقايق.':'الكود غلط.')})}
 $$('.nv[data-n]').forEach(b=>b.onclick=()=>{show(b.dataset.n);history.replaceState(0,'','#'+b.dataset.n)});
-$('#th').onclick=toggleTh;$('#th2').onclick=toggleTh;
+{const t1=$('#th'),t2=$('#th2');if(t1)t1.onclick=toggleTh;if(t2)t2.onclick=toggleTh}
 show(V[location.hash.slice(1)]&&N.some(n=>n[0]===location.hash.slice(1))?location.hash.slice(1):'home');
 })().catch(e=>{console.error('DASH ERROR:',e);const v=document.querySelector("#v");window.__err=(e&&(e.stack||e.message))||String(e);if(v)v.innerHTML='<div class="emp"><div class="edoor" aria-hidden="true"></div><h3>اوبس! حصلت مشكلة 😅</h3><p class="mt" style="margin:6px 0 16px">غالبًا النت ضعيف. حدّث الصفحة وهتتحل.</p><button class="btn gld" id="rl">حدّث الصفحة</button><pre dir="ltr" style="margin-top:16px;padding:12px;font-size:12px;white-space:pre-wrap;word-break:break-all;text-align:left;background:rgba(0,0,0,.35);border-radius:12px;color:#ffb4a8">'+String(window.__err).replace(/</g,'&lt;').slice(0,600)+'</pre></div>';const b=document.getElementById('rl');if(b)b.onclick=()=>location.reload()});
