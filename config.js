@@ -5,3 +5,6 @@ const SB_KEY = 'sb_publishable_BNa7U9vB8kY1myFvEnW9Mg_KZfah44K';
 const TURNSTILE_SITE_KEY = '0x4AAAAAAFT-wV5m0gEbuj1d';
 // الإيميل الداخلي المشتق من رقم الموبايل (مفيش رسايل بتتبعت عليه). لازم يطابق الـ SQL.
 const PHONE_EMAIL_DOMAIN = 'phone.ibnrushdy.app';
+
+// رابط الـ Edge Function اللي بتبعت رابط تغيير كلمة المرور (الأدمن بيستخدمه)
+const RESET_FN_URL = 'https://btviglpxeukwypkantqi.supabase.co/functions/v1/request-reset-gmail';

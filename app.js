@@ -10,33 +10,42 @@ const{data:me}=await sb.from('profiles').select('*').eq('id',session.user.id).si
 if(!me){await sb.auth.signOut();return go()}
 const parent=me.role==='parent',first=me.full_name.split(' ')[0];
 const[{data:cs},{data:links}]=await Promise.all([sb.from('courses').select('*').order('created_at'),sb.from('parent_links').select('*')]);
-const courses=cs||[],L=links||[];let enr=[],kids=[],pend=[];
+const allC=cs||[],L=links||[];let enr=[],kids=[],pend=[];
 if(parent){const ok=L.filter(l=>l.status==='approved').map(l=>l.student_id);
- if(ok.length){kids=(await sb.from('profiles').select('id,full_name,grade').in('id',ok)).data||[];enr=(await sb.from('enrollments').select('*').in('student_id',ok)).data||[]}}
+ if(ok.length){kids=(await sb.from('profiles').select('id,full_name,grade,track').in('id',ok)).data||[];enr=(await sb.from('enrollments').select('*').in('student_id',ok)).data||[]}}
 else{enr=(await sb.from('enrollments').select('*')).data||[];
  const p=L.filter(l=>l.status==='pending'&&l.student_id===me.id).map(l=>l.parent_id);
  if(p.length)pend=(await sb.from('profiles').select('id,full_name').in('id',p)).data||[]}
 const mine=new Set(enr.filter(e=>e.student_id===me.id).map(e=>e.course_id));
-const cg=c=>Array.isArray(c.grades)&&c.grades.length?c.grades:[c.grade];
-const fit=c=>{const g=cg(c).filter(Boolean),t=Array.isArray(c.tracks)?c.tracks:[];return(parent||!g.length||g.includes(me.grade))&&(!t.length||!me.track||t.includes(me.track))};
+const SEC=['الصف الأول الثانوي','الصف الثاني الثانوي'];
+const cg=c=>Array.isArray(c.grades)&&c.grades.length?c.grades.filter(Boolean):(c.grade?[c.grade]:[]);
+/* مطابقة صارمة: المرحلة لازم تطابق، ولو المحتوى محدد مسارات فالطالب لازم يكون ثانوي وفي نفس المسار بالظبط */
+const fitFor=(c,g,t)=>{const gs=cg(c),ts=Array.isArray(c.tracks)?c.tracks:[];if(gs.length&&!gs.includes(g))return false;if(ts.length&&!(SEC.includes(g)&&ts.includes(t)))return false;return true};
+const fit=c=>parent?kids.some(k=>fitFor(c,k.grade,k.track)):fitFor(c,me.grade,me.track);
+const noTrack=!parent&&SEC.includes(me.grade)&&!me.track;
+const courses=allC.filter(c=>enr.some(e=>e.course_id===c.id&&(parent||e.student_id===me.id))||fit(c));
 const RC='<div class="card rc"><b>🔑 عندك كود كورس أو حصة؟</b><div class="phn"><input placeholder="اكتب الكود هنا" dir="ltr" maxlength="24" style="margin:0;flex:1"><button class="btn gld" data-rc>تفعيل</button></div></div>';
 const sf=async p=>{try{const r=await p;return r.error?[]:r.data||[]}catch(e){return[]}};
-let EX=[],EA=[],WR=[],TU=[],wal=0,CUR='home';
+let EX=[],EA=[],WR=[],TU=[],wal=0,CUR='home',AN=[],PAYS=[['فودافون كاش','01000000000'],['انستا باي','yourname@instapay']];
 if(!parent){[EX,EA,WR,TU]=await Promise.all([sf(sb.from('exams').select('*').order('created_at',{ascending:false})),sf(sb.from('exam_attempts').select('*').eq('student_id',me.id)),sf(sb.from('wrong_questions').select('*').eq('student_id',me.id).order('created_at',{ascending:false})),sf(sb.from('wallet_topups').select('*').eq('student_id',me.id).order('created_at',{ascending:false}))]);
  EX=EX.filter(x=>x.course_id?mine.has(x.course_id):fit(x)).map(x=>({...x,questions:Array.isArray(x.questions)?x.questions:[]})).filter(x=>x.questions.length&&x.questions.every(q=>q&&q.q&&Array.isArray(q.o)&&q.o.length>1));
- wal=Number((await sf(sb.from('wallets').select('balance').eq('student_id',me.id)))[0]?.balance)||0}
+ wal=Number((await sf(sb.from('wallets').select('balance').eq('student_id',me.id)))[0]?.balance)||0;
+ const pv=(await sf(sb.from('app_settings').select('value').eq('key','pay_methods')))[0]?.value;
+ if(Array.isArray(pv)&&pv.length&&pv.every(x=>Array.isArray(x)&&x[0]&&x[1]))PAYS=pv.map(x=>[String(x[0]),String(x[1])])}
+AN=(await sf(sb.from('announcements').select('*').eq('active',true).order('created_at',{ascending:false}).limit(8))).filter(fit).slice(0,3);
 const WRQ=()=>WR.map(w=>{const x=EX.find(e=>String(e.id)===String(w.exam_id)),q=x&&x.questions[w.qidx];return q?{...q,ex:w.exam_id,i:w.qidx}:null}).filter(Boolean);
 
 /* ألوان خلفيات الكورسات: نفس صورة المستر بخلفية مختلفة لكل باب */
 const PAL=[['#FF8A1F','#E2431F','#1B2B4E'],['#8E2DE2','#E9449F','#FFD34D'],['#0E7FD6','#1CC1E6','#FF9F1C'],['#D8A33A','#7A5412','#2A1A07'],['#F6A6C1','#E8708F','#7A1F4B'],['#1F8A5B','#0E5A45','#CFF1D8'],['#5B3BD0','#2A1B7A','#FFC857'],['#F3D9A4','#E0B26A','#D2552B']];
 const LET=['ع','ر','ب','ي','ن','ح','ك','ل'];
+const gl=c=>{const g=cg(c).map(x=>x.replace('الصف ','')),t=Array.isArray(c.tracks)?c.tracks:[];return(g.length?g.join('، '):'كل المراحل')+(t.length&&t.length<3?' · '+t.join('، '):'')};
 const pct=(e,c)=>c&&c.lessons_count?Math.min(100,Math.round((e.lessons_done||0)/c.lessons_count*100)):0;
 const ring=(p,s=130)=>{const r=42,c=2*Math.PI*r;return`<div class="ring"><svg width="${s}" height="${s}" viewBox="0 0 100 100"><circle cx="50" cy="50" r="${r}" fill="none" stroke="var(--bg2)" stroke-width="10"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="var(--gold)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p/100)}" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset 1.2s"/></svg><b>${p}%</b></div>`};
 const bar=(t,p)=>`<div class="bw"><div class="bwh"><span>${esc(t)}</span><b>${p}%</b></div><div class="pb"><i style="width:${p}%"></i></div></div>`;
 
 /* ===== كارت الكورس = باب ===== */
 const door=(c,i,k)=>{const e=enr.find(x=>x.student_id===me.id&&x.course_id===c.id),p=e?pct(e,c):0,q=PAL[i%PAL.length];
- return`<article class="dc" style="--a:${q[0]};--b:${q[1]};--c:${q[2]};--k:${k}"><div class="dca"><span class="dc-l" aria-hidden="true">${LET[i%LET.length]}</span><i class="dc-c"></i><img class="dc-t" src="teacher-cut.webp" alt="" loading="lazy" draggable="false"><span class="gb">${esc(String(c.grade||'').replace('الصف ',''))}</span>${e?'<span class="gb ok">مشترك ✓</span>':''}</div><div class="dcb"><h3>${esc(c.title)}</h3><p class="mt cl2">${esc(c.description)}</p><div class="mt2"><span>${ic('book')} ${c.lessons_count} درس</span><span>${ic('clock')} في أي وقت</span></div>${e?`${bar('تقدّمك',p)}<button class="btn gld" disabled style="width:100%">${ic('play')} ابدأ التعلم (قريباً)</button>`:`<div class="pr"><b>${c.price} <small>ج.م</small></b>${parent?'':'<button class="btn gld" disabled>الاشتراك قريباً</button>'}</div>`}</div></article>`};
+ return`<article class="dc" style="--a:${q[0]};--b:${q[1]};--c:${q[2]};--k:${k}"><div class="dca"><span class="dc-l" aria-hidden="true">${LET[i%LET.length]}</span><i class="dc-c"></i><img class="dc-t" src="teacher-cut.webp" alt="" loading="lazy" draggable="false"><span class="gb" style="max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(gl(c))}</span>${e?'<span class="gb ok">مشترك ✓</span>':''}</div><div class="dcb"><h3>${esc(c.title)}</h3><p class="mt cl2">${esc(c.description)}</p><div class="mt2"><span>${ic('book')} ${c.lessons_count} درس</span><span>${ic('clock')} في أي وقت</span></div>${e?`${bar('تقدّمك',p)}<button class="btn gld" disabled style="width:100%">${ic('play')} ابدأ التعلم (قريباً)</button>`:`<div class="pr"><b>${c.price} <small>ج.م</small></b>${parent?'':'<button class="btn gld" disabled>الاشتراك قريباً</button>'}</div>`}</div></article>`};
 
 /* ===== شريط الكورسات الأفقي (من اليمين للشمال) ===== */
 const RAIL=l=>`<div class="rw"><button class="ra l" data-rn="-1" aria-label="التالي">${ic('arr')}</button><button class="ra r" data-rn="1" aria-label="السابق">${ic('arr')}</button><div class="rail" tabindex="0">${l}</div><div class="rp"><i></i></div></div>`;
@@ -68,7 +77,7 @@ const stat=(n,l,t,i)=>`<div class="card sc"><div class="bx ${t}">${ic(i)}</div><
 const STAR=`<svg class="hstar" viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="#E3B25A" stroke-width=".5"><rect x="24" y="24" width="52" height="52"/><rect x="24" y="24" width="52" height="52" transform="rotate(45 50 50)"/><circle cx="50" cy="50" r="13"/><circle cx="50" cy="50" r="38"/><circle cx="50" cy="50" r="47" stroke-dasharray="1 2"/></g></svg>`;
 
 /* ===== أرقام استلام الشحن: عدّل الأرقام دي بأرقامك ===== */
-const PAYS=[['فودافون كاش','01000000000'],['انستا باي','yourname@instapay']];
+
 
 /* ===== صور الطلاب (رسومات كرتونية) ===== */
 const AVS=[{s:'#F1C7A0',h:'#2A1B12',c:'#1F3A5F',t:0},{s:'#E8B98C',h:'#1B1B1F',c:'#2E7D4F',t:0,g:1},{s:'#C98F63',h:'#2A1B12',c:'#C98A1F',t:2},{s:'#F1C7A0',h:'#5A3418',c:'#8A5FD0',t:3},{s:'#F1C7A0',h:'#C2456F',c:'#E8708F',t:4},{s:'#D9A57A',h:'#1F6F6A',c:'#16897F',t:4,g:1},{s:'#F4D2B0',h:'#3A2314',c:'#0E7FD6',t:5},{s:'#C98F63',h:'#1B1B1F',c:'#E2431F',t:6}];
@@ -142,6 +151,7 @@ home(){const my=courses.map((c,i)=>[c,i]).filter(([c])=>mine.has(c.id)),myE=enr.
  const dt=new Date().toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'long'}),rec=courses.map((c,i)=>[c,i]).filter(([c])=>!mine.has(c.id)&&fit(c));
  const cp=parent?[['أبناء مرتبطين','👨‍👩‍👧 '+kids.length],['اشتراكات','🎓 '+enr.length]]:[['يوم معانا','🔥 '+days],['دروس خلّصتها','✓ '+done]];
  let h=`<section class="hero2"><div class="hfx" aria-hidden="true"><span>ع</span><span>ر</span><span>ب</span><span>ي</span></div>${STAR}<div class="hg2"><div class="htx"><span class="tag2">${dt}</span><h1>${greet}<br>يا <em>${esc(first)}</em> 👋</h1><p class="lead2">${parent?'تابع مستوى أبنائك وتقدّمهم خطوة بخطوة.':esc(me.grade)+' · كمّل رحلتك مع ابن رشدي، خطوة كل يوم توصلك.'}</p><div class="cta2"><button class="btn gld" data-go="${!parent&&my.length?'mine':'all'}">${!parent&&my.length?'كمّل التعلم':'تصفّح الكورسات'} ${ic('arr')}</button><button class="btn gh" data-go="support">محتاج مساعدة؟</button></div></div><div class="hch">${cp.map(x=>`<div class="gc">${x[0]}<b>${x[1]}</b></div>`).join('')}</div></div></section>`;
+ h+=(noTrack?'<div class="card pnd"><span>⚠️ <b>مسارك لسه ما اتحددش</b> فبتشوف المحتوى العام بس. كلّم الدعم يحدد لك مسارك (عام / بكالوريا / أزهر).</span><button class="btn gld" data-go="support">كلّم الدعم</button></div>':'')+AN.map(a=>`<div class="card pnd"><span><b>📣 ${esc(a.title)}</b>${a.body?'<br><span class="mt">'+esc(a.body)+'</span>':''}</span></div>`).join('');
  h+=pend.map(p=>`<div class="card pnd"><span><b>${esc(p.full_name)}</b> طلب يربط حسابه كولي أمر لحسابك.</span> <button class="btn p" data-ap="${esc(p.id)}">موافقة</button></div>`).join('');
  h+=(parent?'':RC)+`<div class="st">${parent?stat(kids.length,'أبناء مرتبطين','t1','user')+stat(enr.length,'اشتراكات','t2','cap'):stat(myE.length,'كورساتي','t1','cap')+stat(done,'دروس خلّصتها','t2','check')}${stat(courses.length,'كورسات متاحة','t3','book')+stat(days,'يوم معانا','t4','home')}</div>`;
  const bot=`<div class="g2b"><div class="card qt"><span class="qm" aria-hidden="true">”</span>${ORN}<p>${QS[new Date().getDate()%QS.length]}</p><small>حكمة اليوم</small></div>${parent?'<div class="card pl"><div class="pic" aria-hidden="true">💬</div><h3>محتاج مساعدة؟</h3><p class="mt">فريق الدعم بيرد عليك في أقل من 24 ساعة.</p><button class="btn gld" style="margin-top:14px" data-go="support">كلّمنا</button></div>':`<div class="card pl"><div class="pic" aria-hidden="true">👨‍👩‍👧</div><h3>خلّي ولي أمرك يتابعك</h3><p class="mt">ولي أمرك بيسجّل من صفحة "ولي أمر" برقم موبايلك، وبعدها توافق على الربط من هنا.</p><div class="phn"><b dir="ltr">${esc(me.phone)}</b><button class="btn" data-cp="${esc(me.phone)}">نسخ الرقم</button></div><a class="btn gld" href="parent.html">صفحة ولي الأمر</a></div>`}</div>`;
@@ -153,8 +163,8 @@ home(){const my=courses.map((c,i)=>[c,i]).filter(([c])=>mine.has(c.id)),myE=enr.
  h+=(!parent&&WRQ().length?`<div class="card cont" style="margin-bottom:14px"><div class="ct"><span class="tag3">مراجعة سريعة</span><h3>${WRQ().length} سؤال محتاج مراجعة</h3><p class="mt">اعمل امتحان من أخطائك وثبّت المعلومة.</p></div><button class="btn gld" data-go="exams">${ic('retry')} راجع دلوقتي</button></div>`:'')+recH;
  h+=`<div class="card jr"><h3 class="sh">رحلتك مع ابن رشدي</h3><div class="road">${sp.map((x,i)=>`<div class="stn ${x[2]?'ok':i===cur?'now':''}"><b>${x[2]?'✓':i+1}</b><h4>${x[0]}</h4><p>${x[1]}</p></div>`).join('')}</div></div>`;
  return h+bot},
-all(){const gs=[...new Set(courses.flatMap(cg))].filter(Boolean);let g=parent?'الكل':me.grade,q='';if(!gs.includes(g))g='الكل';
- const draw=()=>{const l=courses.map((c,i)=>[c,i]).filter(([c])=>(g==='الكل'||cg(c).includes(g))&&(c.title+c.description).includes(q));
+all(){const gs=[...new Set(courses.flatMap(cg))].filter(x=>x&&(parent||x===me.grade));let g=parent?'الكل':me.grade,q='';if(!gs.includes(g))g='الكل';
+ const draw=()=>{const l=courses.map((c,i)=>[c,i]).filter(([c])=>(g==='الكل'||!cg(c).length||cg(c).includes(g))&&(c.title+c.description).includes(q));
   $('#v').innerHTML=PG('pg-all','بوابة الأبواب','كل الكورسات','اختار اللي يناسب مرحلتك وافتح بابك النهاردة 🚀','ب')+`<div class="sbx">${ic('search')}<input id="q" placeholder="ابحث عن كورس..." value="${esc(q)}"></div><div class="chs">${['الكل',...gs].map(x=>`<button class="chp ${x===g?'on':''}" data-g="${esc(x)}">${esc(x.replace('الصف ',''))}</button>`).join('')}</div><p class="cnt">${l.length} كورس متاح <span class="shl">اسحب ←</span></p>${l.length?RAIL(l.map(([c,i],k)=>door(c,i,k)).join('')):EMP('مفيش كورسات هنا لسه','بنجهّز لك حاجات حلوة، خليك قريب 😉')}`;
   $$('[data-g]').forEach(b=>b.onclick=()=>{g=b.dataset.g;draw()});const i=$('#q');i.oninput=()=>{q=i.value.trim();draw();const n=$('#q');n.focus();n.setSelectionRange(q.length,q.length)};rails()};return draw},
 mine(){const my=courses.map((c,i)=>[c,i]).filter(([c])=>mine.has(c.id)),myE=enr.filter(e=>e.student_id===me.id),done=myE.reduce((a,e)=>a+(e.lessons_done||0),0),avg=my.length?Math.round(my.reduce((a,[c])=>a+pct(myE.find(e=>e.course_id===c.id),c),0)/my.length):0;
@@ -199,4 +209,4 @@ async function show(k){CUR=k;clearT();$$('.nv[data-n]').forEach(b=>b.classList.t
 $$('.nv[data-n]').forEach(b=>b.onclick=()=>{show(b.dataset.n);history.replaceState(0,'','#'+b.dataset.n)});
 $('#th').onclick=toggleTh;$('#th2').onclick=toggleTh;
 show(V[location.hash.slice(1)]&&N.some(n=>n[0]===location.hash.slice(1))?location.hash.slice(1):'home');
-})().catch(()=>{const v=document.querySelector("#v");if(v)v.innerHTML='<div class="emp"><div class="edoor" aria-hidden="true"></div><h3>اوبس! حصلت مشكلة 😅</h3><p class="mt" style="margin:6px 0 16px">غالبًا النت ضعيف. حدّث الصفحة وهتتحل.</p><button class="btn gld" onclick="location.reload()">حدّث الصفحة</button></div>'});
+})().catch(()=>{const v=document.querySelector("#v");if(v)v.innerHTML='<div class="emp"><div class="edoor" aria-hidden="true"></div><h3>اوبس! حصلت مشكلة 😅</h3><p class="mt" style="margin:6px 0 16px">غالبًا النت ضعيف. حدّث الصفحة وهتتحل.</p><button class="btn gld" id="rl">حدّث الصفحة</button></div>';const b=document.getElementById('rl');if(b)b.onclick=()=>location.reload()});
