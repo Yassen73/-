@@ -75,7 +75,8 @@ async function submit(){
  const stg=val('st'),gc=gcode(),p=np(val('p')),mp=np(val('mp')),fp=np(val('fp'));
  const data={role:'student',full_name:cl(val('n')),father_name:cl(val('fn')),grandfather_name:cl(val('gn')),governorate:val('gv'),
   contact_email:cl(val('em')).toLowerCase(),phone:p,whatsapp:waOn()?np(val('wa')):p,mother_phone:mp,father_phone:fp,parent_phone:fp||mp,
-  stage:stg,grade_code:gc,grade:ST[stg][1].find(x=>x[0]===gc)[1]};
+  stage:stg,grade_code:gc,grade:stg==='sec'?'الصف '+(gc[1]==='1'?'الأول':'الثاني')+' الثانوي':ST[stg][1].find(x=>x[0]===gc)[1]};
+ if(stg==='sec')data.track={b:'بكالوريا',a:'أزهر',g:'عام'}[gc[2]];
  let res;
  try{res=await A.sb.auth.signUp({email:A.toEmail(p),password:val('w'),options:{captchaToken:A.getCf()||undefined,data}})}catch(x){res={error:x}}
  busy=false;$('#nx').disabled=false;

@@ -10,6 +10,8 @@ if(!me||me.role!=='admin')return go('dashboard.html');
 const GR=['الصف الرابع الابتدائي','الصف الخامس الابتدائي','الصف السادس الابتدائي','الصف الأول الإعدادي','الصف الثاني الإعدادي','الصف الثالث الإعدادي','الصف الأول الثانوي','الصف الثاني الثانوي'];
 const SECG=GR.slice(6),STG=[['ابتدائي',GR.slice(0,3)],['إعدادي',GR.slice(3,6)],['ثانوي',SECG]],TRK=['عام','بكالوريا','أزهر'];
 const short=g=>String(g||'').replace('الصف ','');
+const NP=p=>{if(!p)return p;let g=String(p.grade||''),t=p.track||null;const m=g.match(/^(?:الصف )?(الأول|الثاني) الثانوي(?:\s*[-–—]\s*(.+))?$/);if(m){g='الصف '+m[1]+' الثانوي';if(!t&&m[2])t=TRK.find(k=>m[2].includes(k))||null}
+ if(!t&&/الثانوي/.test(g)&&/^s[12][bag]$/.test(p.grade_code||''))t={b:'بكالوريا',a:'أزهر',g:'عام'}[p.grade_code[2]];return{...p,grade:g||p.grade,track:t}};
 const GP=(g=[],t=[])=>`<div class="gp"><label class="fl">المراحل (اختار صف أو أكتر، وسيبها فاضية لو للكل)</label>${STG.map(([n,l])=>`<div class="gs"><label class="chk"><input type="checkbox" data-st> <b>كل ${n}</b></label><div class="chs">${l.map(x=>`<label class="chp"><input type="checkbox" name="gr" value="${x}"${g.includes(x)?' checked':''}> ${short(x)}</label>`).join('')}</div></div>`).join('')}<div class="tkw"><label class="fl">المسار (إجباري للثانوي — المحتوى هيظهر لطلاب المسار ده بس)</label><div class="chs">${TRK.map(x=>`<label class="chp"><input type="checkbox" name="tr" value="${x}"${t.includes(x)?' checked':''}> ${x}</label>`).join('')}</div></div></div>`;
 const secOn=m=>[...m.querySelectorAll('[name=gr]:checked')].some(i=>SECG.includes(i.value));
 const GV=m=>({grades:[...m.querySelectorAll('[name=gr]:checked')].map(i=>i.value),tracks:secOn(m)?[...m.querySelectorAll('[name=tr]:checked')].map(i=>i.value):[]});
@@ -20,8 +22,10 @@ const gtxt=(g,t)=>{g=Array.isArray(g)?g:[];t=Array.isArray(t)?t:[];return(g.leng
 /* ===== أدوات عامة ===== */
 const T=t=>{const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),3800)};
 const LS=(t,q)=>sb.rpc('admin_list',{p_table:t}).then(r=>{if(r.error){q||T('خطأ: '+r.error.message);return[]}return r.data||[]});
-const E=async(t,f,q)=>{let r=await LS(t,q),k=null,d=1,n=null;const o={select:()=>o,eq:(a,b)=>{r=r.filter(x=>String(x[a])===String(b));return o},order:(a,p)=>{k=a;d=p&&p.ascending===false?-1:1;return o},limit:x=>{n=x;return o}};f(o);if(k)r=[...r].sort((a,b)=>(a[k]>b[k]?1:a[k]<b[k]?-1:0)*d);return n?r.slice(0,n):r};
+const E=async(t,f,q)=>{let r=await LS(t,q);if(t==='profiles')r=r.map(NP);let k=null,d=1,n=null;const o={select:()=>o,eq:(a,b)=>{r=r.filter(x=>String(x[a])===String(b));return o},order:(a,p)=>{k=a;d=p&&p.ascending===false?-1:1;return o},limit:x=>{n=x;return o}};f(o);if(k)r=[...r].sort((a,b)=>(a[k]>b[k]?1:a[k]<b[k]?-1:0)*d);return n?r.slice(0,n):r};
 const SV=(tb,id,row)=>sb.rpc('admin_save',{p_table:tb,p_id:id==null?null:String(id),p_row:row});
+const SP=async(id,o)=>{const r=await sb.rpc('admin_update_profile',{p_id:String(id),p_row:o});if(r.error&&/Could not find the function|schema cache/i.test(r.error.message||''))return await SV('profiles',id,o);return r};
+const EM=e=>'خطأ: '+(e&&e.message||'')+' — لو الخطأ مستمر شغّل ملف fix_profiles.sql في Supabase.';
 const L=(a,d)=>sb.from('admin_log').insert({admin:me.id,action:a,detail:d});
 const RP=async(n,a)=>{const r=await sb.rpc(n,a);if(r.error){T('خطأ: '+r.error.message);return 0}T('تم ✅');return 1};
 const NEEDSQL=e=>/function|does not exist|schema cache|relation/i.test(e&&e.message||'')?'لازم تشغّل ملف database.sql في Supabase الأول.':'خطأ: '+(e&&e.message||'');
@@ -76,16 +80,17 @@ async function SM(s){const[cs,ls,en,gr,w]=await Promise.all([E('courses',q=>q.se
 ${regCard(s)}
  <div class="acts"><button class="btn sm" data-a="p+">+ نقط</button><button class="btn sm" data-a="p-">− نقط</button><button class="btn sm" data-a="w+">+ رصيد</button><button class="btn sm" data-a="w-">− رصيد</button></div>
  <h4>الباسورد</h4><div class="acts"><button class="btn sm" id="rs">🔑 ابعت رابط تغيير الباسورد</button><button class="btn sm" id="cpn">📋 نسخ الموبايل</button></div>
- <h4>بياناته</h4>${F(F2,{...s,banned:String(!!s.banned)})}<button class="btn gld" id="sv">حفظ البيانات</button>
+ <h4>بياناته</h4>${s.id!==me.id?`<div class="acts"><button class="btn sm ${s.banned?'':'no'}" id="bn">${s.banned?'✅ فك الحظر':'🚫 حظر الحساب'}</button></div>`:''}${F(F2,{...s,banned:String(!!s.banned)})}<button class="btn gld" id="sv">حفظ البيانات</button>
  <h4>الكورسات (فتح / قفل كورس)</h4>${cs.map(x=>{const h=has.has(String(x.id));return`<div class="rw"><span class="gr"><span class="bd g">${esc(x.code||'بدون كود')}</span> ${esc(x.title)}</span><button class="btn sm ${h?'no':''}" data-e="${x.id}" data-o="${h?0:1}">${h?'قفل':'فتح'}</button></div>`}).join('')||'<p class="mt">مفيش كورسات لسه.</p>'}
  <h4>حصص مفتوحة له لوحدها</h4><div class="acts">${ls.filter(l=>gs.has(l.id)).map(l=>`<button class="btn sm" data-g="${l.id}" title="اضغط للقفل">${esc(l.code)} ✕</button>`).join('')||'<span class="mt">مفيش.</span>'}</div>
  <select id="ls">${ls.filter(l=>!gs.has(l.id)).map(l=>`<option value="${l.id}">${esc(l.code)} · ${esc(l.title)}</option>`).join('')}</select><button class="btn" id="gl">فتح الحصة دي</button>`);
  const re=async()=>{c();SM((await E('profiles',q=>q.eq('id',s.id)))[0]||s)};
- m.querySelector('#rs').onclick=()=>sendReset(s);m.querySelector('#cpn').onclick=()=>CP(s.phone||'');m.querySelectorAll('[data-cf]').forEach(b=>b.onclick=()=>CP(b.dataset.cf));
+ const bn=m.querySelector('#bn');if(bn)bn.onclick=async()=>{const nb=!s.banned;if(nb&&!confirm('تحظر '+s.full_name+'؟'))return;const r=await SP(s.id,{banned:nb});if(r.error)return T(EM(r.error));T(nb?'تم الحظر 🚫':'تم فك الحظر ✅');L(nb?'حظر':'فك حظر',s.full_name);re()};
+  m.querySelector('#rs').onclick=()=>sendReset(s);m.querySelector('#cpn').onclick=()=>CP(s.phone||'');m.querySelectorAll('[data-cf]').forEach(b=>b.onclick=()=>CP(b.dataset.cf));
  m.querySelector('#sv').onclick=async()=>{const o=V(m,F2);o.banned=o.banned==='true';o.grade=o.grade||null;o.track=o.track||null;
   if(o.role==='student'&&SECG.includes(o.grade)&&!o.track)return T('اختار المسار للطالب الثانوي.');
   if(!SECG.includes(o.grade))o.track=null;
-  const r=await SV('profiles',s.id,o);if(r.error)return T('خطأ: '+r.error.message);T('تم ✅');L('تعديل بيانات',o.full_name);re()};
+  const r=await SP(s.id,o);if(r.error)return T(EM(r.error));T('تم ✅');L('تعديل بيانات',o.full_name);re()};
  m.addEventListener('click',async e=>{const b=e.target.closest('button'),d=b&&b.dataset;if(!d)return;let ok=0;
   if(d.a){const n=+prompt('كام؟');if(!(n>0))return;const g=d.a[1]==='+'?n:-n,p=d.a[0]==='p';ok=await RP(p?'admin_points':'admin_wallet',{p_student:s.id,p_delta:g});ok&&L(p?'نقط':'رصيد',s.full_name+' '+g)}
   else if(d.e){ok=await RP('admin_enroll',{p_student:s.id,p_course:d.e,p_open:d.o==='1'});ok&&L(d.o==='1'?'فتح كورس':'قفل كورس',s.full_name)}
