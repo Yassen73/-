@@ -15,11 +15,14 @@ const isPh=v=>/^01[0125]\d{8}$/.test(np(v));
 const phV=v=>isPh(v)||'رقم الموبايل لازم يكون 11 رقم ويبدأ بـ 01.';
 const COMMON=['12345678','123456789','1234567890','11111111','password','password1','qwerty123','abc12345','00000000','01234567','a1234567','aa123456'];
 const waOn=()=>!$('#wc').checked;
+const isSec=()=>val('st')==='sec';
+const gcode=()=>isSec()?'s'+val('sg')+val('tr'):val('sg');
 const V={
  n:nameV(3,60),fn:nameV(2,40),gn:nameV(2,40),
  gv:v=>GOV.includes(v)||'اختار المحافظة.',
  st:v=>!!ST[v]||'اختار المرحلة.',
- sg:v=>{const s=ST[val('st')];return(!!s&&s[1].some(x=>x[0]===v))||'اختار الصف.'},
+ sg:v=>{if(isSec())return['1','2'].includes(v)||'اختار الصف.';const s=ST[val('st')];return(!!s&&s[1].some(x=>x[0]===v))||'اختار الصف.'},
+ tr:v=>!isSec()||['b','a','g'].includes(v)||'اختار المسار.',
  em:v=>{v=cl(v).toLowerCase();return(v.length<=120&&/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v))||'اكتب إيميل صحيح.'},
  p:phV,
  wa:v=>!waOn()||phV(v),
@@ -29,7 +32,7 @@ const V={
   for(const k of['p','wa','mp','fp']){const x=np(val(k));if(x&&dig(v).includes(x))return'متحطش رقم موبايل جوه كلمة المرور.'}return true},
  w2:v=>v===val('w')||'كلمتين المرور مش متطابقتين.'
 };
-const S=[['n','fn','gn','gv'],['st','sg'],['em','p','wa','mp','fp'],['w','w2']];
+const S=[['n','fn','gn','gv'],['st','sg','tr'],['em','p','wa','mp','fp'],['w','w2']];
 const parOk=()=>(!!cl(val('mp'))||!!cl(val('fp')))&&V.mp(val('mp'))===true&&V.fp(val('fp'))===true;
 function stepErr(i){
  for(const id of S[i]){const r=V[id](val(id));if(r!==true)return[id,r]}
@@ -38,7 +41,7 @@ function stepErr(i){
   const p=np(val('p'));if(p&&(p===np(val('mp'))||p===np(val('fp'))))return[np(val('mp'))===p?'mp':'fp','رقم ولي الأمر لازم يكون مختلف عن رقم الطالب.']}
  return null}
 function pct(){
- const ids=['n','fn','gn','gv','st','sg','em','p'].concat(waOn()?['wa']:[],['par','w','w2']);
+ const ids=['n','fn','gn','gv','st','sg'].concat(isSec()?['tr']:[],['em','p']).concat(waOn()?['wa']:[],['par','w','w2']);
  const ok=ids.filter(id=>id==='par'?parOk():V[id](val(id))===true).length;
  const t=Math.round(ok/ids.length*100);
  $('#pgf').style.width=t+'%';$('#pgt').textContent=t+'%';$('#pgb').setAttribute('aria-valuenow',t)}
@@ -51,9 +54,13 @@ function flag(x){document.querySelectorAll('.bad').forEach(e=>e.classList.remove
 const opt=(s,v,t)=>{const o=document.createElement('option');o.value=v;o.textContent=t;s.appendChild(o)};
 opt($('#gv'),'','اختار المحافظة');GOV.forEach(g=>opt($('#gv'),g,g));
 opt($('#st'),'','اختار المرحلة');Object.keys(ST).forEach(k=>opt($('#st'),k,ST[k][0]));
-$('#st').onchange=()=>{const s=ST[val('st')],g=$('#sg');g.textContent='';
+$('#st').onchange=()=>{const s=ST[val('st')],g=$('#sg'),t=$('#tr');g.textContent='';t.textContent='';$('#trw').hidden=true;
  if(!s){$('#sgw').hidden=true;return}
- opt(g,'','اختار الصف');s[1].forEach(x=>opt(g,x[0],x[1]));$('#sgw').hidden=false};
+ opt(g,'','اختار الصف');
+ if(isSec()){opt(g,'1','الأول الثانوي');opt(g,'2','الثاني الثانوي');opt(t,'','اختار المسار');opt(t,'b','بكالوريا');opt(t,'a','أزهر');opt(t,'g','عام')}
+ else s[1].forEach(x=>opt(g,x[0],x[1]));
+ $('#sgw').hidden=false};
+$('#sg').onchange=()=>{$('#trw').hidden=!(isSec()&&!!val('sg'));if($('#trw').hidden)$('#tr').value=''};
 $('#wc').onchange=()=>{$('#waw').hidden=!waOn();pct()};
 $('#bk').onclick=()=>show(cur-1);
 $('#f').addEventListener('input',pct);$('#f').addEventListener('change',pct);
@@ -65,7 +72,7 @@ async function submit(){
  const w=A.locked();if(w){er.textContent='استنى '+w+' ثانية قبل المحاولة الجاية.';return}
  if(A.needCf()&&!A.getCf()){er.textContent='أكمل التحقق الأمني الأول.';return}
  busy=true;$('#nx').disabled=true;er.textContent='';
- const stg=val('st'),gc=val('sg'),p=np(val('p')),mp=np(val('mp')),fp=np(val('fp'));
+ const stg=val('st'),gc=gcode(),p=np(val('p')),mp=np(val('mp')),fp=np(val('fp'));
  const data={role:'student',full_name:cl(val('n')),father_name:cl(val('fn')),grandfather_name:cl(val('gn')),governorate:val('gv'),
   contact_email:cl(val('em')).toLowerCase(),phone:p,whatsapp:waOn()?np(val('wa')):p,mother_phone:mp,father_phone:fp,parent_phone:fp||mp,
   stage:stg,grade_code:gc,grade:ST[stg][1].find(x=>x[0]===gc)[1]};
