@@ -1,15 +1,19 @@
+window.__fail=e=>{console.error('DASH ERROR:',e);const v=document.querySelector("#v");window.__err=(e&&(e.stack||e.message))||String(e);if(v)v.innerHTML='<div class="emp"><div class="edoor" aria-hidden="true"></div><h3>اوبس! حصلت مشكلة 😅</h3><p class="mt" style="margin:6px 0 16px">غالبًا النت ضعيف. حدّث الصفحة وهتتحل.</p><button class="btn gld" id="rl">حدّث الصفحة</button><pre dir="ltr" style="margin-top:16px;padding:12px;font-size:12px;white-space:pre-wrap;word-break:break-all;text-align:left;background:rgba(0,0,0,.35);border-radius:12px;color:#ffb4a8">'+String(window.__err).replace(/</g,'&lt;').slice(0,600)+'</pre></div>';const b=document.getElementById('rl');if(b)b.onclick=()=>location.reload()};
+setTimeout(()=>{if(!document.querySelector('#nav .nv')&&!document.querySelector('.emp'))window.__fail(new Error('timeout: الداشبورد وقفت في التحميل (أكتر من '+(window.__WD||25)+' ثانية)'))},(window.__WD||25)*1000);
 (async()=>{
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const P={home:'M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z',book:'M4 19V5a2 2 0 0 1 2-2h14v16H6a2 2 0 0 0-2 2zm0 0a2 2 0 0 0 2 2h14',cap:'M2 9l10-5 10 5-10 5zM6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5',chat:'M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6A8 8 0 1 1 21 12z',user:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0',out:'M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9',moon:'M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z',check:'M5 12l5 5 9-10',play:'M7 4l13 8-13 8z',arr:'M19 12H5M11 6l-6 6 6 6',search:'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3',phone:'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z',clock:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2',send:'M22 2L11 13M22 2l-7 20-4-9-9-4z',cal:'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4',copy:'M9 9h11v11H9zM5 15V4h11',spark:'M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z'};
 Object.assign(P,{sun:'M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v3M12 20v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1 12h3M20 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1',wallet:'M3 7a2 2 0 0 1 2-2h13v4M3 7v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5a2 2 0 0 1-2-2zM17 14.5h.01',exam:'M9 3h6l1 2h3a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h3zM8 12l2.5 2.5L16 9',up:'M12 16V4M7 9l5-5 5 5M4 20h16',x:'M6 6l12 12M18 6L6 18',retry:'M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5',pen:'M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4'});
 const ic=n=>`<svg class="ic" viewBox="0 0 24 24"><path d="${P[n]}"/></svg>`;
 const root=document.documentElement;try{const t=localStorage.getItem('th');if(t)root.dataset.theme=t}catch(e){}
-const sb=supabase.createClient(SB_URL,SB_KEY),go=()=>location.replace('login.html');
-const{data:{session}}=await sb.auth.getSession();if(!session)return go();
-const{data:me}=await sb.from('profiles').select('*').eq('id',session.user.id).single();
-if(!me){await sb.auth.signOut();return go()}
+const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,lock:async(n,t,f)=>await f()}}),go=()=>location.replace('login.html');
+const TO=(p,n)=>Promise.race([Promise.resolve(p),new Promise((_,r)=>setTimeout(()=>r(new Error('timeout: '+n)),(window.__TO||15)*1000))]);
+const{data:{session}}=await TO(sb.auth.getSession(),'getSession');if(!session)return go();
+const{data:me,error:meErr}=await TO(sb.from('profiles').select('*').eq('id',session.user.id).single(),'profiles');
+if(meErr&&meErr.code!=='PGRST116')throw new Error('profiles: '+(meErr.message||meErr.code));
+if(!me){try{await sb.auth.signOut()}catch(_){}throw new Error('الحساب ده ملوش صف في جدول profiles (الـ trigger بتاع التسجيل مش شغال). كلّم الدعم.')}
 const parent=me.role==='parent',first=me.full_name.split(' ')[0];
-const[{data:cs},{data:links}]=await Promise.all([sb.from('courses').select('*').order('created_at'),sb.from('parent_links').select('*')]);
+const[{data:cs},{data:links}]=await TO(Promise.all([sb.from('courses').select('*').order('created_at'),sb.from('parent_links').select('*')]),'courses');
 const allC=cs||[],L=links||[];let enr=[],kids=[],pend=[];
 if(parent){const ok=L.filter(l=>l.status==='approved').map(l=>l.student_id);
  if(ok.length){kids=(await sb.from('profiles').select('id,full_name,grade,track').in('id',ok)).data||[];enr=(await sb.from('enrollments').select('*').in('student_id',ok)).data||[]}}
@@ -209,4 +213,4 @@ async function show(k){CUR=k;clearT();$$('.nv[data-n]').forEach(b=>b.classList.t
 $$('.nv[data-n]').forEach(b=>b.onclick=()=>{show(b.dataset.n);history.replaceState(0,'','#'+b.dataset.n)});
 {const t1=$('#th'),t2=$('#th2');if(t1)t1.onclick=toggleTh;if(t2)t2.onclick=toggleTh}
 show(V[location.hash.slice(1)]&&N.some(n=>n[0]===location.hash.slice(1))?location.hash.slice(1):'home');
-})().catch(e=>{console.error('DASH ERROR:',e);const v=document.querySelector("#v");window.__err=(e&&(e.stack||e.message))||String(e);if(v)v.innerHTML='<div class="emp"><div class="edoor" aria-hidden="true"></div><h3>اوبس! حصلت مشكلة 😅</h3><p class="mt" style="margin:6px 0 16px">غالبًا النت ضعيف. حدّث الصفحة وهتتحل.</p><button class="btn gld" id="rl">حدّث الصفحة</button><pre dir="ltr" style="margin-top:16px;padding:12px;font-size:12px;white-space:pre-wrap;word-break:break-all;text-align:left;background:rgba(0,0,0,.35);border-radius:12px;color:#ffb4a8">'+String(window.__err).replace(/</g,'&lt;').slice(0,600)+'</pre></div>';const b=document.getElementById('rl');if(b)b.onclick=()=>location.reload()});
+})().catch(e=>window.__fail(e));
