@@ -72,6 +72,19 @@ async function sendReset(s){
   T(j.message||'اتبعت الرابط ✅');L('رابط تغيير باسورد',s.full_name)
  }catch(x){T('مشكلة في الاتصال، جرّب تاني.')}}
 
+
+/* ===== تحرير رقم محجوز وإرجاعه لصاحبه الحقيقي ===== */
+function RL(s,closeStudent){
+ const{m,c}=M(`<h3>🔁 تحرير رقم محجوز</h3><p class="mt" style="font-size:14px">الرقم <b dir="ltr">${esc(s.phone)}</b> متسجّل على حساب <b>${esc(s.full_name)}</b>. لو الحساب ده مش صاحب الرقم الحقيقي، هيتشال الرقم منه وصاحبه الحقيقي يسجّل بيه عادي من صفحة التسجيل.</p><div class="card" style="border-color:var(--gold);margin:10px 0"><small>الحساب نفسه (النقط والرصيد والكورسات) مش هيتمسح، بس رقم دخوله هيتغيّر وهيتسجّل خروجه من كل الأجهزة.</small></div><label class="fl">الرقم الصحيح لصاحب الحساب الحالي (اختياري، لو معاك)</label><input id="np" type="tel" dir="ltr" inputmode="tel" placeholder="01xxxxxxxxx"><p class="mt" style="font-size:13px;margin:6px 0 10px">لو سبته فاضي، هيتحط رقم مؤقت وتقدر تعدّله بعدين من بيانات الطالب.</p><div class="acts"><button class="btn gld" id="go">تحرير الرقم</button></div>`);
+ m.querySelector('#go').onclick=async e=>{
+  const np=m.querySelector('#np').value.trim().replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+  if(np&&!/^01\d{9}$/.test(np))return T('الرقم لازم يكون 11 رقم ويبدأ بـ 01.');
+  if(!confirm('نحرّر الرقم '+s.phone+' من حساب '+s.full_name+'؟'))return;
+  e.target.disabled=true;
+  const r=await sb.rpc('admin_release_phone',{p_student:s.id,p_new_phone:np||null});
+  e.target.disabled=false;
+  if(r.error){const x=r.error.message||'';return T(/Could not find the function|schema cache/i.test(x)?'لازم تشغّل ملف release_phone.sql في Supabase الأول.':/phone_in_use/.test(x)?'الرقم الجديد ده مستخدم في حساب تاني.':/auth_email_unchanged/.test(x)?'رقم الدخول مش متخزّن في الإيميل بالشكل المتوقع، راجع release_phone.sql.':'خطأ: '+x)}
+  T('الرقم اتحرّر ✅ صاحبه الحقيقي يقدر يسجّل دلوقتي');L('تحرير رقم محجوز',s.full_name+' · '+s.phone);c();closeStudent();show(CUR)}}
 /* ===== نافذة الطالب ===== */
 const SF=s=>[['full_name','الاسم'],['phone','الموبايل','tel'],['parent_phone','موبايل ولي الأمر','tel'],['grade','المرحلة','sel',[['','—'],...[...new Set([...(s.grade?[s.grade]:[]),...GR])].map(g=>[g,g])]],['track','المسار (للثانوي)','sel',[['','—'],...TRK.map(x=>[x,x])]],['role','النوع','sel',[['student','طالب'],['parent','ولي أمر'],['admin','أدمن']]],['banned','الحساب','sel',[['false','شغّال'],['true','محظور']]]];
 async function SM(s){const[cs,ls,en,gr,w]=await Promise.all([E('courses',q=>q.select('id,title,code')),E('lessons',q=>q.select('id,code,title').order('code')),E('enrollments',q=>q.select('course_id').eq('student_id',s.id)),E('lesson_grants',q=>q.select('lesson_id').eq('student_id',s.id)),E('wallets',q=>q.select('balance').eq('student_id',s.id))]);
@@ -79,14 +92,14 @@ async function SM(s){const[cs,ls,en,gr,w]=await Promise.all([E('courses',q=>q.se
  const{m,c}=M(`<h3>${esc(s.full_name)} <span class="bd">${esc(s.role)}</span></h3><p class="mt">انضم ${dt(s.created_at)}${s.grade?' · '+esc(short(s.grade)):''}${s.track?' · '+esc(s.track):''}</p><div class="g3"><div><b>${s.points||0}</b><span>نقط</span></div><div><b>${bal}</b><span>رصيد (ج.م)</span></div><div><b>${has.size}</b><span>كورس</span></div></div>
 ${regCard(s)}
  <div class="acts"><button class="btn sm" data-a="p+">+ نقط</button><button class="btn sm" data-a="p-">− نقط</button><button class="btn sm" data-a="w+">+ رصيد</button><button class="btn sm" data-a="w-">− رصيد</button></div>
- <h4>الباسورد</h4><div class="acts"><button class="btn sm" id="rs">🔑 ابعت رابط تغيير الباسورد</button><button class="btn sm" id="cpn">📋 نسخ الموبايل</button></div>
+ <h4>الباسورد</h4><div class="acts"><button class="btn sm" id="rs">🔑 ابعت رابط تغيير الباسورد</button><button class="btn sm" id="cpn">📋 نسخ الموبايل</button>${s.role!=='admin'&&s.id!==me.id?'<button class="btn sm no" id="rl">🔁 رقم محجوز؟ حرّره</button>':''}</div>
  <h4>بياناته</h4>${s.id!==me.id?`<div class="acts"><button class="btn sm ${s.banned?'':'no'}" id="bn">${s.banned?'✅ فك الحظر':'🚫 حظر الحساب'}</button></div>`:''}${F(F2,{...s,banned:String(!!s.banned)})}<button class="btn gld" id="sv">حفظ البيانات</button>
  <h4>الكورسات (فتح / قفل كورس)</h4>${cs.map(x=>{const h=has.has(String(x.id));return`<div class="rw"><span class="gr"><span class="bd g">${esc(x.code||'بدون كود')}</span> ${esc(x.title)}</span><button class="btn sm ${h?'no':''}" data-e="${x.id}" data-o="${h?0:1}">${h?'قفل':'فتح'}</button></div>`}).join('')||'<p class="mt">مفيش كورسات لسه.</p>'}
  <h4>حصص مفتوحة له لوحدها</h4><div class="acts">${ls.filter(l=>gs.has(l.id)).map(l=>`<button class="btn sm" data-g="${l.id}" title="اضغط للقفل">${esc(l.code)} ✕</button>`).join('')||'<span class="mt">مفيش.</span>'}</div>
  <select id="ls">${ls.filter(l=>!gs.has(l.id)).map(l=>`<option value="${l.id}">${esc(l.code)} · ${esc(l.title)}</option>`).join('')}</select><button class="btn" id="gl">فتح الحصة دي</button>`);
  const re=async()=>{c();SM((await E('profiles',q=>q.eq('id',s.id)))[0]||s)};
  const bn=m.querySelector('#bn');if(bn)bn.onclick=async()=>{const nb=!s.banned;if(nb&&!confirm('تحظر '+s.full_name+'؟'))return;const r=await SP(s.id,{banned:nb});if(r.error)return T(EM(r.error));T(nb?'تم الحظر 🚫':'تم فك الحظر ✅');L(nb?'حظر':'فك حظر',s.full_name);re()};
-  m.querySelector('#rs').onclick=()=>sendReset(s);m.querySelector('#cpn').onclick=()=>CP(s.phone||'');m.querySelectorAll('[data-cf]').forEach(b=>b.onclick=()=>CP(b.dataset.cf));
+  m.querySelector('#rs').onclick=()=>sendReset(s);const rl=m.querySelector('#rl');if(rl)rl.onclick=()=>RL(s,c);m.querySelector('#cpn').onclick=()=>CP(s.phone||'');m.querySelectorAll('[data-cf]').forEach(b=>b.onclick=()=>CP(b.dataset.cf));
  m.querySelector('#sv').onclick=async()=>{const o=V(m,F2);o.banned=o.banned==='true';o.grade=o.grade||null;o.track=o.track||null;
   if(o.role==='student'&&SECG.includes(o.grade)&&!o.track)return T('اختار المسار للطالب الثانوي.');
   if(!SECG.includes(o.grade))o.track=null;
