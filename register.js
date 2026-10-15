@@ -7,7 +7,7 @@ prep:['إعدادي',[['m1','الصف الأول الإعدادي'],['m2','ال�
 sec:['ثانوي',[['s1b','الأول الثانوي - بكالوريا'],['s2b','الثاني الثانوي - بكالوريا'],['s1a','الأول الثانوي - أزهر'],['s2a','الثاني الثانوي - أزهر'],['s1g','الأول الثانوي - عام'],['s2g','الثاني الثانوي - عام']]]};
 const dig=v=>String(v||'').replace(/[\u0660-\u0669]/g,d=>d.charCodeAt(0)-1632).replace(/[\u06F0-\u06F9]/g,d=>d.charCodeAt(0)-1776);
 const cl=v=>String(v==null?'':v).normalize('NFC').replace(/[\u0000-\u001f\u007f<>]/g,'').replace(/\s+/g,' ').trim();
-const np=v=>dig(cl(v)).replace(/[\s-]/g,'');
+const np=v=>dig(cl(v)).replace(/[\s-]/g,'').replace(/^(?:\+|00)?20(?=1\d{9}$)/,'0');
 const val=id=>{const e=$('#'+id);return e?e.value:''};
 const NM=/^[\u0621-\u064A\u0671A-Za-z ]+$/;
 const nameV=(a,b)=>v=>{v=cl(v);return(v.length>=a&&v.length<=b&&NM.test(v))||'اكتب الاسم بحروف عربية أو إنجليزية فقط ('+a+' حروف على الأقل).'};
@@ -17,13 +17,14 @@ const COMMON=['12345678','123456789','1234567890','11111111','password','passwor
 const waOn=()=>!$('#wc').checked;
 const isSec=()=>val('st')==='sec';
 const gcode=()=>isSec()?'s'+val('sg')+val('tr'):val('sg');
+const TYPO={'gmial.com':'gmail.com','gmai.com':'gmail.com','gmail.con':'gmail.com','gmail.co':'gmail.com','gmail.cm':'gmail.com','gamil.com':'gmail.com','gmil.com':'gmail.com','gmaill.com':'gmail.com','gnail.com':'gmail.com','gmeil.com':'gmail.com','hotmial.com':'hotmail.com','hotmal.com':'hotmail.com','hotmail.con':'hotmail.com','yaho.com':'yahoo.com','yahooo.com':'yahoo.com','yahoo.con':'yahoo.com','outlok.com':'outlook.com','outlook.con':'outlook.com'};
 const V={
  n:nameV(3,60),fn:nameV(2,40),gn:nameV(2,40),
  gv:v=>GOV.includes(v)||'اختار المحافظة.',
  st:v=>!!ST[v]||'اختار المرحلة.',
  sg:v=>{if(isSec())return['1','2'].includes(v)||'اختار الصف.';const s=ST[val('st')];return(!!s&&s[1].some(x=>x[0]===v))||'اختار الصف.'},
  tr:v=>!isSec()||['b','a','g'].includes(v)||'اختار المسار.',
- em:v=>{v=cl(v).toLowerCase();return(v.length<=120&&/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v))||'اكتب إيميل صحيح.'},
+ em:v=>{v=cl(v).toLowerCase();if(!(v.length<=120&&/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)))return'اكتب إيميل صحيح.';const i=v.lastIndexOf('@'),fx=TYPO[v.slice(i+1)];return fx?'الإيميل شكله فيه غلطة، قصدك '+v.slice(0,i+1)+fx+'؟ (الإيميل ده هيوصلك عليه لينك استرجاع كلمة المرور).':true},
  p:phV,
  wa:v=>!waOn()||phV(v),
  mp:v=>!cl(v)||phV(v),fp:v=>!cl(v)||phV(v),
