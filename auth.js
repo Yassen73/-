@@ -7,13 +7,14 @@ addEventListener('keydown',e=>{if(e.key=='Escape')back()});
 document.querySelectorAll('.tabs a,.ft a').forEach(a=>a.onclick=e=>{e.preventDefault();location.replace(a.href)});
 
 const GRADES=['الصف الرابع الابتدائي','الصف الخامس الابتدائي','الصف السادس الابتدائي','الصف الأول الإعدادي','الصف الثاني الإعدادي','الصف الثالث الإعدادي','الصف الأول الثانوي','الصف الثاني الثانوي'];
+const np=v=>String(v||'').replace(/[\u0660-\u0669]/g,d=>d.charCodeAt(0)-1632).replace(/[\u06F0-\u06F9]/g,d=>d.charCodeAt(0)-1776).replace(/[\s-]/g,'').replace(/^(?:\+|00)?20(?=1\d{9}$)/,'0');
 const R={
  name:v=>(v.trim().length>=3&&v.trim().length<=80)||'اكتب الاسم بالكامل (3 حروف على الأقل).',
- phone:v=>/^01[0125]\d{8}$/.test(v.trim())||'رقم الموبايل لازم يكون 11 رقم ويبدأ بـ 01.',
+ phone:v=>/^01[0125]\d{8}$/.test(np(v))||'رقم الموبايل لازم يكون 11 رقم ويبدأ بـ 01.',
  pass:v=>(v.length>=8&&v.length<=72&&/[A-Za-z\u0600-\u06FF]/.test(v)&&/\d/.test(v))||'كلمة المرور 8 حروف على الأقل وفيها حروف وأرقام.',
  req:v=>!!v.trim()||'املأ الحقل ده.'
 };
-const toEmail=p=>p.trim()+'@'+PHONE_EMAIL_DOMAIN;
+const toEmail=p=>np(p)+'@'+PHONE_EMAIL_DOMAIN;
 const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
 
 // Turnstile (يشتغل بس لما تحط الـ Site Key)
@@ -33,7 +34,7 @@ function fail(){try{const n=(+sessionStorage.getItem('fc')||0)+1;sessionStorage.
 function msg(err){
  const m=(err&&err.message||'').toLowerCase();
  if(m.includes('invalid login'))return 'رقم الموبايل أو كلمة المرور غلط.';
- if(m.includes('already registered')||m.includes('already been registered'))return 'لو الرقم ده مسجّل قبل كده جرّب تسجّل دخول، أو راجع بياناتك.';
+ if(m.includes('already registered')||m.includes('already been registered')||(err&&err.code==='user_already_exists'))return 'الرقم ده متسجّل قبل كده. لو عندك حساب سجّل دخول، ولو ده رقمك ومعملتش حساب قبل كده كلّم الدعم وهنرجّعه لك.';
  if(m.includes('captcha'))return 'فشل التحقق الأمني، جرّب تاني.';
  if(m.includes('rate')||err&&err.status===429)return 'محاولات كتير، استنى شوية وجرّب تاني.';
  if(m.includes('password'))return 'كلمة المرور ضعيفة، اختار كلمة أقوى.';
@@ -59,8 +60,8 @@ $('#f').onsubmit=async e=>{
    if(g('p').trim()===g('pp').trim()){er.textContent='رقم ولي الأمر لازم يكون مختلف عن رقمك.';btn.disabled=false;return}
    res=await sb.auth.signUp({email:toEmail(g('p')),password:g('w'),options:{captchaToken:cfToken||undefined,data:{role:'student',full_name:g('n').trim(),phone:g('p').trim(),parent_phone:g('pp').trim(),grade:g('sg')}}});
   }else{
-   if(g('p').trim()===g('sp').trim()){er.textContent='رقم ولي الأمر لازم يكون مختلف عن رقم الطالب.';btn.disabled=false;return}
-   res=await sb.auth.signUp({email:toEmail(g('p')),password:g('w'),options:{captchaToken:cfToken||undefined,data:{role:'parent',full_name:g('n').trim(),phone:g('p').trim(),student_phone:g('sp').trim()}}});
+   if(np(g('p'))===np(g('sp'))){er.textContent='رقم ولي الأمر لازم يكون مختلف عن رقم الطالب.';btn.disabled=false;return}
+   res=await sb.auth.signUp({email:toEmail(g('p')),password:g('w'),options:{captchaToken:cfToken||undefined,data:{role:'parent',full_name:g('n').trim(),phone:np(g('p')),student_phone:np(g('sp'))}}});
   }
  }catch(x){res={error:x}}
  btn.disabled=false;
