@@ -72,7 +72,9 @@ function detail(c){const lp=lessonsOf(c),ex=examsOf(c,'exam'),hw=examsOf(c,'home
  $$('.tabs button').forEach(b=>b.onclick=()=>{tab=b.dataset.t;detail(c)});bind()}
 function bind(){$$('a[data-c]').forEach(a=>a.onclick=e=>{if(e.metaKey||e.ctrlKey||e.shiftKey)return;e.preventDefault();history.pushState(null,'',a.href);tab=null;render();scrollTo(0,0)});
  $$('a[data-back]').forEach(a=>a.onclick=e=>{if(e.metaKey||e.ctrlKey||e.shiftKey)return;e.preventDefault();history.pushState(null,'','courses.html');render();scrollTo(0,0)})}
-function render(){const id=getId(),c=id&&ALL.find(x=>String(x.id)===id);
+function render(){const id=getId();
+ if(id){location.replace('course.html?c='+encodeURIComponent(id));return} // تفاصيل الكورس في course.html بس (المحتوى مقفول لغير المشتركين)
+ const c=null;
  if(id&&!c){head(null);$('#v').innerHTML='<div class="empty">🤔 الكورس ده مش موجود أو اتشال. <a href="courses.html" data-back style="text-decoration:underline;font-weight:600">شوف كل الكورسات</a></div>';drawList2();return}
  head(c);c?(document.title=c.title+' | منصة ابن رشدي',detail(c)):(document.title='الكورسات | منصة ابن رشدي',drawList())}
 function drawList2(){bind()}
