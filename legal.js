@@ -19,7 +19,7 @@ function show(n){
     b.setAttribute('aria-selected',on?'true':'false');
   }
   setTimeout(function(){if(window.spy)window.spy()},60);
-  d.title=(n=='terms'?'شروط الاستخدام':'سياسة الخصوصية')+' | منصة ابن رشدي';
+  d.title=(n=='terms'?'الشروط والأحكام':'سياسة الخصوصية')+' | منصة ابن رشدي';
 }
 function route(scroll){
   var h=(location.hash||'').replace('#',''),n='privacy';

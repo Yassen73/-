@@ -110,11 +110,28 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
 .pty{position:fixed;inset:0;z-index:250;pointer-events:none;overflow:hidden}.pty i{position:absolute;top:0;border-radius:3px;animation:fall linear forwards}
 @media(max-width:620px){.cvr{aspect-ratio:16/11;border-radius:24px}.info{margin:-18px 8px 0;padding:16px}.cvr h1{right:16px;left:16px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* الدفع عبر فوري + روابط السياسات */
+.fwb{display:inline-block;background:var(--gold);color:#1B1405;border-radius:99px;padding:0 12px;font:600 12.5px/1.9 'Readex Pro',sans-serif;white-space:nowrap}
+:root[data-theme=dark] .fwb{color:#17202F}
+.payi{margin-top:14px;border:1px dashed var(--gold);border-radius:20px;background:var(--bg);padding:12px 16px}
+.payi .pih{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:600;margin-bottom:6px}
+.payi ul{list-style:none;padding:0;margin:0 0 8px;color:var(--mut);font-size:14.5px}
+.payi li{position:relative;padding:2px 22px 2px 0}
+.payi li:before{content:"\2713";position:absolute;right:0;color:var(--ok);font-weight:700}
+.payi li b{color:var(--ink)}
+.pil{font-size:13.5px;color:var(--mut);line-height:2}
+.pil a,.lgf a{text-decoration:underline;margin:0 5px}
+.agr{display:flex;gap:10px;align-items:flex-start;text-align:start;margin:0 0 14px;font-size:14px;line-height:1.8;color:var(--mut);cursor:pointer}
+.agr input{margin-top:6px;width:18px;height:18px;flex:none;accent-color:var(--gold)}
+.agr a{text-decoration:underline;font-weight:600;color:var(--ink)}
+.mb .fnote{color:var(--mut);font-size:14px;margin:-4px 0 12px}
+.lgf{position:relative;z-index:1;max-width:820px;margin:0 auto;padding:16px 16px 40px;text-align:center;border-top:1px dashed var(--ln);font-size:13.5px;color:var(--mut);line-height:2}
 </style>
 </head>
 <body>
 <div class="bar"><div><a class="ib" id="bk" href="courses.html" aria-label="رجوع">→</a><span class="t" id="tt">الكورس</span><button class="ib" id="th" aria-label="تبديل الوضع">☀</button></div></div>
 <div class="wrap" id="v"><div class="sk" style="height:230px"></div><div class="sk" style="height:200px"></div><div class="sk" style="height:90px"></div></div>
+<footer class="lgf">الدفع الإلكتروني عبر <span class="fwb">فوري Fawry</span> · كل الأسعار بالجنيه المصري (EGP)<br><a href="legal.html#terms">الشروط والأحكام</a>·<a href="legal.html#tm-5">سياسة الاسترجاع والإلغاء</a>·<a href="legal.html#tm-6">سياسة التسليم</a>·<a href="legal.html#privacy">سياسة الخصوصية</a>·<a href="legal.html#tm-8">بيانات الشركة والتواصل</a></footer>
 <script src="supabase.js"></script><script src="config.js"></script>
 <script src="course.js" defer></script>
 </body>

@@ -19,6 +19,10 @@ const ORDER=['homework','practice','exam'];
 let LOGGED=false,DATA=null,BUSY=false;
 const fmt=n=>Number(n).toLocaleString('ar-EG',{maximumFractionDigits:2});
 const priceOf=c=>Number(c.price)||0;
+/* وسائل الدفع اللي بتظهر للطالب: عدّلها حسب اللي مفعّل في عقدك مع فوري */
+const PAY_METHODS='بطاقات بنكية · محافظ إلكترونية · كود فوري';
+const LG=(h,t)=>`<a href="legal.html#${h}" target="_blank" rel="noopener">${t}</a>`;
+const payBox=p=>p>0?`<div class="payi"><div class="pih">💳 الدفع الإلكتروني الآمن عبر <span class="fwb">فوري Fawry</span></div><ul><li>سعر الكورس: <b>${esc(fmt(p))} ج.م</b> (جنيه مصري)</li><li>بتشحن محفظتك عبر فوري (${PAY_METHODS})، والاشتراك بيخصم من رصيدها.</li><li>الكورس بيتفعّل فورًا بعد الاشتراك، ومبنخزّنش بيانات بطاقتك.</li></ul><p class="pil">${LG('tm-4','طرق الدفع')}·${LG('tm-5','الاسترجاع والإلغاء')}·${LG('tm-6','التسليم')}·${LG('terms','الشروط والأحكام')}·${LG('privacy','الخصوصية')}</p></div>`:'';
 
 function embed(u){u=String(u||'').trim();if(!u)return '';
  let m=u.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);
@@ -64,7 +68,7 @@ function render(d){DATA=d;const c=d.course||{},L=Array.isArray(d.lessons)?d.less
  const hero=`<section class="hero">${cover(c,g,enrolled)}
   <div class="info card"><div class="stats"><div><b>${L.length}</b><small>محاضرة</small></div><div><b>${nHw}</b><small>واجب</small></div><div><b>${nPr}</b><small>حل أسئلة</small></div><div><b>${nEx}</b><small>امتحان</small></div></div>
   <div class="buy">${cta}</div>
-  ${enrolled?'':(LOGGED?'<p class="note">💳 السعر بيتخصم من رصيد محفظتك، ولو معاك كود تفعيل فعّله من <a href="dashboard.html">حسابك</a>.</p>':'<p class="note">🔑 لازم تشترك الأول عشان تدخل الكورس. ولو معاك كود تفعيل، فعّله من <a href="dashboard.html">حسابك</a>.</p>')}</div></section>`;
+  ${enrolled?'':(LOGGED?'<p class="note">💳 السعر بيتخصم من رصيد محفظتك، ولو معاك كود تفعيل فعّله من <a href="dashboard.html">حسابك</a>.</p>':'<p class="note">🔑 لازم تشترك الأول عشان تدخل الكورس. ولو معاك كود تفعيل، فعّله من <a href="dashboard.html">حسابك</a>.</p>')}${enrolled?'':payBox(p)}</div></section>`;
  const inc=[['🎬',L.length,'محاضرة شرح بالفيديو'],['📚',nHw,'واجب'],['✍️',nPr,'حل أسئلة'],['📝',nEx,'امتحان']].filter(x=>x[1]>0);
  const about=`<section class="card about"><h2>عن الكورس</h2><p>${c.description?esc(c.description):'كورس متكامل بيشرحلك المنهج خطوة بخطوة، مع واجبات وامتحانات تثبّت المعلومة وتقيس مستواك.'}</p>${inc.length?`<h3>هتلاقي في الكورس</h3><div class="inc">${inc.map(x=>`<span><i>${x[0]}</i><b>${x[1]}</b> ${x[2]}</span>`).join('')}</div>`:''}</section>`;
  let body='';
@@ -86,10 +90,12 @@ function closeM(){$('#md')?.remove()}
 function askSub(c){const p=priceOf(c);
  const m=modal(`<div class="mi">🔑</div><h3>تأكيد الاشتراك</h3>
  <p class="mt">${esc(c.title)}</p>
- <div class="rcp"><div><span>سعر الكورس</span><b>${p>0?esc(fmt(p))+' ج.م':'مجاني'}</b></div>${p>0?'<div><span>الخصم من</span><b>💳 محفظتك</b></div>':''}</div>
- <div class="mact"><button class="btn p" id="go">${p>0?'تأكيد وخصم '+esc(fmt(p))+' ج.م':'تفعيل مجاني'}</button><button class="btn" id="no">إلغاء</button></div>`);
- $('#no').onclick=closeM;$('#go').onclick=()=>doSub(c)}
-async function doSub(c){if(BUSY)return;BUSY=true;
+ <div class="rcp"><div><span>سعر الكورس</span><b>${p>0?esc(fmt(p))+' ج.م':'مجاني'}</b></div>${p>0?'<div><span>العملة</span><b>جنيه مصري (EGP)</b></div><div><span>الخصم من</span><b>💳 رصيد محفظتك</b></div>':''}</div>
+ ${p>0?`<p class="fnote">شحن المحفظة بيتم إلكترونيًا عبر <span class="fwb">فوري</span></p><label class="agr"><input type="checkbox" id="ag"><span>قرأت ووافقت على ${LG('terms','الشروط والأحكام')} و${LG('tm-5','سياسة الاسترجاع والإلغاء')} و${LG('tm-6','سياسة التسليم')}.</span></label>`:''}
+ <div class="mact"><button class="btn p" id="go"${p>0?' disabled':''}>${p>0?'تأكيد وخصم '+esc(fmt(p))+' ج.م':'تفعيل مجاني'}</button><button class="btn" id="no">إلغاء</button></div>`);
+ $('#no').onclick=closeM;$('#go').onclick=()=>doSub(c);
+ const ag=$('#ag');if(ag)ag.onchange=()=>{$('#go').disabled=!ag.checked}}
+async function doSub(c){if(BUSY)return;if(priceOf(c)>0&&!$('#ag')?.checked)return;BUSY=true;
  const b=$('#go');b.disabled=true;b.textContent='ثواني...';
  let r;try{r=await TO(sb.rpc('enroll_course',{p_course:String(id)}),'enroll')}catch(e){r={error:e}}
  BUSY=false;
@@ -97,16 +103,14 @@ async function doSub(c){if(BUSY)return;BUSY=true;
  const d=r.data;
  if(d.ok||d.error==='already'){
   closeM();
-  const fresh=await TO(sb.rpc('course_content',{p_course:String(id)}),'course').catch(()=>null);
-  if(fresh&&fresh.data){render(fresh.data);scrollTo({top:0,behavior:'smooth'});party();
-   toast(d.ok&&priceOf(c)>0?`✅ اتخصم ${fmt(priceOf(c))} ج.م وفُتح الكورس. رصيدك: ${fmt(d.balance??0)} ج.م`:'✅ اتفتح الكورس')}
-  else location.reload();return}
+  toast(d.ok&&priceOf(c)>0?`✅ اتخصم ${fmt(priceOf(c))} ج.م. بنوديك للوحتك...`:'✅ تم الاشتراك. بنوديك للوحتك...');
+  setTimeout(()=>location.replace('dashboard.html?s='+encodeURIComponent(id)+'#mine'),1000);return}
  if(d.error==='insufficient'){
   const bal=Number(d.balance)||0,pr=Number(d.price)||priceOf(c),need=Math.max(pr-bal,0);
   modal(`<div class="mi">👛</div><h3>رصيدك مش كفاية</h3>
   <p class="mt">محتاج تشحن محفظتك الأول عشان تقدر تشترك.</p>
   <div class="rcp"><div><span>رصيدك الحالي</span><b>${esc(fmt(bal))} ج.م</b></div><div><span>سعر الكورس</span><b>${esc(fmt(pr))} ج.م</b></div><div class="lo"><span>ناقصك</span><b>${esc(fmt(need))} ج.م</b></div></div>
-  <div class="mact"><a class="btn p" href="dashboard.html">اشحن محفظتك ←</a><button class="btn" id="no">رجوع</button></div>`);$('#no').onclick=closeM;return}
+  <div class="mact"><a class="btn p" href="dashboard.html?w=1#account">اشحن محفظتك ←</a><button class="btn" id="no">رجوع</button></div>`);$('#no').onclick=closeM;return}
  if(d.error==='auth'){location.href='login.html';return}
  modal(`<div class="mi">🤔</div><h3>مش قادرين نكمّل</h3><p class="mt">${esc(d.message||'الكورس ده مش متاح للاشتراك حاليًا.')}</p><div class="mact"><button class="btn p" id="no">تمام</button></div>`);$('#no').onclick=closeM}
 
