@@ -35,12 +35,11 @@ const courses=allC.filter(c=>enr.some(e=>e.course_id===c.id&&(parent||e.student_
 const RC='<div class="card rc"><b>🔑 عندك كود كورس أو حصة؟</b><div class="phn"><input placeholder="اكتب الكود هنا" dir="ltr" maxlength="24" style="margin:0;flex:1"><button class="btn gld" data-rc>تفعيل</button></div></div>';
 const sf=async p=>{try{const r=await p;return r.error?[]:r.data||[]}catch(e){return[]}};
 if(parent&&kids.length){try{const r=await TO(sb.rpc('parent_kids_results'),'parent_kids_results');if(r.error)KRok=false;else KR=Array.isArray(r.data)?r.data:[]}catch(e){KRok=false}}
-let EX=[],EA=[],WR=[],TU=[],wal=0,CUR='home',AN=[],PAYS=[['فودافون كاش','01000000000'],['انستا باي','yourname@instapay']];
+let EX=[],EA=[],WR=[],TU=[],wal=0,CUR='home',AN=[];
 if(!parent){[EX,EA,WR,TU]=await Promise.all([sf(sb.from('exams').select('*').order('created_at',{ascending:false})),sf(sb.from('exam_attempts').select('*').eq('student_id',me.id)),sf(sb.from('wrong_questions').select('*').eq('student_id',me.id).order('created_at',{ascending:false})),sf(sb.from('wallet_topups').select('*').eq('student_id',me.id).order('created_at',{ascending:false}))]);
  EX=EX.filter(x=>x.course_id?mine.has(x.course_id):fit(x)).map(x=>({...x,questions:Array.isArray(x.questions)?x.questions:[]})).filter(x=>x.questions.length&&x.questions.every(q=>q&&q.q&&Array.isArray(q.o)&&q.o.length>1));
  wal=Number((await sf(sb.from('wallets').select('balance').eq('student_id',me.id)))[0]?.balance)||0;
- const pv=(await sf(sb.from('app_settings').select('value').eq('key','pay_methods')))[0]?.value;
- if(Array.isArray(pv)&&pv.length&&pv.every(x=>Array.isArray(x)&&x[0]&&x[1]))PAYS=pv.map(x=>[String(x[0]),String(x[1])])}
+}
 AN=(await sf(sb.from('announcements').select('*').eq('active',true).order('created_at',{ascending:false}).limit(50))).filter(fit).slice(0,3);
 const WRQ=()=>WR.map(w=>{const x=EX.find(e=>String(e.id)===String(w.exam_id)),q=x&&x.questions[w.qidx];return q?{...q,ex:w.exam_id,i:w.qidx}:null}).filter(Boolean);
 
@@ -110,7 +109,7 @@ const applyTh=()=>{const d=root.dataset.theme==='dark';const t1=$('#th');if(t1)t
 const toggleTh=()=>{root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('th',root.dataset.theme)}catch(e){}applyTh()};
 
 /* ===== أدوات: توست ونافذة ===== */
-const toast=t=>{const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),3800)};
+const toast=(t,ms=3800)=>{const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),ms)};
 function modal(h){const m=document.createElement('div');m.className='mdl';m.innerHTML=`<div class="mb card" role="dialog" aria-modal="true"><button class="ib mx" aria-label="إغلاق">${ic('x')}</button>${h}</div>`;document.body.appendChild(m);const cl=()=>m.remove();m.onclick=e=>{if(e.target===m)cl()};m.querySelector('.mx').onclick=cl;return{m,cl}}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelector('.mdl')?.remove()});
 function openAv(){const{m,cl}=modal(`<h3>اختار صورتك</h3><p class="mt">رسومات بسيطة وشبهك. غيّرها وقت ما تحب.</p><div class="avg">${AVS.map((_,i)=>`<button class="avp ${i===AVI?'on':''}" data-p="${i}" aria-label="صورة ${i+1}">${avSvg(i)}</button>`).join('')}</div>`);
@@ -118,7 +117,7 @@ function openAv(){const{m,cl}=modal(`<h3>اختار صورتك</h3><p class="mt"
 
 /* ===== إعدادات الدفع عبر فوري =====
    FAWRY_ENABLED: خليها true بعد ما تاخد حساب التاجر ويتربط الباك إند (startFawryPayment تحت).
-   PAY_METHODS: وسائل الدفع اللي بتظهر للطالب، عدّلها حسب عقدك مع فوري. */
+   PAY_METHODS: وسائل الدفع اللي بتظهر للطالب (افصل بينهم بـ ·)، عدّلها حسب عقدك مع فوري. */
 const FAWRY_ENABLED=false,PAY_METHODS='بطاقات بنكية · محافظ إلكترونية · كود فوري';
 const LG=(h,t)=>`<a href="legal.html#${h}" target="_blank" rel="noopener">${t}</a>`;
 const POL=`<p class="pol">${LG('terms','الشروط والأحكام')}·${LG('tm-5','سياسة الاسترجاع والإلغاء')}·${LG('tm-6','سياسة التسليم')}·${LG('privacy','الخصوصية')}·${LG('tm-8','بيانات الشركة والتواصل')}</p>`;
@@ -129,28 +128,31 @@ async function startFawryPayment(amount){
  location.href=r.data.url}
 
 /* ===== شحن المحفظة ===== */
-function openTopup(){let pi=0;const{m,cl}=modal(`<h3>${ic('wallet')} شحن المحفظة</h3><div class="fwc"><div class="fh">${ic('wallet')} الدفع الإلكتروني الآمن عبر <span class="fwb">فوري Fawry</span></div><ul><li>الدفع بـ: ${PAY_METHODS}</li><li>كل المبالغ بالجنيه المصري (EGP)</li><li>الرصيد بيتضاف لمحفظتك بعد تأكيد الدفع، ومبنخزّنش بيانات بطاقتك</li></ul><label class="fl" for="fa">المبلغ المراد شحنه (ج.م)</label><input id="fa" type="number" inputmode="numeric" min="10" max="10000" placeholder="مثلاً 200"><label class="agr"><input type="checkbox" id="fg"><span>قرأت ووافقت على ${LG('terms','الشروط والأحكام')} و${LG('tm-5','سياسة الاسترجاع')} و${LG('tm-6','سياسة التسليم')}.</span></label><div class="er" id="fe"></div><button class="btn gld" id="fp" style="width:100%"${FAWRY_ENABLED?'':' disabled'}>${ic('wallet')} ${FAWRY_ENABLED?'ادفع عبر فوري':'الدفع عبر فوري قريبًا'}</button></div><div class="orx">أو تحويل يدوي</div><p class="mt">فودافون كاش / انستا باي: حوّل المبلغ، وبعدها ابعت البيانات وصورة التحويل، وهنضيف الرصيد بعد المراجعة.</p><div class="chs">${PAYS.map((p,i)=>`<button class="chp ${i?'':'on'}" data-pm="${i}">${esc(p[0])}</button>`).join('')}</div><div class="phn"><b dir="ltr" id="pn">${esc(PAYS[0][1])}</b><button class="btn" id="pc">${ic('copy')} نسخ</button></div><label class="fl" for="wa">المبلغ المراد شحنه (ج.م)</label><input id="wa" type="number" inputmode="numeric" min="10" max="10000" placeholder="مثلاً 200"><label class="fl" for="wp">رقم الموبايل اللي حوّلت منه</label><input id="wp" type="tel" inputmode="tel" dir="ltr" maxlength="11" placeholder="01xxxxxxxxx"><label class="fl">سكرين شوت التحويل</label><label class="drop" for="wf" id="dz">${ic('up')}<span>دوس هنا وارفع صورة التحويل</span></label><input id="wf" type="file" accept="image/*" hidden><img id="wv" alt="معاينة" hidden><div class="er" id="we"></div><button class="btn gld" id="ws" style="width:100%">${ic('send')} ابعت الطلب</button>${POL}`);
- const g=s=>m.querySelector(s),f=g('#wf'),er=t=>g('#we').textContent=t,rst=()=>{g('#ws').disabled=false;g('#ws').innerHTML=ic('send')+' ابعت الطلب'};
- m.querySelectorAll('[data-pm]').forEach(b=>b.onclick=()=>{pi=+b.dataset.pm;m.querySelectorAll('[data-pm]').forEach(x=>x.classList.toggle('on',x===b));g('#pn').textContent=PAYS[pi][1]});
- g('#fp').onclick=async()=>{const a=+g('#fa').value,fe=t=>g('#fe').textContent=t;
-  if(!(a>=10&&a<=10000))return fe('اكتب مبلغ من 10 لـ 10000 جنيه.');
+function openTopup(){
+ const AM=[50,100,200,300,500,1000],MT=PAY_METHODS.split('·').map(x=>x.trim()).filter(Boolean);
+ const{m,cl}=modal(`<h3>${ic('wallet')} شحن المحفظة</h3><p class="mt">اشحن رصيدك بأمان عبر <span class="fwb">فوري Fawry</span> وبعدها اشترك في كورساتك.</p>
+ <div class="tp-bal"><span class="mt">رصيدك الحالي</span><b>${esc(wal)} <small>ج.م</small></b></div>
+ <label class="fl">اختار المبلغ</label>
+ <div class="tp-ch">${AM.map(a=>`<button type="button" class="chp" data-a="${a}">${a}</button>`).join('')}</div>
+ <div class="tp-in"><input id="fa" type="number" inputmode="numeric" min="10" max="10000" placeholder="أو اكتب مبلغ تاني (من 10 لـ 10000)"><span>ج.م</span></div>
+ <div class="tp-pm"><div class="tp-pmh"><b>طريقة الدفع</b><span class="fwb">فوري Fawry</span></div><div class="tp-pills">${MT.map(x=>`<span>${esc(x)}</span>`).join('')}</div></div>
+ <div class="tp-sum"><div class="row"><span class="mt">المبلغ</span><b id="ts1">—</b></div><div class="row"><span class="mt">العملة</span><b>جنيه مصري (EGP)</b></div><div class="row tot"><span>الإجمالي</span><b id="ts2">—</b></div></div>
+ <label class="agr"><input type="checkbox" id="fg"><span>قرأت ووافقت على ${LG('terms','الشروط والأحكام')} و${LG('tm-5','سياسة الاسترجاع')} و${LG('tm-6','سياسة التسليم')}.</span></label>
+ <div class="er" id="fe"></div>
+ <button class="btn gld" id="fp" style="width:100%"${FAWRY_ENABLED?'':' disabled'}></button>
+ <p class="tp-sec">${ic('lock')} دفع آمن ومشفّر · مبنخزّنش بيانات بطاقتك</p>${POL}`);
+ const g=s=>m.querySelector(s),inp=g('#fa'),fp=g('#fp'),fe=t=>g('#fe').textContent=t,val=()=>{const a=+inp.value;return a>=10&&a<=10000?a:0},fm=a=>a.toLocaleString('ar-EG');
+ const upd=()=>{const a=val();g('#ts1').textContent=g('#ts2').textContent=a?fm(a)+' ج.م':'—';
+  m.querySelectorAll('[data-a]').forEach(b=>b.classList.toggle('on',+b.dataset.a===+inp.value));
+  fp.innerHTML=ic('lock')+' '+(FAWRY_ENABLED?(a?'ادفع '+fm(a)+' ج.م عبر فوري':'ادفع عبر فوري'):'الدفع عبر فوري قريبًا')};
+ m.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{inp.value=b.dataset.a;fe('');upd()});
+ inp.oninput=()=>{fe('');upd()};
+ fp.onclick=async()=>{const a=val();
+  if(!a)return fe('اكتب مبلغ من 10 لـ 10000 جنيه.');
   if(!g('#fg').checked)return fe('لازم توافق على الشروط وسياسة الاسترجاع الأول.');
-  fe('');g('#fp').disabled=true;g('#fp').textContent='ثواني...';
-  try{await startFawryPayment(a)}catch(e){fe('الدفع الإلكتروني مش متاح دلوقتي، جرّب تاني بعد شوية أو استخدم التحويل اليدوي.');g('#fp').disabled=false;g('#fp').innerHTML=ic('wallet')+' ادفع عبر فوري'}};
- g('#pc').onclick=e=>{try{navigator.clipboard.writeText(PAYS[pi][1])}catch(_){}e.currentTarget.textContent='اتنسخ ✓'};
- f.onchange=()=>{const x=f.files[0];if(!x)return;const v=g('#wv');v.src=URL.createObjectURL(x);v.hidden=false;g('#dz span').textContent=x.name};
- g('#ws').onclick=async()=>{const amt=+g('#wa').value,ph=g('#wp').value.trim(),fl=f.files[0];
-  if(!(amt>=10&&amt<=10000))return er('اكتب مبلغ من 10 لـ 10000 جنيه.');
-  if(!/^01\d{9}$/.test(ph))return er('اكتب رقم موبايل صحيح (11 رقم).');
-  if(!fl||!fl.type.startsWith('image/'))return er('ارفع صورة التحويل.');
-  if(fl.size>5*1024*1024)return er('الصورة أكبر من 5 ميجا.');
-  er('');g('#ws').disabled=true;g('#ws').textContent='بنرفع الطلب...';
-  const ext=(fl.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,5)||'jpg',path=me.id+'/'+Date.now()+'.'+ext;
-  const up=await sb.storage.from('receipts').upload(path,fl,{contentType:fl.type});
-  if(up.error){er('مقدرناش نرفع الصورة، جرّب تاني.');return rst()}
-  const ins=await sb.rpc('request_topup',{p_amount:amt,p_method:PAYS[pi][0],p_phone:ph,p_receipt:path});
-  if(ins.error){er(/too_many_pending/.test(ins.error.message||'')?'عندك 3 طلبات لسه بتتراجع، استنى الرد عليها.':'حصلت مشكلة، جرّب تاني.');return rst()}
-  TU=await sf(sb.from('wallet_topups').select('*').eq('student_id',me.id).order('created_at',{ascending:false}));cl();toast('وصل طلب الشحن ✅ هنراجعه ونضيف الرصيد قريب');show('account')}}
+  fe('');fp.disabled=true;fp.textContent='ثواني...';
+  try{await startFawryPayment(a)}catch(e){console.error('fawry:',e);fe('الدفع الإلكتروني مش متاح دلوقتي، جرّب تاني بعد شوية.');fp.disabled=false;upd()}};
+ upd()}
 
 /* ===== الاشتراك في كورس بالمحفظة ===== */
 function openSub(id){const c=allC.find(x=>String(x.id)===String(id));if(!c)return;
@@ -180,14 +182,28 @@ function quiz(title,qs,exam){const ans=qs.map(()=>-1),L=['أ','ب','ج','د','ه
  scrollTo(0,0);
  $$('.opt').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;ans[i]=+b.dataset.j;$$('.opt[data-i="'+i+'"]').forEach(x=>x.classList.toggle('on',x===b));const n=ans.filter(x=>x>=0).length;$('#qc').textContent=n+'/'+qs.length+' اتجاوب';$('#qb').style.width=n/qs.length*100+'%';$('#qs').disabled=n<qs.length});
  $('#qx').onclick=()=>show('exams');
- $('#qs').onclick=async()=>{const bt=$('#qs');bt.disabled=true;
-  const r=exam?await sb.rpc('submit_exam',{p_exam:exam.id,p_answers:ans}):await sb.rpc('submit_practice',{p_exams:qs.map(q=>q.ex),p_idx:qs.map(q=>q.i),p_ans:ans});
-  if(r.error||!r.data||!Array.isArray(r.data.results)||r.data.results.length!==qs.length){toast(/attempts/.test(r.error?.message||'')?'خلّصت محاولات الامتحان ده.':'حصلت مشكلة، جرّب تاني.');bt.disabled=false;return}
+ $('#qs').onclick=async()=>{const bt=$('#qs');bt.disabled=true;const lbl=bt.innerHTML;bt.textContent='بنسلّم إجاباتك...';
+ const call=()=>exam?sb.rpc('submit_exam',{p_exam:exam.id,p_answers:ans}):sb.rpc('submit_practice',{p_exams:qs.map(q=>q.ex),p_idx:qs.map(q=>q.i),p_ans:ans});
+ const run=async()=>{try{return await Promise.race([call(),new Promise(res=>setTimeout(()=>res({error:{message:'timeout',code:'TIMEOUT'}}),30000))])}catch(e){return{error:{message:String(e&&e.message||e),code:'NETWORK'}}}};
+ const isAuth=e=>!!e&&/jwt|expired|not authenticated|invalid claim|JWT/i.test(String(e.message||'')+' '+String(e.code||''));
+ let r=await run();
+ if(r.error&&isAuth(r.error)){try{await sb.auth.refreshSession()}catch(_){}r=await run()}
+ const mism=!r.error&&(!r.data||!Array.isArray(r.data.results)||r.data.results.length!==qs.length);
+ if(r.error||mism){const er=r.error||{},msg=String(er.message||''),code=String(er.code||''),all=msg+' '+code;console.error('submit failed:',r.error||r.data);
+  const why=/attempts/i.test(all)?'خلّصت محاولات الامتحان ده.'
+   :isAuth(er)?'الجلسة انتهت. سجّل دخولك تاني وجرّب.'
+   :/PGRST202|42883|could not find the function|does not exist/i.test(all)?'تسليم الامتحان مش متظبط على السيرفر لسه. كلّم الدعم.'
+   :/42501|row-level|permission|not enrolled|enroll|subscri/i.test(all)?'لازم تكون مشترك في الكورس ده عشان تسلّم.'
+   :/TIMEOUT|NETWORK|fetch|network/i.test(all)?'النت ضعيف. إجاباتك لسه قدامك، دوس سلّم تاني.'
+   :mism?'الامتحان اتغيّر. حدّث الصفحة وابدأ تاني.'
+   :'حصلت مشكلة. إجاباتك لسه قدامك، دوس سلّم تاني.';
+  toast(why+(code&&!mism?' ['+code+']':''),6500);bt.disabled=false;bt.innerHTML=lbl;return}
+ try{
   const res=r.data.results.map((x,i)=>({q:qs[i],ok:!!x.ok,u:ans[i],a:x.a,e:x.e})),sc=res.filter(x=>x.ok).length,p=Math.round(sc/qs.length*100),bad=res.filter(x=>!x.ok);
   if(exam)EA.push({exam_id:exam.id,score:sc,total:qs.length,created_at:new Date().toISOString()});
   WR=await sf(sb.from('wrong_questions').select('*').eq('student_id',me.id).order('created_at',{ascending:false}));
   $('#v').innerHTML=`<div class="card" style="text-align:center;margin-bottom:14px"><h3 class="sh" style="justify-content:center;margin-top:0">${esc(title)}</h3>${ring(p,150)}<h3 style="margin-top:8px">${p>=90?'ممتاز! 🏆':p>=60?'كويس، كمّل 💪':'محتاج مراجعة 🔁'}</h3><p class="mt">${sc} صح من ${qs.length}</p></div><div class="acts2" style="margin-bottom:16px">${bad.length?`<button class="btn gld" id="rt">${ic('retry')} امتحان من أخطائي (${bad.length})</button>`:''}<button class="btn" id="bk">رجوع للامتحانات</button></div>`+res.map((r,i)=>`<div class="card qz ${r.ok?'rt':'wr'}"><p class="qn">${i+1}. ${esc(r.q.q)}</p>${r.q.img?`<img class="qimg" src="${esc(r.q.img)}" alt="">`:''}<div class="ops">${r.q.o.map((o,j)=>`<div class="opt ${(r.ok&&j===r.u)||j===r.a?'ok':j===r.u?'no':''}"><i>${L[j]||j+1}</i><span>${esc(o)}</span></div>`).join('')}</div>${r.e?`<p class="ex">💡 ${esc(r.e)}</p>`:!r.ok?'<p class="ex">إجابتك غلط. راجع الدرس وجرّب تاني من بنك أخطائي.</p>':''}</div>`).join('');
-  scrollTo(0,0);$('#bk').onclick=()=>show('exams');const rt=$('#rt');if(rt)rt.onclick=()=>quiz('امتحان من أخطائك',shuf(bad.map(x=>x.q)),null)}}
+  scrollTo(0,0);$('#bk').onclick=()=>show('exams');const rt=$('#rt');if(rt)rt.onclick=()=>quiz('امتحان من أخطائك',shuf(bad.map(x=>x.q)),null)}catch(e){console.error('result render:',e);toast('اتسلّمت إجاباتك، بس حصلت مشكلة في عرض النتيجة. شوفها من «الامتحانات».',6500);show('exams')}}}
 
 const V={
 home(){const my=courses.map((c,i)=>[c,i]).filter(([c])=>mine.has(c.id)),myE=enr.filter(e=>e.student_id===me.id);
@@ -239,7 +255,7 @@ account(){const nm=me.full_name.trim(),myE=enr.filter(e=>e.student_id===me.id),d
  best=EA.length?Math.max(...EA.map(a=>Math.round(a.score/a.total*100))):0,ST={pending:'بنراجعه',approved:'اتقبل ✓',rejected:'اترفض'},
  rows=[['phone','الموبايل',me.phone],...(parent?[]:[['cap','المرحلة',me.grade],...(me.track?[['cap','المسار',me.track]]:[]),['user','موبايل ولي الأمر',me.parent_phone]]),['cal','عضو من',new Date(me.created_at).toLocaleDateString('ar-EG')]],
  bg=[['🌱','أول خطوة','أنشأت حسابك',1],['🎓','مشترك','اشتركت في كورس',myE.length>0],['📚','مجتهد','خلّصت 5 دروس',done>=5],['🔥','مثابر','أسبوع معانا',days>=7],['📝','مختبِر','حلّيت أول امتحان',EA.length>0],['🏆','متفوق','جبت 90% أو أكتر',best>=90],['🎯','صايد الأخطاء','فضّيت بنك أخطائك',EA.length>0&&!WRQ().length],['💰','شاحن','أول طلب شحن',TU.length>0]],
- wl=parent?'':`<div class="card wal"><div class="wal-t"><div class="wal-i">${ic('wallet')}</div><div><span class="mt">رصيد المحفظة</span><b class="wal-b"><span data-n="${wal}">0</span> <small>ج.م</small></b></div><button class="btn gld" data-wal>${ic('up')} اشحن المحفظة</button></div>${TU.length?`<div class="wal-l">${TU.slice(0,3).map(t=>`<div class="row"><span>${esc(t.method||'تحويل')} · ${new Date(t.created_at).toLocaleDateString('ar-EG',{day:'numeric',month:'short'})}</span><span><b>${esc(t.amount)} ج.م</b> <span class="bd ${t.status==='approved'?'ok':t.status==='rejected'?'no':''}">${ST[t.status]||'بنراجعه'}</span></span></div>`).join('')}</div>`:'<p class="mt" style="margin-top:10px">لسه ما شحنتش. دوس "اشحن المحفظة" وادفع عبر فوري أو ابعت صورة التحويل.</p>'}<p class="pol">الدفع الإلكتروني عبر <span class="fwb">فوري</span> · بالجنيه المصري<br>${LG('terms','الشروط والأحكام')}·${LG('tm-5','الاسترجاع')}·${LG('tm-6','التسليم')}·${LG('privacy','الخصوصية')}</p></div>`;
+ wl=parent?'':`<div class="card wal"><div class="wal-t"><div class="wal-i">${ic('wallet')}</div><div><span class="mt">رصيد المحفظة</span><b class="wal-b"><span data-n="${wal}">0</span> <small>ج.م</small></b></div><button class="btn gld" data-wal>${ic('up')} اشحن المحفظة</button></div>${TU.length?`<div class="wal-l">${TU.slice(0,3).map(t=>`<div class="row"><span>${esc(t.method||'تحويل')} · ${new Date(t.created_at).toLocaleDateString('ar-EG',{day:'numeric',month:'short'})}</span><span><b>${esc(t.amount)} ج.م</b> <span class="bd ${t.status==='approved'?'ok':t.status==='rejected'?'no':''}">${ST[t.status]||'بنراجعه'}</span></span></div>`).join('')}</div>`:'<p class="mt" style="margin-top:10px">لسه ما شحنتش. دوس "اشحن المحفظة" وادفع بأمان عبر فوري.</p>'}<p class="pol">الدفع الإلكتروني عبر <span class="fwb">فوري</span> · بالجنيه المصري<br>${LG('terms','الشروط والأحكام')}·${LG('tm-5','الاسترجاع')}·${LG('tm-6','التسليم')}·${LG('privacy','الخصوصية')}</p></div>`;
  return`<section class="pass"><div class="pass-top"><div class="avr"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="${R}" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="6"/><circle cx="60" cy="60" r="${R}" fill="none" stroke="#F0C46E" stroke-width="6" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-(parent?1:xr/100))}" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.2s"/></svg><div class="av2">${avSvg(AVI)}</div><button class="avb" data-av aria-label="تغيير الصورة">${ic('pen')}</button></div><div class="pass-id"><span class="tag2">${parent?'ولي أمر':'طالب'} · بطاقة الرحلة</span><h2>${esc(nm)}</h2>${parent?'<p class="lead2" style="margin:0">متابع لرحلة أبنائه خطوة بخطوة</p>':`<div class="lvl"><b>المستوى ${lv}</b><div class="pb"><i style="width:${xr}%"></i></div><small>${xr}/100 للمستوى التالي</small></div>`}</div></div>${parent?`<div class="mini"><div><b data-n="${days}">0</b><span>يوم معانا</span></div><div><b data-n="${kids.length}">0</b><span>أبناء</span></div><div><b data-n="${enr.length}">0</b><span>اشتراك</span></div></div>`:`<div class="mini m4"><div><b data-n="${streak}">0</b><span>يوم متواصل 🔥</span></div><div><b data-n="${myE.length}">0</b><span>كورس</span></div><div><b data-n="${done}">0</b><span>درس</span></div><div><b data-n="${EA.length}">0</b><span>امتحان</span></div></div>`}</section>${wl}<div class="g2s"><div class="card"><h3 style="margin-bottom:8px">بياناتك</h3>${rows.map(r=>`<div class="row"><span class="mt">${ic(r[0])} ${r[1]}</span><b dir="auto">${esc(r[2])}</b></div>`).join('')}</div><div class="card"><h3 style="margin-bottom:12px">أختام الإنجاز 🏅</h3><div class="stamps">${(parent?[bg[0]]:bg).map((x,i)=>`<div class="stm ${x[3]?'':'lk'}" style="--r:${i%2?5:-5}deg"><i>${x[0]}</i><b>${x[1]}</b><small>${x[2]}</small></div>`).join('')}</div></div></div><div class="acts2"><button class="btn" data-th>${ic('moon')} تبديل الوضع</button><button class="btn" data-av>${ic('pen')} تغيير الصورة</button>${parent?'':`<button class="btn" data-cp="${esc(me.phone)}">${ic('copy')} نسخ رقمك لولي الأمر</button>`}<button class="btn" id="o2">${ic('out')} تسجيل الخروج</button></div>`},
 exams(){let tab='exam';const cn=id=>courses.find(c=>c.id===id)?.title||'',last=id=>EA.filter(a=>a.exam_id===id).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at))[0];
  const draw=()=>{const avg=EA.length?Math.round(EA.reduce((a,x)=>a+x.score/x.total*100,0)/EA.length):0,wq=WRQ();let body='';
