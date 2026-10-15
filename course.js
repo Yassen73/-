@@ -43,12 +43,14 @@ function lecture(l,i){const items=Array.isArray(l.items)?l.items:[];
  return `<section class="card lec${i===0?' on':''}"><button class="lh" aria-expanded="${i===0}"><span class="n">${i+1}</span><span class="tx"><small>المحاضرة ${i+1}</small><b>${esc(l.title)}</b><span>${tags||'—'}</span></span><span class="ch" aria-hidden="true">⌄</span></button>
  <div class="lb">${video}${ORDER.map(k=>part(k,by(k))).join('')}${other.length?part('exam',other):''}</div></section>`}
 
-// الباب (هيرو الكورس)
-function door(c,open){return `<div class="vd${open?'':' shut'}" id="vd" aria-hidden="true">
- <i class="gl">ع</i><i class="gl g2">ب</i>
- <div class="inner">${c.image_url?`<img src="${esc(c.image_url)}" alt="" onerror="this.remove()">`:''}<span class="sun">📘</span></div>
- <span class="lf r"></span><span class="lf l"></span>
- <span class="lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><circle cx="12" cy="16" r="1.3"/></svg></span></div>`}
+// غلاف الكورس العريض
+const LK='<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><circle cx="12" cy="16" r="1.3"/></svg>',
+ OPN='<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/><circle cx="12" cy="16" r="1.3"/></svg>';
+function cover(c,g,enrolled){const l=String(c.title||'ع').trim()[0]||'ع';
+ return `<div class="cvr${enrolled?' open':''}"><div class="cvm">${c.image_url?`<img src="${esc(c.image_url)}" alt="${esc(c.title)}" onerror="this.remove()">`:''}<i class="cl" aria-hidden="true">${esc(l)}</i></div><span class="shine" aria-hidden="true"></span><div class="shade"></div>
+ <div class="gb">${(g.length?g:['كل المراحل']).map(x=>`<span class="pill">${esc(x)}</span>`).join('')}</div>
+ <span class="chip ${enrolled?'ok':''}">${enrolled?OPN+'مفتوح':LK+'مقفول'}</span>
+ <h1>${esc(c.title)}</h1></div>`}
 
 function render(d){DATA=d;const c=d.course||{},L=Array.isArray(d.lessons)?d.lessons:[],G=Array.isArray(d.general)?d.general:[],enrolled=!!d.enrolled;
  const all=[...L.flatMap(l=>l.items||[]),...G];
@@ -59,27 +61,19 @@ function render(d){DATA=d;const c=d.course||{},L=Array.isArray(d.lessons)?d.less
  const cta=enrolled?'<span class="ok">✓ مشترك في الكورس</span><a class="btn p" href="#cur">كمّل التعلم ↓</a>'
   :LOGGED?`${price}<button class="btn p big" id="sub"><span class="sh2"></span>${p>0?'اشترك في الكورس 🔑':'ابدأ الكورس مجانًا 🔑'}</button>`
   :`${price}<a class="btn p big" href="register.html">أنشئ حساب واشترك ←</a><a class="btn" href="login.html">عندي حساب</a>`;
- const hero=`<section class="vault">
-  ${door(c,enrolled)}
-  <div class="vt"><div class="gp">${(g.length?g:['كل المراحل']).map(x=>`<span class="pill">${esc(x)}</span>`).join('')}</div>
-  <h1>${esc(c.title)}</h1>${c.description?`<p class="ds">${esc(c.description)}</p>`:''}
-  <div class="stats"><div><b>${L.length}</b><small>محاضرة</small></div><div><b>${nHw}</b><small>واجب</small></div><div><b>${nPr}</b><small>حل أسئلة</small></div><div><b>${nEx}</b><small>امتحان</small></div></div>
+ const hero=`<section class="hero">${cover(c,g,enrolled)}
+  <div class="info card"><div class="stats"><div><b>${L.length}</b><small>محاضرة</small></div><div><b>${nHw}</b><small>واجب</small></div><div><b>${nPr}</b><small>حل أسئلة</small></div><div><b>${nEx}</b><small>امتحان</small></div></div>
   <div class="buy">${cta}</div>
-  ${enrolled?'':(LOGGED?'<p class="note">💳 السعر بيتخصم من رصيد محفظتك، ولو معاك كود تفعيل فعّله من <a href="dashboard.html">حسابك</a>.</p>':'<p class="note">🔑 المحتوى بيتفتح بعد الاشتراك. ولو معاك كود تفعيل، فعّله من <a href="dashboard.html">حسابك</a>.</p>')}</div></section>`;
- let body;
+  ${enrolled?'':(LOGGED?'<p class="note">💳 السعر بيتخصم من رصيد محفظتك، ولو معاك كود تفعيل فعّله من <a href="dashboard.html">حسابك</a>.</p>':'<p class="note">🔑 لازم تشترك الأول عشان تدخل الكورس. ولو معاك كود تفعيل، فعّله من <a href="dashboard.html">حسابك</a>.</p>')}</div></section>`;
+ const inc=[['🎬',L.length,'محاضرة شرح بالفيديو'],['📚',nHw,'واجب'],['✍️',nPr,'حل أسئلة'],['📝',nEx,'امتحان']].filter(x=>x[1]>0);
+ const about=`<section class="card about"><h2>عن الكورس</h2><p>${c.description?esc(c.description):'كورس متكامل بيشرحلك المنهج خطوة بخطوة، مع واجبات وامتحانات تثبّت المعلومة وتقيس مستواك.'}</p>${inc.length?`<h3>هتلاقي في الكورس</h3><div class="inc">${inc.map(x=>`<span><i>${x[0]}</i><b>${x[1]}</b> ${x[2]}</span>`).join('')}</div>`:''}</section>`;
+ let body='';
  if(enrolled){
   body=`<h2 class="sec" id="cur">محتوى الكورس</h2>
   ${L.length?L.map(lecture).join(''):'<div class="empty">📚 المحاضرات هتنزل قريب، خليك معانا!</div>'}
   ${G.length?`<h2 class="sec">على الكورس كله</h2><section class="card lec on"><div class="lb" style="display:block;border:0">${ORDER.map(k=>part(k,G.filter(x=>x.kind===k))).join('')}${part('exam',G.filter(x=>!ORDER.includes(x.kind)))}</div></section>`:''}`;
- }else{
-  // مفيش عناوين ولا روابط: عدّادات بس
-  const seals=[['🎬',L.length,'محاضرة شرح','var(--sage)'],['📚',nHw,'واجب','var(--sky)'],['✍️',nPr,'حل أسئلة','var(--sage)'],['📝',nEx,'امتحان','var(--rose)']].filter(x=>x[1]>0);
-  body=`<h2 class="sec">جوّه الكورس إيه؟</h2>
-  <div class="seals">${seals.length?seals.map((s,i)=>`<div class="seal" style="--r:${[-2,1.5,-1,2][i%4]}deg"><span class="se" style="background:${s[3]}">${s[0]}</span><b>${s[1]}</b><small>${s[2]}</small><em>🔒</em></div>`).join(''):'<div class="empty">📚 المحتوى هينزل قريب، خليك معانا!</div>'}</div>
-  <div class="tease card"><div class="bl" aria-hidden="true"><i></i><i></i><i></i></div><p>🔐 المحتوى مقفول لحد ما تشترك.<br><small>اشترك والباب هيتفتح قدامك على طول.</small></p></div>`;
  }
- V.innerHTML=hero+body;
- if(enrolled)requestAnimationFrame(()=>setTimeout(()=>$('#vd')?.classList.add('open'),120));
+ V.innerHTML=hero+about+body;
  $$('.lh').forEach(b=>b.onclick=()=>{const s=b.parentElement,o=s.classList.toggle('on');b.setAttribute('aria-expanded',o)});
  $$('[data-play]').forEach(b=>b.onclick=()=>{const l=L[+b.dataset.play],h=embed(l.video_url),box=b.closest('.vbox');
   box.innerHTML=h?`<div class="vp">${h}</div>`:'<div class="empty">رابط الفيديو مش شغال. كلّم الدعم.</div>'});
