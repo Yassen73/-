@@ -177,6 +177,21 @@ const streak=(()=>{try{const k='vd_'+me.id,t=new Date().toISOString().slice(0,10
 
 /* ===== الامتحانات ===== */
 const shuf=a=>[...a].sort(()=>Math.random()-.5),hs=s=>{let h=5381;for(const c of s)h=(h*33^c.charCodeAt(0))>>>0;return h.toString(36)},qh=q=>hs(q.q+'|'+q.o.join('|')),strip=q=>({q:q.q,o:q.o,a:q.a,e:q.e,img:q.img});
+const fmtD=d=>{try{return new Date(d).toLocaleDateString('ar-EG',{day:'numeric',month:'long',year:'numeric'})}catch(e){return''}};
+const reloadEA=async()=>{EA=await sf(sb.from('exam_attempts').select('*').eq('student_id',me.id))};
+function resultView(o){const{title,qs,res,exam,date,review,noAns}=o,L=['أ','ب','ج','د','هـ','و'],tot=qs.length,sc=res.filter(x=>x.ok).length,wr=res.length?tot-sc:0,p=Math.round((o.score!=null?o.score:sc)/(o.total||tot)*100),bad=res.filter(x=>!x.ok),S=o.score!=null?o.score:sc,T=o.total||tot;
+ const head=`<div class="card" style="text-align:center;margin-bottom:14px"><span class="bd">${exam?(review?'تم الحل ✓':'اتسلّم ✓'):'تدريب'}</span><h3 class="sh" style="justify-content:center;margin-top:8px">${esc(title)}</h3>${ring(p,150)}<h3 style="margin-top:8px">${p>=90?'ممتاز! 🏆':p>=60?'كويس، كمّل 💪':'محتاج مراجعة 🔁'}</h3><p style="font-weight:700;margin:6px 0">درجتك ${S} من ${T} (${p}%)</p><p class="mt">${noAns?'':`حليت ${tot} سؤال من ${tot} — صح ${sc} وغلط ${wr}`}</p>${date?`<small class="mt">${review?'اتحل':'اتسلّم'} يوم ${fmtD(date)}</small>`:''}${exam?'<p class="mt" style="margin-top:8px">الامتحان ده بيتحل مرة واحدة بس. تقدر تراجع إجاباتك من «الامتحانات».</p>':''}</div>`;
+ const stats=noAns?'':`<div class="mini"><div><b>${S}/${T}</b><span>درجتك</span></div><div><b style="color:var(--ok)">${sc}</b><span>صح</span></div><div><b style="color:#c2563f">${wr}</b><span>غلط</span></div></div>`;
+ const acts=`<div class="acts2" style="margin-bottom:16px">${bad.length&&!noAns?`<button class="btn gld" id="rt">${ic('retry')} تدريب على أخطائي (${bad.length})</button>`:''}<button class="btn" id="bk">رجوع للامتحانات</button></div>`;
+ const list=noAns?'<div class="card"><p class="mt">إجاباتك القديمة على الامتحان ده مش محفوظة، لكن درجتك محفوظة فوق.</p></div>':res.map((r,i)=>`<div class="card qz ${r.ok?'rt':'wr'}"><p class="qn">${i+1}. ${esc(qs[i].q)}</p>${qs[i].img?`<img class="qimg" src="${esc(qs[i].img)}" alt="">`:''}<div class="ops">${qs[i].o.map((op,j)=>`<div class="opt ${(r.ok&&j===r.u)||(r.a!=null&&j===r.a)?'ok':j===r.u?'no':''}"><i>${L[j]||j+1}</i><span>${esc(op)}</span></div>`).join('')}</div>${r.e?`<p class="ex">💡 ${esc(r.e)}</p>`:!r.ok?'<p class="ex">إجابتك غلط.</p>':''}</div>`).join('');
+ $('#v').innerHTML=head+stats+acts+list;scrollTo(0,0);$('#bk').onclick=()=>show('exams');const rt=$('#rt');if(rt)rt.onclick=()=>quiz('تدريب على أخطائك',shuf(bad.map(x=>({...qs[res.indexOf(x)],ex:exam?exam.id:qs[res.indexOf(x)].ex,i:qs[res.indexOf(x)].i}))),null)}
+async function reviewExam(x){$('#v').innerHTML='<div class="card"><p class="mt">بنحمّل إجاباتك...</p></div>';
+ let r;try{r=await TO(sb.rpc('exam_review',{p_exam:x.id}),'exam_review')}catch(e){r={error:e}}
+ if(r.error||!r.data){console.error('exam_review:',r.error);toast('مقدرناش نفتح الإجابات دلوقتي. جرّب تاني.',5000);show('exams');return}
+ const d=r.data;WR=await sf(sb.from('wrong_questions').select('*').eq('student_id',me.id).order('created_at',{ascending:false}));
+ const qs=x.questions.map((q,i)=>({...q,ex:x.id,i}));
+ resultView({title:x.title,qs,res:Array.isArray(d.results)?d.results:[],exam:x,date:d.created_at,review:true,score:d.score,total:d.total,noAns:!!d.no_answers})}
+const syncAttempt=async x=>{try{await reloadEA();return EA.some(a=>String(a.exam_id)===String(x.id))}catch(e){return false}};
 function quiz(title,qs,exam){const ans=qs.map(()=>-1),L=['أ','ب','ج','د','هـ','و'];
  $('#v').innerHTML=`<div class="card qzh"><div><b>${esc(title)}</b><small class="mt" id="qc">0/${qs.length} اتجاوب</small></div><div class="pb"><i id="qb" style="width:0"></i></div></div>`+qs.map((q,i)=>`<div class="card qz"><p class="qn">${i+1}. ${esc(q.q)}</p>${q.img?`<img class="qimg" src="${esc(q.img)}" alt="">`:''}<div class="ops">${q.o.map((o,j)=>`<button class="opt" data-i="${i}" data-j="${j}"><i>${L[j]||j+1}</i><span>${esc(o)}</span></button>`).join('')}</div></div>`).join('')+`<div class="acts2"><button class="btn gld" id="qs" disabled>${ic('check')} سلّم الإجابات</button><button class="btn" id="qx">إلغاء</button></div>`;
  scrollTo(0,0);
@@ -185,13 +200,20 @@ function quiz(title,qs,exam){const ans=qs.map(()=>-1),L=['أ','ب','ج','د','ه
  $('#qs').onclick=async()=>{const bt=$('#qs');bt.disabled=true;const lbl=bt.innerHTML;bt.textContent='بنسلّم إجاباتك...';
  const call=()=>exam?sb.rpc('submit_exam',{p_exam:exam.id,p_answers:ans}):sb.rpc('submit_practice',{p_exams:qs.map(q=>q.ex),p_idx:qs.map(q=>q.i),p_ans:ans});
  const run=async()=>{try{return await Promise.race([call(),new Promise(res=>setTimeout(()=>res({error:{message:'timeout',code:'TIMEOUT'}}),30000))])}catch(e){return{error:{message:String(e&&e.message||e),code:'NETWORK'}}}};
- const isAuth=e=>!!e&&/jwt|expired|not authenticated|invalid claim|JWT/i.test(String(e.message||'')+' '+String(e.code||''));
+ const isAuth=e=>!!e&&/jwt|expired|not authenticated|not_authenticated|invalid claim|JWT/i.test(String(e.message||'')+' '+String(e.code||''));
  let r=await run();
  if(r.error&&isAuth(r.error)){try{await sb.auth.refreshSession()}catch(_){}r=await run()}
  const mism=!r.error&&(!r.data||!Array.isArray(r.data.results)||r.data.results.length!==qs.length);
  if(r.error||mism){const er=r.error||{},msg=String(er.message||''),code=String(er.code||''),all=msg+' '+code;console.error('submit failed:',r.error||r.data);
-  const why=/attempts/i.test(all)?'خلّصت محاولات الامتحان ده.'
+  if(exam&&(/already_solved/.test(all)||(/TIMEOUT|NETWORK|fetch|network/i.test(all)&&await syncAttempt(exam)))){toast(/already_solved/.test(all)?'الامتحان ده اتحل قبل كده.':'تسليمك وصل ✅',4500);await reloadEA();await reviewExam(exam);return}
+  const why=/not_in_bank/.test(all)?'التمرين ده اتحدّث. ارجع للامتحانات وابدأ تاني.'
+   :/attempts/i.test(all)?'خلّصت محاولات الامتحان ده.'
    :isAuth(er)?'الجلسة انتهت. سجّل دخولك تاني وجرّب.'
+   :/no_key/.test(all)?'الامتحان ده مالوش مفتاح إجابات لسه. كلّم المدرس أو الدعم.'
+   :/bad_answers/.test(all)?'عدد الإجابات مش مطابق لأسئلة الامتحان. حدّث الصفحة وابدأ تاني.'
+   :/exam_not_found/.test(all)?'الامتحان ده مش موجود أو اتحذف.'
+   :/no_attempts_left/.test(all)?'خلّصت محاولات الامتحان ده.'
+   :code==='P0001'?'السيرفر رفض التسليم: '+(msg||'بدون تفاصيل')
    :/PGRST202|42883|could not find the function|does not exist/i.test(all)?'تسليم الامتحان مش متظبط على السيرفر لسه. كلّم الدعم.'
    :/42501|row-level|permission|not enrolled|enroll|subscri/i.test(all)?'لازم تكون مشترك في الكورس ده عشان تسلّم.'
    :/TIMEOUT|NETWORK|fetch|network/i.test(all)?'النت ضعيف. إجاباتك لسه قدامك، دوس سلّم تاني.'
@@ -199,11 +221,11 @@ function quiz(title,qs,exam){const ans=qs.map(()=>-1),L=['أ','ب','ج','د','ه
    :'حصلت مشكلة. إجاباتك لسه قدامك، دوس سلّم تاني.';
   toast(why+(code&&!mism?' ['+code+']':''),6500);bt.disabled=false;bt.innerHTML=lbl;return}
  try{
-  const res=r.data.results.map((x,i)=>({q:qs[i],ok:!!x.ok,u:ans[i],a:x.a,e:x.e})),sc=res.filter(x=>x.ok).length,p=Math.round(sc/qs.length*100),bad=res.filter(x=>!x.ok);
-  if(exam)EA.push({exam_id:exam.id,score:sc,total:qs.length,created_at:new Date().toISOString()});
+  const res=r.data.results.map((x,i)=>({ok:!!x.ok,u:ans[i],a:x.a,e:x.e})),sc=res.filter(x=>x.ok).length;
+  if(exam){await reloadEA();if(!EA.some(a=>String(a.exam_id)===String(exam.id)))EA.push({exam_id:exam.id,score:sc,total:qs.length,created_at:new Date().toISOString()})}
   WR=await sf(sb.from('wrong_questions').select('*').eq('student_id',me.id).order('created_at',{ascending:false}));
-  $('#v').innerHTML=`<div class="card" style="text-align:center;margin-bottom:14px"><h3 class="sh" style="justify-content:center;margin-top:0">${esc(title)}</h3>${ring(p,150)}<h3 style="margin-top:8px">${p>=90?'ممتاز! 🏆':p>=60?'كويس، كمّل 💪':'محتاج مراجعة 🔁'}</h3><p class="mt">${sc} صح من ${qs.length}</p></div><div class="acts2" style="margin-bottom:16px">${bad.length?`<button class="btn gld" id="rt">${ic('retry')} امتحان من أخطائي (${bad.length})</button>`:''}<button class="btn" id="bk">رجوع للامتحانات</button></div>`+res.map((r,i)=>`<div class="card qz ${r.ok?'rt':'wr'}"><p class="qn">${i+1}. ${esc(r.q.q)}</p>${r.q.img?`<img class="qimg" src="${esc(r.q.img)}" alt="">`:''}<div class="ops">${r.q.o.map((o,j)=>`<div class="opt ${(r.ok&&j===r.u)||j===r.a?'ok':j===r.u?'no':''}"><i>${L[j]||j+1}</i><span>${esc(o)}</span></div>`).join('')}</div>${r.e?`<p class="ex">💡 ${esc(r.e)}</p>`:!r.ok?'<p class="ex">إجابتك غلط. راجع الدرس وجرّب تاني من بنك أخطائي.</p>':''}</div>`).join('');
-  scrollTo(0,0);$('#bk').onclick=()=>show('exams');const rt=$('#rt');if(rt)rt.onclick=()=>quiz('امتحان من أخطائك',shuf(bad.map(x=>x.q)),null)}catch(e){console.error('result render:',e);toast('اتسلّمت إجاباتك، بس حصلت مشكلة في عرض النتيجة. شوفها من «الامتحانات».',6500);show('exams')}}}
+  resultView({title,qs,res,exam,date:new Date().toISOString(),review:false});
+  }catch(e){console.error('result render:',e);toast('اتسلّمت إجاباتك، بس حصلت مشكلة في عرض النتيجة. شوفها من «الامتحانات».',6500);show('exams')}}}
 
 const V={
 home(){const my=courses.map((c,i)=>[c,i]).filter(([c])=>mine.has(c.id)),myE=enr.filter(e=>e.student_id===me.id);
@@ -262,10 +284,11 @@ exams(){let tab='exam';const cn=id=>courses.find(c=>c.id===id)?.title||'',last=i
   if(tab==='bank'){const g={};wq.forEach(w=>(g[String(w.ex)]=g[String(w.ex)]||[]).push(w));
    body=wq.length?`<div class="card cont"><div class="ct"><span class="tag3">بنك أخطائي</span><h3>${wq.length} سؤال محتاج مراجعة</h3><p class="mt">اعمل امتحان من الأسئلة اللي غلطت فيها. لما تجاوبها صح هتتشال من البنك.</p></div><button class="btn gld" data-bank="all">${ic('retry')} امتحان من كل أخطائي</button></div>`+Object.entries(g).map(([id,l])=>{const x=EX.find(e=>String(e.id)===id);return`<div class="card exg"><div class="exg-h"><div><b>${esc(x?x.title:'أسئلة متفرقة')}</b><small class="mt">${esc(x?cn(x.course_id):'')}</small></div><span class="bd">${l.length} غلط</span><button class="btn" data-bank="${esc(id)}">${ic('retry')} تدرّب</button></div>${l.map(w=>`<p class="wq">${esc(w.q)}</p>`).join('')}</div>`}).join(''):EMP('بنك الأخطاء فاضي 🎉','كل ما تغلط في سؤال هيتضاف هنا علشان تراجعه.')}
   else{const l=EX.filter(x=>x.kind===tab);
-   body=l.length?`<div class="exl">${l.map(x=>{const a=last(x.id),p=a?Math.round(a.score/a.total*100):null;return`<article class="card exc"><span class="bd">${esc(cn(x.course_id)||'عام')}</span><h3>${esc(x.title)}</h3><p class="mt">${x.questions.length} سؤال</p>${p!==null?`<div class="pb"><i style="width:${p}%"></i></div><small class="mt">آخر نتيجة: ${p}%</small>`:'<small class="mt">لسه ما اتحلش</small>'}<button class="btn gld" data-ex="${esc(x.id)}">${ic('play')} ${a?'حاول تاني':'ابدأ'}</button></article>`}).join('')}</div>`:EMP(tab==='exam'?'مفيش امتحانات لسه':'مفيش واجبات لسه','أول ما المدرس يضيف حاجة لكورساتك هتلاقيها هنا.')}
+   body=l.length?`<div class="exl">${l.map(x=>{const a=last(x.id),p=a?Math.round(a.score/a.total*100):null;return`<article class="card exc"><span class="bd">${esc(cn(x.course_id)||'عام')}</span><h3>${esc(x.title)}</h3><p class="mt">${x.questions.length} سؤال</p>${a?`<div class="pb"><i style="width:${p}%"></i></div><small class="mt"><b>تم الحل ✓</b> — درجتك ${a.score} من ${a.total} (${p}%) — ${fmtD(a.created_at)}</small><button class="btn" data-rv="${esc(x.id)}">${ic('check')} شوف إجاباتك</button>`:`<small class="mt">لسه ما اتحلش. بيتحل مرة واحدة بس.</small><button class="btn gld" data-ex="${esc(x.id)}">${ic('play')} ابدأ</button>`}</article>`}).join('')}</div>`:EMP(tab==='exam'?'مفيش امتحانات لسه':'مفيش واجبات لسه','أول ما المدرس يضيف حاجة لكورساتك هتلاقيها هنا.')}
   $('#v').innerHTML=PG('pg-ex','اختبر نفسك','الامتحانات','حلّ، صحّح، وراجع أخطاءك علشان تتفوق 🎯','ا')+`<div class="mini"><div><b>${EA.length}</b><span>محاولة</span></div><div><b>${avg}%</b><span>متوسط درجاتك</span></div><div><b>${wq.length}</b><span>سؤال للمراجعة</span></div></div><div class="chs">${[['exam','الامتحانات'],['homework','الواجبات'],['bank','بنك أخطائي ('+wq.length+')']].map(x=>`<button class="chp ${tab===x[0]?'on':''}" data-t="${x[0]}">${x[1]}</button>`).join('')}</div>`+body;
   $$('[data-t]').forEach(b=>b.onclick=()=>{tab=b.dataset.t;draw()});
-  $$('[data-ex]').forEach(b=>b.onclick=()=>{const x=EX.find(e=>String(e.id)===b.dataset.ex);quiz(x.title,x.questions.map((q,i)=>({...q,ex:x.id,i})),x)});
+  $$('[data-ex]').forEach(b=>b.onclick=async()=>{const x=EX.find(e=>String(e.id)===b.dataset.ex);if(!x)return;await reloadEA();if(last(x.id)){draw();return}if(!confirm((x.kind==='homework'?'الواجب':'الامتحان')+' ده بيتحل مرة واحدة بس، ومش هتقدر تعيده بعد التسليم.\nمتأكد إنك عايز تبدأ؟'))return;quiz(x.title,x.questions.map((q,i)=>({...q,ex:x.id,i})),x)});
+  $$('[data-rv]').forEach(b=>b.onclick=()=>{const x=EX.find(e=>String(e.id)===b.dataset.rv);if(x)reviewExam(x)});
   $$('[data-bank]').forEach(b=>b.onclick=()=>{const id=b.dataset.bank;quiz('امتحان من أخطائك',shuf(WRQ().filter(w=>id==='all'||String(w.ex)===id)).slice(0,10),null)})};
  return draw}
 };
