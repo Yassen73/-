@@ -36,8 +36,10 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
 .hero{animation:up .5s both}
 .cov{position:relative;aspect-ratio:16/9;border-radius:28px;overflow:hidden;margin-top:16px;isolation:isolate;background:linear-gradient(135deg,#1F3A5F,#3A6EA5 60%,#0E5A45);box-shadow:0 0 0 1px var(--ln),0 18px 40px rgba(18,36,61,.25)}
 .cov img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
-.cov .fb{position:absolute;inset:0;display:grid;place-items:center}
-.cov .fb i{font:700 min(52vw,300px)/1 'Aref Ruqaa',serif;font-style:normal;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.35);animation:flt 11s ease-in-out infinite}
+.cov .fb{position:absolute;inset:0;overflow:hidden}
+.cov .fb i{position:absolute;top:8%;right:8%;font:700 min(40vw,190px)/1 'Aref Ruqaa',serif;font-style:normal;color:#fff;opacity:.13;animation:flt 11s ease-in-out infinite}
+.cov .fb u{position:absolute;left:50%;bottom:-18%;width:62%;aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:color-mix(in srgb,var(--gold) 70%,#1F3A5F);box-shadow:0 0 0 10px rgba(255,255,255,.12),0 0 50px rgba(0,0,0,.25)}
+.cov .fb img{position:absolute;left:50%;bottom:0;height:94%;width:auto;max-width:none;inset:auto auto 0 50%;transform:translateX(-50%);z-index:2;filter:drop-shadow(0 10px 14px rgba(0,0,0,.3))}
 .cov.has .fb{display:none}
 .cov:after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(8,14,26,.35),transparent 28%)}
 .cov .gb{position:absolute;top:14px;right:14px;z-index:3;display:flex;gap:6px;flex-wrap:wrap;max-width:60%}
@@ -45,7 +47,7 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
 .chip.ok{background:var(--ok);color:#fff;animation:pop .6s both}
 :root[data-theme=dark] .chip.ok{color:#0F1522}
 /* بطاقة العنوان */
-.head{position:relative;z-index:2;margin:-30px 12px 0;padding:18px 18px 20px;box-shadow:var(--sh)}
+.head{position:relative;z-index:2;margin:14px 0 0;padding:18px 18px 20px;box-shadow:var(--sh)}
 .head h1{font-size:clamp(22px,5vw,32px)}
 .sm{display:flex;flex-wrap:wrap;gap:4px 16px;color:var(--mut);font-size:14.5px;margin:6px 0 0}
 .sm b{color:var(--ink)}
@@ -151,7 +153,7 @@ div.lh{cursor:default}
 .agr input{margin-top:6px;width:18px;height:18px;flex:none;accent-color:var(--gold)}.agr a{text-decoration:underline;font-weight:600;color:var(--ink)}
 .mb .fnote{color:var(--mut);font-size:14px;margin:-4px 0 12px}
 .lgf{position:relative;z-index:1;max-width:820px;margin:0 auto;padding:16px 16px 100px;text-align:center;border-top:1px dashed var(--ln);font-size:13.5px;color:var(--mut);line-height:2}
-@media(max-width:620px){.cov{border-radius:22px}.head{margin:-26px 8px 0;padding:16px}}
+@media(max-width:620px){.cov{border-radius:22px}.cov:not(.has){aspect-ratio:4/3.6}.head{padding:16px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>

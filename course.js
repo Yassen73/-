@@ -103,7 +103,7 @@ function ticket(x){const k=kk(x),K=KD[k],q=Number(x.questions)||0,one=once(k);
 
 /* ===== الغلاف ===== */
 function cover(c,g,enrolled){const img=imgOf(c),l=String(c.title||'ع').trim()[0]||'ع';
- return `<div class="cov${img?' has':''}">${img?`<img src="${esc(img)}" alt="${esc(c.title)}" onerror="this.parentNode.classList.remove('has');this.remove()">`:''}<div class="fb" aria-hidden="true"><i>${esc(l)}</i></div>
+ return `<div class="cov${img?' has':''}">${img?`<img src="${esc(img)}" alt="${esc(c.title)}" onerror="this.parentNode.classList.remove('has');this.remove()">`:''}<div class="fb" aria-hidden="true"><i>${esc(l)}</i><u></u><img src="teacher-cut.webp" alt="" draggable="false"></div>
  <div class="gb">${(g.length?g:['كل المراحل']).map(x=>`<span class="pill">${esc(x)}</span>`).join('')}</div>
  <span class="chip ${enrolled?'ok':''}">${enrolled?IC.open+'مفتوح':IC.lock+'مقفول'}</span></div>`}
 const LVL=p=>p>=100?'وصلت للقمة 🏆':p>=67?'قربت توصل 🔥':p>=34?'في نص الطريق 💪':p>0?'بداية موفقة 🌱':'جاهز تبدأ';
