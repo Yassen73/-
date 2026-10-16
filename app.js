@@ -309,5 +309,5 @@ await show(V[location.hash.slice(1)]&&N.some(n=>n[0]===location.hash.slice(1))?l
  if(!parent&&(sid||wq)){history.replaceState(0,'','dashboard.html'+location.hash);
   if(sid){const c=allC.find(x=>String(x.id)===sid);if(c&&mine.has(c.id))toast('✅ اشتركت في «'+c.title+'». هتلاقيه في «كورساتي»، دوس «ادخل الكورس» وقت ما تحب.')}
   if(wq)openTopup()}}
-{const xid=new URLSearchParams(location.search).get('x');if(xid&&!parent&&typeof EX!=='undefined'){const x=EX.find(e=>String(e.id)===xid);if(x){history.replaceState(0,'','dashboard.html');quiz(x.title,x.questions.map((q,i)=>({...q,ex:x.id,i})),x)}}}
+{const xid=new URLSearchParams(location.search).get('x');if(xid&&!parent&&typeof EX!=='undefined'){const x=EX.find(e=>String(e.id)===xid);if(x){history.replaceState(0,'','dashboard.html');if(EA.some(a=>String(a.exam_id)===String(x.id)))reviewExam(x);else quiz(x.title,x.questions.map((q,i)=>({...q,ex:x.id,i})),x)}}}
 })().catch(e=>window.__fail(e));
